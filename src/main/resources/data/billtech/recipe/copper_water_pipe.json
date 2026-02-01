@@ -1,17 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "pattern": [
     "CCC",
     "C C",
     "CCC"
   ],
   "key": {
-    "C": {
-      "tag": "c:ingots/copper"
-    }
+    "C": "#c:ingots/copper"
   },
   "result": {
-    "item": "billtech:copper_water_pipe",
-    "count": 8
+    "count": 8,
+    "id": "billtech:copper_water_pipe"
   }
 }
