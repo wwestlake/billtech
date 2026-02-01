@@ -1,0 +1,42 @@
+{
+	"schemaVersion": 1,
+	"id": "billtech",
+	"version": "${version}",
+	"name": "Bill Tech",
+	"description": "A tech mod focused on filling gaps and adding complementary systems for other tech mods.",
+	"authors": [
+		"Bill Westlake"
+	],
+	"contact": {
+		"homepage": "https://github.com/wwestlake/billtech",
+		"sources": "https://github.com/wwestlake/billtech",
+		"email": "wwestlake@lagdaemon.com"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/billtech/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.billtech.BillTech"
+		],
+		"client": [
+			"com.billtech.BillTechClient"
+		],
+		"fabric-datagen": [
+			"com.billtech.BillTechDataGenerator"
+		]
+	},
+	"mixins": [
+		"billtech.mixins.json",
+		{
+			"config": "billtech.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": "~1.21.5",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
