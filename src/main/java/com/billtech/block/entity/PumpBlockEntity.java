@@ -1,6 +1,8 @@
 package com.billtech.block.entity;
 
 import com.billtech.block.ModBlockEntities;
+import com.billtech.block.PumpBlock;
+import com.billtech.pipe.FluidPipeNetwork;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
@@ -9,15 +11,19 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import com.billtech.pipe.FluidPipeNetwork;
 
-public class FluidPipeBlockEntity extends BlockEntity {
+public class PumpBlockEntity extends BlockEntity {
     private final PipeStorage[] storages = new PipeStorage[Direction.values().length + 1];
     private final net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount<FluidVariant>[] cachedExtractableBySide =
             new net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount[Direction.values().length + 1];
 
-    public FluidPipeBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.FLUID_PIPE, pos, state);
+    public PumpBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.PUMP, pos, state);
+    }
+
+    public static void serverTick(Level level, BlockPos pos, BlockState state, PumpBlockEntity be) {
+        FluidPipeNetwork.tick(level, pos);
+        be.refreshCache(level);
     }
 
     public Storage<FluidVariant> getStorage(Direction side) {
@@ -28,11 +34,6 @@ public class FluidPipeBlockEntity extends BlockEntity {
             storages[index] = storage;
         }
         return storage;
-    }
-
-    public static void serverTick(Level level, BlockPos pos, BlockState state, FluidPipeBlockEntity be) {
-        FluidPipeNetwork.tick(level, pos);
-        be.refreshCache(level);
     }
 
     private void refreshCache(Level level) {

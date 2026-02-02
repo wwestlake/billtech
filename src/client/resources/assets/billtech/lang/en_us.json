@@ -1,0 +1,11 @@
+{
+    "block.billtech.tank_block": "Tank Block",
+    "block.billtech.tank_controller": "Tank Controller",
+    "container.billtech.tank_controller": "Tank Controller",
+    "block.billtech.pump": "Pump",
+    "block.billtech.valve": "Valve",
+    "block.billtech.check_valve": "Check Valve",
+    "block.billtech.flow_meter": "Flow Meter",
+    "block.billtech.regulator": "Regulator",
+    "itemGroup.billtech": "BillTech"
+}

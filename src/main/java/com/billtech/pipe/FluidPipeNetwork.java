@@ -1,6 +1,13 @@
 package com.billtech.pipe;
 
+import com.billtech.block.CheckValveBlock;
+import com.billtech.block.FlowMeterBlock;
 import com.billtech.block.FluidPipeBlock;
+import com.billtech.block.PumpBlock;
+import com.billtech.block.RegulatorBlock;
+import com.billtech.block.ValveBlock;
+import com.billtech.block.entity.FlowMeterBlockEntity;
+import com.billtech.block.entity.TankBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -27,13 +34,189 @@ public final class FluidPipeNetwork {
 
     public static void tick(Level level, BlockPos origin) {
         NetworkScan scan = scanNetwork(level, origin);
-        if (scan == null || !scan.controller.equals(origin)) {
+        if (scan == null) {
+            return;
+        }
+        BlockState originState = level.getBlockState(origin);
+        boolean isPumpOrigin = originState.getBlock() instanceof PumpBlock;
+        if (!scan.controller.equals(origin) && !isPumpOrigin) {
             return;
         }
         if (scan.endpoints.isEmpty()) {
             return;
         }
-        for (Endpoint source : scan.endpoints) {
+        if (!scan.pumps.isEmpty()) {
+            for (PumpNode pump : scan.pumps) {
+                if (tryPumpDirections(
+                        scan,
+                        pump,
+                        pump.facing.getCounterClockWise(),
+                        pump.facing.getClockWise(),
+                        false
+                )) {
+                    return;
+                }
+            }
+        }
+        List<Endpoint> fillSources = new ArrayList<>();
+        List<Endpoint> fillSinks = new ArrayList<>();
+        List<Endpoint> drainSources = new ArrayList<>();
+        List<Endpoint> drainSinks = new ArrayList<>();
+        for (Endpoint endpoint : scan.endpoints) {
+            if (endpoint.isTank) {
+                fillSinks.add(endpoint);
+                drainSources.add(endpoint);
+            } else {
+                fillSources.add(endpoint);
+                drainSinks.add(endpoint);
+            }
+        }
+
+        if (tryTransferPass(scan, fillSources, fillSinks, false)) {
+            return;
+        }
+        if (tryTransferPass(scan, drainSources, drainSinks, false)) {
+            return;
+        }
+    }
+
+    public static long insertIntoNetwork(
+            Level level,
+            BlockPos origin,
+            FluidVariant variant,
+            long maxAmount,
+            net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext transaction,
+            BlockPos excludePos
+    ) {
+        NetworkScan scan = scanNetwork(level, origin);
+        if (scan == null || maxAmount <= 0 || variant == null || variant.isBlank()) {
+            return 0;
+        }
+        if (!scan.allows(variant)) {
+            return 0;
+        }
+        long remaining = maxAmount;
+        for (Endpoint endpoint : scan.endpoints) {
+            if (excludePos != null && endpoint.neighborPos.equals(excludePos)) {
+                continue;
+            }
+            long inserted = endpoint.storage.insert(variant, remaining, transaction);
+            if (inserted > 0) {
+                remaining -= inserted;
+                if (remaining <= 0) {
+                    break;
+                }
+            }
+        }
+        return maxAmount - remaining;
+    }
+
+    public static net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount<FluidVariant> peekExtractable(
+            Level level,
+            BlockPos origin,
+            BlockPos excludePos
+    ) {
+        NetworkScan scan = scanNetwork(level, origin);
+        if (scan == null) {
+            return null;
+        }
+        // Fast path: if we can see a tank directly, use its stored resource without transactions.
+        for (Endpoint endpoint : scan.endpoints) {
+            if (excludePos != null && endpoint.neighborPos.equals(excludePos)) {
+                continue;
+            }
+            if (level.getBlockEntity(endpoint.neighborPos) instanceof com.billtech.block.entity.TankBlockEntity tank) {
+                FluidVariant variant = tank.getFluid();
+                long amount = tank.getAmount();
+                if (variant != null && !variant.isBlank() && amount > 0 && scan.allows(variant)) {
+                    return new net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount<>(variant, amount);
+                }
+            }
+        }
+        try (net.fabricmc.fabric.api.transfer.v1.transaction.Transaction tx =
+                     net.fabricmc.fabric.api.transfer.v1.transaction.Transaction.openOuter()) {
+            for (Endpoint endpoint : scan.endpoints) {
+                if (excludePos != null && endpoint.neighborPos.equals(excludePos)) {
+                    continue;
+                }
+                var found = net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil
+                        .findExtractableContent(endpoint.storage, tx);
+                if (found == null || found.resource() == null || found.resource().isBlank()) {
+                    continue;
+                }
+                if (!scan.allows(found.resource())) {
+                    continue;
+                }
+                return found;
+            }
+        }
+        return null;
+    }
+
+    public static long extractFromNetwork(
+            Level level,
+            BlockPos origin,
+            FluidVariant variant,
+            long maxAmount,
+            net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext transaction,
+            BlockPos excludePos
+    ) {
+        NetworkScan scan = scanNetwork(level, origin);
+        if (scan == null || maxAmount <= 0 || variant == null) {
+            return 0;
+        }
+        long remaining = maxAmount;
+        if (variant.isBlank()) {
+            for (Endpoint endpoint : scan.endpoints) {
+                if (excludePos != null && endpoint.neighborPos.equals(excludePos)) {
+                    continue;
+                }
+                var found = net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil
+                        .findExtractableContent(endpoint.storage, transaction);
+                if (found == null || found.resource() == null || found.resource().isBlank()) {
+                    continue;
+                }
+                if (!scan.allows(found.resource())) {
+                    continue;
+                }
+                long extracted = endpoint.storage.extract(found.resource(), remaining, transaction);
+                if (extracted > 0) {
+                    remaining -= extracted;
+                    if (remaining <= 0) {
+                        break;
+                    }
+                }
+            }
+        } else {
+            if (!scan.allows(variant)) {
+                return 0;
+            }
+            for (Endpoint endpoint : scan.endpoints) {
+                if (excludePos != null && endpoint.neighborPos.equals(excludePos)) {
+                    continue;
+                }
+                long extracted = endpoint.storage.extract(variant, remaining, transaction);
+                if (extracted > 0) {
+                    remaining -= extracted;
+                    if (remaining <= 0) {
+                        break;
+                    }
+                }
+            }
+        }
+        return maxAmount - remaining;
+    }
+
+    private static boolean tryTransferPass(
+            NetworkScan scan,
+            List<Endpoint> sources,
+            List<Endpoint> sinks,
+            boolean allowTankToTank
+    ) {
+        if (sources.isEmpty() || sinks.isEmpty()) {
+            return false;
+        }
+        for (Endpoint source : sources) {
             SourceInfo sourceInfo = findSourceFluid(source);
             if (sourceInfo == null) {
                 continue;
@@ -41,13 +224,16 @@ public final class FluidPipeNetwork {
             if (!scan.allows(sourceInfo.variant)) {
                 continue;
             }
-            Map<BlockPos, Integer> distances = bfsDistances(scan.pipes, source.pipePos, scan.maxDistance);
+            Map<BlockPos, Integer> distances = bfsDistances(scan.level, scan.pipes, source.pipePos, scan.maxDistance);
             if (distances.isEmpty()) {
                 continue;
             }
-            for (Endpoint sink : scan.endpoints) {
+            for (Endpoint sink : sinks) {
                 if (sink == source) {
                     continue;
+                }
+                if (!allowTankToTank && source.isTank && sink.isTank) {
+                    continue; // prevent tank-to-tank bounce
                 }
                 Integer dist = distances.get(sink.pipePos);
                 if (dist == null || dist > scan.maxDistance) {
@@ -58,10 +244,125 @@ public final class FluidPipeNetwork {
                 }
                 long transferred = tryTransfer(source, sink, sourceInfo.variant, scan.maxRate);
                 if (transferred > 0) {
-                    return;
+                    recordFlow(scan, transferred);
+                    return true;
                 }
             }
         }
+        return false;
+    }
+
+    private static boolean tryPumpTransfer(NetworkScan scan, List<Endpoint> sources, List<Endpoint> sinks, boolean debug) {
+        if (sources.isEmpty() || sinks.isEmpty()) {
+            return false;
+        }
+        for (Endpoint source : sources) {
+            for (Endpoint sink : sinks) {
+                if (sink == source) {
+                    continue;
+                }
+                try (Transaction tx = Transaction.openOuter()) {
+                    long moved = net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil.move(
+                            source.storage,
+                            sink.storage,
+                            scan::allows,
+                            scan.maxRate,
+                            tx
+                    );
+                    if (moved > 0) {
+                        tx.commit();
+                        recordFlow(scan, moved);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean tryPumpDirections(
+            NetworkScan scan,
+            PumpNode pump,
+            Direction inDir,
+            Direction outDir,
+            boolean debug
+    ) {
+        BlockPos inStart = pump.pos.relative(inDir);
+        BlockPos outStart = pump.pos.relative(outDir);
+        Set<BlockPos> inSide = bfsSide(scan.level, scan.pipes, inStart, pump.pos, scan.maxDistance);
+        Set<BlockPos> outSide = bfsSide(scan.level, scan.pipes, outStart, pump.pos, scan.maxDistance);
+        List<Endpoint> sources = new ArrayList<>();
+        List<Endpoint> sinks = new ArrayList<>();
+        for (Endpoint endpoint : scan.endpoints) {
+            if (endpoint.pipePos.equals(pump.pos)) {
+                if (endpoint.dir == inDir) {
+                    sources.add(endpoint);
+                } else if (endpoint.dir == outDir) {
+                    sinks.add(endpoint);
+                }
+            } else if (inSide.contains(endpoint.pipePos)) {
+                sources.add(endpoint);
+            } else if (outSide.contains(endpoint.pipePos)) {
+                sinks.add(endpoint);
+            }
+        }
+        return tryPumpTransfer(scan, sources, sinks, debug);
+    }
+
+    private static void recordFlow(NetworkScan scan, long amount) {
+        if (amount <= 0 || scan.meters.isEmpty()) {
+            return;
+        }
+        for (BlockPos pos : scan.meters) {
+            if (scan.level.getBlockEntity(pos) instanceof FlowMeterBlockEntity meter) {
+                meter.recordMove(amount);
+            }
+        }
+    }
+
+    private static boolean canTraverse(Level level, BlockPos from, BlockPos to, Direction dir) {
+        BlockState fromState = level.getBlockState(from);
+        BlockState toState = level.getBlockState(to);
+        if (!isPipeLike(fromState) || !isPipeLike(toState)) {
+            return false;
+        }
+        if (fromState.getBlock() instanceof CheckValveBlock) {
+            Direction facing = fromState.getValue(CheckValveBlock.FACING);
+            Direction output = facing.getClockWise();
+            if (dir != output) {
+                return false;
+            }
+        }
+        if (toState.getBlock() instanceof CheckValveBlock) {
+            Direction facing = toState.getValue(CheckValveBlock.FACING);
+            Direction input = facing.getCounterClockWise();
+            if (dir != input) {
+                return false;
+            }
+        }
+        if (!allowsTraversal(fromState)) {
+            return false;
+        }
+        return allowsTraversal(toState);
+    }
+
+    private static boolean isPipeLike(BlockState state) {
+        return state.getBlock() instanceof FluidPipeBlock
+                || state.getBlock() instanceof PumpBlock
+                || state.getBlock() instanceof ValveBlock
+                || state.getBlock() instanceof CheckValveBlock
+                || state.getBlock() instanceof FlowMeterBlock
+                || state.getBlock() instanceof RegulatorBlock;
+    }
+
+    private static boolean allowsTraversal(BlockState state) {
+        if (state.getBlock() instanceof ValveBlock) {
+            return state.getValue(ValveBlock.OPEN);
+        }
+        if (state.getBlock() instanceof RegulatorBlock) {
+            return state.getValue(RegulatorBlock.OPEN);
+        }
+        return true;
     }
 
     private static long tryTransfer(Endpoint source, Endpoint sink, FluidVariant variant, long maxRate) {
@@ -109,7 +410,7 @@ public final class FluidPipeNetwork {
         return null;
     }
 
-    private static Map<BlockPos, Integer> bfsDistances(Set<BlockPos> pipes, BlockPos start, int maxDistance) {
+    private static Map<BlockPos, Integer> bfsDistances(Level level, Set<BlockPos> pipes, BlockPos start, int maxDistance) {
         Map<BlockPos, Integer> distances = new HashMap<>();
         Queue<BlockPos> queue = new ArrayDeque<>();
         distances.put(start, 0);
@@ -125,6 +426,9 @@ public final class FluidPipeNetwork {
                 if (!pipes.contains(next)) {
                     continue;
                 }
+                if (!canTraverse(level, current, next, dir)) {
+                    continue;
+                }
                 if (distances.containsKey(next)) {
                     continue;
                 }
@@ -135,15 +439,54 @@ public final class FluidPipeNetwork {
         return distances;
     }
 
+    private static Set<BlockPos> bfsSide(Level level, Set<BlockPos> pipes, BlockPos start, BlockPos pumpPos, int maxDistance) {
+        if (!pipes.contains(start)) {
+            return java.util.Collections.emptySet();
+        }
+        Set<BlockPos> visited = new HashSet<>();
+        Queue<BlockPos> queue = new ArrayDeque<>();
+        Map<BlockPos, Integer> distances = new HashMap<>();
+        visited.add(start);
+        distances.put(start, 0);
+        queue.add(start);
+        while (!queue.isEmpty()) {
+            BlockPos current = queue.poll();
+            int dist = distances.get(current);
+            if (dist >= maxDistance) {
+                continue;
+            }
+            for (Direction dir : Direction.values()) {
+                BlockPos next = current.relative(dir);
+                if (next.equals(pumpPos)) {
+                    continue;
+                }
+                if (!pipes.contains(next)) {
+                    continue;
+                }
+                if (!canTraverse(level, current, next, dir)) {
+                    continue;
+                }
+                if (visited.contains(next)) {
+                    continue;
+                }
+                visited.add(next);
+                distances.put(next, dist + 1);
+                queue.add(next);
+            }
+        }
+        return visited;
+    }
+
     private static NetworkScan scanNetwork(Level level, BlockPos origin) {
         BlockState originState = level.getBlockState(origin);
-        if (!(originState.getBlock() instanceof FluidPipeBlock)) {
+        if (!isPipeLike(originState)) {
             return null;
         }
         Set<BlockPos> pipes = new HashSet<>();
         Queue<BlockPos> queue = new ArrayDeque<>();
         queue.add(origin);
         pipes.add(origin);
+        List<PumpNode> pumps = new ArrayList<>();
         long minRate = FluidPipeTiers.maxRate(originState);
         int minDistance = FluidPipeTiers.maxDistance(originState);
         boolean waterOnly = !FluidPipeTiers.allows(originState, FluidVariant.of(net.minecraft.world.level.material.Fluids.LAVA));
@@ -157,6 +500,10 @@ public final class FluidPipeNetwork {
             if (!FluidPipeTiers.allows(state, FluidVariant.of(net.minecraft.world.level.material.Fluids.LAVA))) {
                 waterOnly = true;
             }
+            if (state.getBlock() instanceof PumpBlock) {
+                Direction facing = state.getValue(PumpBlock.FACING);
+                pumps.add(new PumpNode(pos, facing));
+            }
             long key = pos.asLong();
             if (key < controllerKey) {
                 controllerKey = key;
@@ -168,33 +515,45 @@ public final class FluidPipeNetwork {
                     continue;
                 }
                 BlockState nextState = level.getBlockState(next);
-                if (nextState.getBlock() instanceof FluidPipeBlock) {
+                if (isPipeLike(nextState)) {
                     pipes.add(next);
                     queue.add(next);
                 }
             }
         }
         List<Endpoint> endpoints = new ArrayList<>();
+        List<BlockPos> meters = new ArrayList<>();
         for (BlockPos pipePos : pipes) {
+            BlockState pipeState = level.getBlockState(pipePos);
+            if (pipeState.getBlock() instanceof FlowMeterBlock) {
+                meters.add(pipePos);
+            }
             for (Direction dir : Direction.values()) {
                 BlockPos neighbor = pipePos.relative(dir);
                 if (pipes.contains(neighbor)) {
                     continue;
                 }
-                Storage<FluidVariant> storage = FluidStorage.SIDED.find(level, neighbor, dir.getOpposite());
+                Storage<FluidVariant> storage = null;
+                boolean isTank = false;
+                if (level.getBlockEntity(neighbor) instanceof TankBlockEntity tank) {
+                    storage = tank.getNetworkStorage(); // allow access to full tank network contents
+                    isTank = true;
+                } else {
+                    storage = FluidStorage.SIDED.find(level, neighbor, dir.getOpposite());
+                }
                 if (storage == null) {
                     continue;
                 }
-                endpoints.add(new Endpoint(pipePos, neighbor, dir, storage));
+                endpoints.add(new Endpoint(pipePos, neighbor, dir, storage, isTank));
             }
         }
-        return new NetworkScan(pipes, endpoints, controller, minRate, minDistance, waterOnly);
+        return new NetworkScan(level, pipes, endpoints, pumps, meters, controller, minRate, minDistance, waterOnly);
     }
 
     private record SourceInfo(FluidVariant variant) {
     }
 
-    private record Endpoint(BlockPos pipePos, BlockPos neighborPos, Direction dir, Storage<FluidVariant> storage) {
+    private record Endpoint(BlockPos pipePos, BlockPos neighborPos, Direction dir, Storage<FluidVariant> storage, boolean isTank) {
         Endpoint {
             Objects.requireNonNull(pipePos, "pipePos");
             Objects.requireNonNull(neighborPos, "neighborPos");
@@ -203,9 +562,15 @@ public final class FluidPipeNetwork {
         }
     }
 
+    private record PumpNode(BlockPos pos, Direction facing) {
+    }
+
     private record NetworkScan(
+            Level level,
             Set<BlockPos> pipes,
             List<Endpoint> endpoints,
+            List<PumpNode> pumps,
+            List<BlockPos> meters,
             BlockPos controller,
             long maxRate,
             int maxDistance,

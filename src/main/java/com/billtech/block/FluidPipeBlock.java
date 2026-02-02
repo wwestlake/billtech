@@ -159,6 +159,21 @@ public class FluidPipeBlock extends Block implements EntityBlock {
         if (neighborState.getBlock() instanceof FluidPipeBlock) {
             return ConnectionType.PIPE;
         }
+        if (neighborState.getBlock() instanceof PumpBlock) {
+            return ConnectionType.PIPE;
+        }
+        if (neighborState.getBlock() instanceof ValveBlock) {
+            return ConnectionType.PIPE;
+        }
+        if (neighborState.getBlock() instanceof CheckValveBlock) {
+            return ConnectionType.PIPE;
+        }
+        if (neighborState.getBlock() instanceof FlowMeterBlock) {
+            return ConnectionType.ENDPOINT;
+        }
+        if (neighborState.getBlock() instanceof RegulatorBlock) {
+            return ConnectionType.PIPE;
+        }
         if (level instanceof Level world) {
             Storage<FluidVariant> storage = FluidStorage.SIDED.find(world, neighborPos, dir.getOpposite());
             return storage != null ? ConnectionType.ENDPOINT : ConnectionType.NONE;

@@ -22,6 +22,34 @@ public final class ModBlocks {
             "copper_water_pipe",
             props -> new FluidPipeBlock(props.strength(1.0f).noOcclusion())
     );
+    public static final Block TANK_BLOCK = registerBlock(
+            "tank_block",
+            props -> new TankBlock(props.strength(2.0f).noOcclusion())
+    );
+    public static final Block TANK_CONTROLLER = registerBlock(
+            "tank_controller",
+            props -> new TankControllerBlock(props.strength(2.0f))
+    );
+    public static final Block PUMP = registerBlock(
+            "pump",
+            props -> new PumpBlock(props.strength(2.0f))
+    );
+    public static final Block VALVE = registerBlock(
+            "valve",
+            props -> new ValveBlock(props.strength(2.0f))
+    );
+    public static final Block CHECK_VALVE = registerBlock(
+            "check_valve",
+            props -> new CheckValveBlock(props.strength(2.0f))
+    );
+    public static final Block FLOW_METER = registerBlock(
+            "flow_meter",
+            props -> new FlowMeterBlock(props.strength(2.0f))
+    );
+    public static final Block REGULATOR = registerBlock(
+            "regulator",
+            props -> new RegulatorBlock(props.strength(2.0f))
+    );
 
     private ModBlocks() {
     }

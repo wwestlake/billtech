@@ -3,11 +3,9 @@ package com.billtech;
 import com.billtech.block.ModBlockEntities;
 import com.billtech.block.ModBlocks;
 import com.billtech.item.ModItems;
+import com.billtech.item.ModItemGroups;
+import com.billtech.menu.ModMenus;
 import net.fabricmc.api.ModInitializer;
-
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.world.item.CreativeModeTabs;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,13 +26,14 @@ public class BillTech implements ModInitializer {
 
 		LOGGER.info("Registering Items");
 		ModItems.registerModItems();
+		ModItemGroups.registerModItemGroups();
 		LOGGER.info("Registering Blocks");
 		// Touch classes to ensure static init runs.
 		ModBlocks.FLUID_PIPE.toString();
 		ModBlockEntities.FLUID_PIPE.toString();
+		ModMenus.TANK_CONTROLLER.toString();
 
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.REDSTONE_BLOCKS)
-				.register(entries -> entries.accept(ModBlocks.COPPER_WATER_PIPE));
+		// Custom BillTech creative tab is registered in ModItemGroups.
 
 
 	}

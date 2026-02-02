@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "shell": "minecraft:block/glass",
+    "particle": "minecraft:block/glass"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "north": { "texture": "#shell", "cullface": "north" },
+        "south": { "texture": "#shell", "cullface": "south" },
+        "east": { "texture": "#shell", "cullface": "east" },
+        "west": { "texture": "#shell", "cullface": "west" },
+        "up": { "texture": "#shell", "cullface": "up" },
+        "down": { "texture": "#shell", "cullface": "down" }
+      }
+    }
+  ]
+}
