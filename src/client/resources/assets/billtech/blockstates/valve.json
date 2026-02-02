@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,open=true": { "model": "billtech:block/valve" },
+    "facing=south,open=true": { "model": "billtech:block/valve", "y": 180 },
+    "facing=west,open=true": { "model": "billtech:block/valve", "y": 270 },
+    "facing=east,open=true": { "model": "billtech:block/valve", "y": 90 },
+    "facing=north,open=false": { "model": "billtech:block/valve_closed" },
+    "facing=south,open=false": { "model": "billtech:block/valve_closed", "y": 180 },
+    "facing=west,open=false": { "model": "billtech:block/valve_closed", "y": 270 },
+    "facing=east,open=false": { "model": "billtech:block/valve_closed", "y": 90 }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "billtech:block/flow_meter_center"
+  }
+}

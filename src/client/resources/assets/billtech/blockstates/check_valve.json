@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "billtech:block/check_valve" },
+    "facing=south": { "model": "billtech:block/check_valve", "y": 180 },
+    "facing=west": { "model": "billtech:block/check_valve", "y": 270 },
+    "facing=east": { "model": "billtech:block/check_valve", "y": 90 }
+  }
+}

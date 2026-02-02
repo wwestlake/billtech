@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "open=true": { "model": "billtech:block/regulator" },
+    "open=false": { "model": "billtech:block/regulator" }
+  }
+}

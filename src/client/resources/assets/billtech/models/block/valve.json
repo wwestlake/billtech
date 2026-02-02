@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "billtech:block/metal_panel",
+    "up": "billtech:block/valve_top",
+    "north": "billtech:block/valve_front_open",
+    "south": "billtech:block/metal_panel",
+    "east": "billtech:block/metal_panel",
+    "west": "billtech:block/metal_panel",
+    "particle": "billtech:block/metal_panel"
+  }
+}
