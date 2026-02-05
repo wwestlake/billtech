@@ -1,6 +1,12 @@
 {
   "variants": {
-    "open=true": { "model": "billtech:block/regulator" },
-    "open=false": { "model": "billtech:block/regulator" }
+    "open=true,facing=north": { "model": "billtech:block/regulator" },
+    "open=true,facing=south": { "model": "billtech:block/regulator", "y": 180 },
+    "open=true,facing=west": { "model": "billtech:block/regulator", "y": 270 },
+    "open=true,facing=east": { "model": "billtech:block/regulator", "y": 90 },
+    "open=false,facing=north": { "model": "billtech:block/regulator" },
+    "open=false,facing=south": { "model": "billtech:block/regulator", "y": 180 },
+    "open=false,facing=west": { "model": "billtech:block/regulator", "y": 270 },
+    "open=false,facing=east": { "model": "billtech:block/regulator", "y": 90 }
   }
 }

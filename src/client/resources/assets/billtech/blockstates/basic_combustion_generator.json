@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "billtech:block/basic_combustion_generator" },
+    "facing=south": { "model": "billtech:block/basic_combustion_generator", "y": 180 },
+    "facing=west": { "model": "billtech:block/basic_combustion_generator", "y": 270 },
+    "facing=east": { "model": "billtech:block/basic_combustion_generator", "y": 90 }
+  }
+}

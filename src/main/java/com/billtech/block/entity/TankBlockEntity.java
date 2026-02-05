@@ -22,7 +22,7 @@ import java.util.Queue;
 import java.util.Set;
 
 public class TankBlockEntity extends BlockEntity {
-    public static final long CAPACITY = 810_000;
+    public static final long CAPACITY = 10_000;
 
     private final TankStorage storage = new TankStorage();
 

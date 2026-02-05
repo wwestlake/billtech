@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_liquid",
+  "textures": {
+    "particle": "billtech:block/coal_oil_still",
+    "still": "billtech:block/coal_oil_still",
+    "flow": "billtech:block/coal_oil_flow"
+  }
+}

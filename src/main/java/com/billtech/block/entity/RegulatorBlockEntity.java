@@ -2,15 +2,19 @@ package com.billtech.block.entity;
 
 import com.billtech.block.ModBlockEntities;
 import com.billtech.block.RegulatorBlock;
+import com.billtech.menu.RegulatorMenu;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class RegulatorBlockEntity extends BlockEntity {
+public class RegulatorBlockEntity extends BlockEntity implements MenuProvider {
     private int targetPercent = 50;
 
     public RegulatorBlockEntity(BlockPos pos, BlockState state) {
@@ -48,6 +52,18 @@ public class RegulatorBlockEntity extends BlockEntity {
         }
     }
 
+    public int getTargetPercent() {
+        return targetPercent;
+    }
+
+    public void setTargetPercent(int value) {
+        int next = Math.max(0, Math.min(100, value));
+        if (next != targetPercent) {
+            targetPercent = next;
+            setChanged();
+        }
+    }
+
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
@@ -61,5 +77,15 @@ public class RegulatorBlockEntity extends BlockEntity {
         if (stored != null) {
             targetPercent = stored;
         }
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("container.billtech.regulator");
+    }
+
+    @Override
+    public net.minecraft.world.inventory.AbstractContainerMenu createMenu(int id, net.minecraft.world.entity.player.Inventory inventory, Player player) {
+        return new RegulatorMenu(id, inventory, this);
     }
 }

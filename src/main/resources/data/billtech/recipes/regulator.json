@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S S",
+    "RTR",
+    "S S"
+  ],
+  "key": {
+    "S": {
+      "item": "billtech:steel_ingot"
+    },
+    "T": {
+      "item": "billtech:tank_block"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "id": "billtech:regulator"
+  }
+}

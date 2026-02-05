@@ -1,7 +1,8 @@
 {
   "variants": {
-    "": {
-      "model": "billtech:block/tank_controller"
-    }
+    "facing=north": { "model": "billtech:block/tank_controller" },
+    "facing=south": { "model": "billtech:block/tank_controller", "y": 180 },
+    "facing=west": { "model": "billtech:block/tank_controller", "y": 270 },
+    "facing=east": { "model": "billtech:block/tank_controller", "y": 90 }
   }
 }

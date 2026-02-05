@@ -1,0 +1,110 @@
+package com.billtech.menu;
+
+import com.billtech.block.entity.PortMode;
+import com.billtech.block.entity.SideConfigAccess;
+import com.billtech.transport.TransportType;
+import com.billtech.upgrade.UpgradeItem;
+import net.minecraft.core.Direction;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.EnumSet;
+
+public abstract class MachineMenuBase extends AbstractContainerMenu {
+    private final SideConfigAccess sideConfigAccess;
+    private final SideConfigData sideConfigData;
+    private final EnumSet<TransportType> supportedTypes;
+
+    protected MachineMenuBase(
+            MenuType<?> type,
+            int id,
+            SideConfigAccess sideConfigAccess,
+            EnumSet<TransportType> supportedTypes
+    ) {
+        super(type, id);
+        this.sideConfigAccess = sideConfigAccess;
+        this.supportedTypes = supportedTypes.clone();
+        this.sideConfigData = new SideConfigData(sideConfigAccess);
+        addDataSlots(sideConfigData);
+    }
+
+    protected void addPlayerSlots(Inventory inventory, int startX, int startY) {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 9; col++) {
+                addSlot(new Slot(inventory, col + row * 9 + 9, startX + col * 18, startY + row * 18));
+            }
+        }
+        int hotbarY = startY + 58;
+        for (int col = 0; col < 9; col++) {
+            addSlot(new Slot(inventory, col, startX + col * 18, hotbarY));
+        }
+    }
+
+    protected void addUpgradeSlots(Container upgrades, int startX, int startY) {
+        if (upgrades == null || upgrades.getContainerSize() == 0) {
+            return;
+        }
+        int slot = 0;
+        for (int row = 0; row < 2; row++) {
+            for (int col = 0; col < 2; col++) {
+                int x = startX + col * 18;
+                int y = startY + row * 18;
+                addSlot(new UpgradeSlot(upgrades, slot++, x, y));
+            }
+        }
+    }
+
+    public boolean supportsTransport(TransportType type) {
+        return supportedTypes.contains(type);
+    }
+
+    public PortMode getSideMode(TransportType type, Direction dir) {
+        return sideConfigData.getMode(type, dir);
+    }
+
+    public Direction getFacing() {
+        return sideConfigData.getFacing();
+    }
+
+    public int getSideButtonId(TransportType type, Direction dir) {
+        return sideConfigData.getIndex(type, dir);
+    }
+
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        if (sideConfigAccess == null || id < 0 || id >= sideConfigData.getSideCount()) {
+            return false;
+        }
+        TransportType type = TransportType.values()[id / 6];
+        if (!supportsTransport(type)) {
+            return false;
+        }
+        Direction dir = Direction.from3DDataValue(id % 6);
+        sideConfigAccess.getSideConfig().cycle(type, dir);
+        if (sideConfigAccess instanceof net.minecraft.world.level.block.entity.BlockEntity be) {
+            be.setChanged();
+        }
+        return true;
+    }
+
+    @Override
+    public ItemStack quickMoveStack(Player player, int index) {
+        return ItemStack.EMPTY;
+    }
+
+    private static final class UpgradeSlot extends Slot {
+        private UpgradeSlot(Container container, int slot, int x, int y) {
+            super(container, slot, x, y);
+        }
+
+        @Override
+        public boolean mayPlace(ItemStack stack) {
+            return stack.getItem() instanceof UpgradeItem;
+        }
+    }
+}

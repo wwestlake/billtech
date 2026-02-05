@@ -31,18 +31,6 @@ public class PumpBlock extends Block implements EntityBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        Level level = context.getLevel();
-        BlockPos pos = context.getClickedPos();
-        boolean connectEW = isPipeLike(level.getBlockState(pos.east())) || isPipeLike(level.getBlockState(pos.west()));
-        boolean connectNS = isPipeLike(level.getBlockState(pos.north())) || isPipeLike(level.getBlockState(pos.south()));
-        if (connectEW && !connectNS) {
-            // Left/right flow should align with east/west neighbors.
-            return this.defaultBlockState().setValue(FACING, Direction.NORTH);
-        }
-        if (connectNS && !connectEW) {
-            // Left/right flow should align with north/south neighbors.
-            return this.defaultBlockState().setValue(FACING, Direction.EAST);
-        }
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
@@ -100,12 +88,4 @@ public class PumpBlock extends Block implements EntityBlock {
                 : null;
     }
 
-    private static boolean isPipeLike(BlockState state) {
-        return state.getBlock() instanceof FluidPipeBlock
-                || state.getBlock() instanceof PumpBlock
-                || state.getBlock() instanceof ValveBlock
-                || state.getBlock() instanceof CheckValveBlock
-                || state.getBlock() instanceof FlowMeterBlock
-                || state.getBlock() instanceof RegulatorBlock;
-    }
 }

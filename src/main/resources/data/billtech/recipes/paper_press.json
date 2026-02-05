@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SPS",
+    "SWS"
+  ],
+  "key": {
+    "S": {
+      "item": "billtech:steel_ingot"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "W": {
+      "item": "billtech:insulated_copper_cable"
+    }
+  },
+  "result": {
+    "id": "billtech:paper_press"
+  }
+}

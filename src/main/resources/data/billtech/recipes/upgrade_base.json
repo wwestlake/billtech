@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LLL",
+    "PPP",
+    "SSS"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "S": {
+      "item": "billtech:plastic_sheet"
+    }
+  },
+  "result": {
+    "id": "billtech:upgrade_base"
+  }
+}

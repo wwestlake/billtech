@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SFS",
+    "SWS"
+  ],
+  "key": {
+    "S": {
+      "item": "billtech:steel_ingot"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    },
+    "W": {
+      "item": "billtech:insulated_copper_cable"
+    }
+  },
+  "result": {
+    "id": "billtech:electric_furnace"
+  }
+}

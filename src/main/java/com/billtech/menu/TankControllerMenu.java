@@ -27,11 +27,11 @@ public class TankControllerMenu extends AbstractContainerMenu {
                     return cache[index];
                 }
                 TankControllerBlockEntity.Snapshot snapshot = TankControllerMenu.this.controller.computeSnapshot(inventory.player.level());
-                long amount = snapshot.amount() / 81;
-                long capacity = snapshot.capacity() / 81;
+                long amount = snapshot.amount();
+                long capacity = snapshot.capacity();
                 return switch (index) {
-                    case 0 -> (int) amount;
-                    case 1 -> (int) capacity;
+                    case 0 -> (int) Math.min(Integer.MAX_VALUE, amount);
+                    case 1 -> (int) Math.min(Integer.MAX_VALUE, capacity);
                     case 2 -> BuiltInRegistries.FLUID.getId(snapshot.fluid().getFluid());
                     default -> 0;
                 };

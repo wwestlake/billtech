@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IWI",
+    "FTF",
+    "IRI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "W": {
+      "item": "billtech:insulated_copper_cable"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    },
+    "T": {
+      "item": "billtech:tank_block"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "id": "billtech:basic_combustion_generator"
+  }
+}

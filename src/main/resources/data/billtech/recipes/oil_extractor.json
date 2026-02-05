@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SDS",
+    "SWS"
+  ],
+  "key": {
+    "S": {
+      "item": "billtech:steel_ingot"
+    },
+    "D": {
+      "item": "minecraft:deepslate"
+    },
+    "W": {
+      "item": "billtech:insulated_copper_cable"
+    }
+  },
+  "result": {
+    "id": "billtech:oil_extractor"
+  }
+}

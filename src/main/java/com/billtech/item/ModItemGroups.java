@@ -2,6 +2,8 @@ package com.billtech.item;
 
 import com.billtech.BillTech;
 import com.billtech.block.ModBlocks;
+import com.billtech.item.ModItems;
+import com.billtech.fluid.ModFluids;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,13 +22,36 @@ public final class ModItemGroups {
                     .displayItems((ctx, entries) -> {
                         entries.accept(ModBlocks.FLUID_PIPE);
                         entries.accept(ModBlocks.COPPER_WATER_PIPE);
+                        entries.accept(ModBlocks.GAS_PIPE);
                         entries.accept(ModBlocks.PUMP);
                         entries.accept(ModBlocks.VALVE);
                         entries.accept(ModBlocks.CHECK_VALVE);
                         entries.accept(ModBlocks.FLOW_METER);
                         entries.accept(ModBlocks.REGULATOR);
+                        entries.accept(ModBlocks.INSULATED_COPPER_CABLE);
+                        entries.accept(ModBlocks.CLOTH_INSULATED_COPPER_CABLE);
+                        entries.accept(ModBlocks.BASIC_COMBUSTION_GENERATOR);
+                        entries.accept(ModBlocks.ELECTRIC_FURNACE);
+                        entries.accept(ModBlocks.COAL_PYROLYZER);
+                        entries.accept(ModBlocks.OIL_EXTRACTOR);
+                        entries.accept(ModBlocks.DISTILLER);
+                        entries.accept(ModBlocks.PAPER_PRESS);
+                        entries.accept(ModBlocks.METHANE_COLLECTOR);
+                        entries.accept(ModBlocks.METHANE_TANK);
+                        entries.accept(ModBlocks.METHANE_GENERATOR);
                         entries.accept(ModBlocks.TANK_BLOCK);
                         entries.accept(ModBlocks.TANK_CONTROLLER);
+                        entries.accept(ModItems.BILLTECH_BUCKET);
+                        entries.accept(ModItems.PLASTIC_SHEET);
+                        entries.accept(ModFluids.SLUDGE_BUCKET);
+                        entries.accept(ModFluids.CRUDE_OIL_BUCKET);
+                        entries.accept(ModFluids.LIGHT_FUEL_BUCKET);
+                        entries.accept(ModFluids.HEAVY_FUEL_BUCKET);
+                        entries.accept(ModFluids.METHANE_BUCKET);
+                        entries.accept(ModItems.SPEED_UPGRADE);
+                        entries.accept(ModItems.POWER_UPGRADE);
+                        entries.accept(ModItems.ENERGY_UPGRADE);
+                        entries.accept(ModItems.STORAGE_UPGRADE);
                     })
                     .build()
     );

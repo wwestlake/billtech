@@ -2,5 +2,6 @@ package com.billtech.transport;
 
 public enum TransportType {
     FLUID,
-    ENERGY
+    ENERGY,
+    ITEM
 }

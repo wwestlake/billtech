@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "   ",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "billtech:steel_ingot"
+    }
+  },
+  "result": {
+    "id": "billtech:gas_pipe",
+    "count": 6
+  }
+}

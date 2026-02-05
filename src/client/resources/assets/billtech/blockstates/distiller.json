@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "billtech:block/distiller" },
+    "facing=south": { "model": "billtech:block/distiller", "y": 180 },
+    "facing=west": { "model": "billtech:block/distiller", "y": 270 },
+    "facing=east": { "model": "billtech:block/distiller", "y": 90 }
+  }
+}

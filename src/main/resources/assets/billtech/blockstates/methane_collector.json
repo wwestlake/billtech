@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "billtech:block/methane_collector" },
+    "facing=south": { "model": "billtech:block/methane_collector", "y": 180 },
+    "facing=west": { "model": "billtech:block/methane_collector", "y": 270 },
+    "facing=east": { "model": "billtech:block/methane_collector", "y": 90 }
+  }
+}

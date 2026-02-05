@@ -22,6 +22,10 @@ public final class ModBlocks {
             "copper_water_pipe",
             props -> new FluidPipeBlock(props.strength(1.0f).noOcclusion())
     );
+    public static final Block GAS_PIPE = registerBlock(
+            "gas_pipe",
+            props -> new GasPipeBlock(props.strength(1.0f).noOcclusion())
+    );
     public static final Block TANK_BLOCK = registerBlock(
             "tank_block",
             props -> new TankBlock(props.strength(2.0f).noOcclusion())
@@ -49,6 +53,50 @@ public final class ModBlocks {
     public static final Block REGULATOR = registerBlock(
             "regulator",
             props -> new RegulatorBlock(props.strength(2.0f))
+    );
+    public static final Block INSULATED_COPPER_CABLE = registerBlock(
+            "insulated_copper_cable",
+            props -> new EnergyCableBlock(props.strength(1.0f).noOcclusion())
+    );
+    public static final Block CLOTH_INSULATED_COPPER_CABLE = registerBlock(
+            "cloth_insulated_copper_cable",
+            props -> new EnergyCableBlock(props.strength(1.0f).noOcclusion())
+    );
+    public static final Block BASIC_COMBUSTION_GENERATOR = registerBlock(
+            "basic_combustion_generator",
+            props -> new BasicCombustionGeneratorBlock(props.strength(2.0f))
+    );
+    public static final Block ELECTRIC_FURNACE = registerBlock(
+            "electric_furnace",
+            props -> new ElectricFurnaceBlock(props.strength(2.0f))
+    );
+    public static final Block COAL_PYROLYZER = registerBlock(
+            "coal_pyrolyzer",
+            props -> new CoalPyrolyzerBlock(props.strength(2.0f))
+    );
+    public static final Block OIL_EXTRACTOR = registerBlock(
+            "oil_extractor",
+            props -> new OilExtractorBlock(props.strength(2.0f))
+    );
+    public static final Block DISTILLER = registerBlock(
+            "distiller",
+            props -> new DistillerBlock(props.strength(2.0f))
+    );
+    public static final Block PAPER_PRESS = registerBlock(
+            "paper_press",
+            props -> new PaperPressBlock(props.strength(2.0f))
+    );
+    public static final Block METHANE_COLLECTOR = registerBlock(
+            "methane_collector",
+            props -> new MethaneCollectorBlock(props.strength(2.0f))
+    );
+    public static final Block METHANE_TANK = registerBlock(
+            "methane_tank",
+            props -> new MethaneTankBlock(props.strength(2.0f))
+    );
+    public static final Block METHANE_GENERATOR = registerBlock(
+            "methane_generator",
+            props -> new MethaneGeneratorBlock(props.strength(2.0f))
     );
 
     private ModBlocks() {

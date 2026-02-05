@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "billtech:upgrade_base"
+    },
+    {
+      "item": "minecraft:chest"
+    }
+  ],
+  "result": {
+    "id": "billtech:storage_upgrade"
+  }
+}

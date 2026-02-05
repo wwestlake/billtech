@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "billtech:block/coal_pyrolyzer" },
+    "facing=south": { "model": "billtech:block/coal_pyrolyzer", "y": 180 },
+    "facing=west": { "model": "billtech:block/coal_pyrolyzer", "y": 270 },
+    "facing=east": { "model": "billtech:block/coal_pyrolyzer", "y": 90 }
+  }
+}

@@ -3,14 +3,14 @@
   "category": "misc",
   "pattern": [
     "CCC",
-    "C C",
+    "   ",
     "CCC"
   ],
   "key": {
     "C": "#c:ingots/copper"
   },
   "result": {
-    "count": 8,
+    "count": 6,
     "id": "billtech:copper_water_pipe"
   }
 }

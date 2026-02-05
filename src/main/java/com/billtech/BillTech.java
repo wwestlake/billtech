@@ -2,6 +2,9 @@ package com.billtech;
 
 import com.billtech.block.ModBlockEntities;
 import com.billtech.block.ModBlocks;
+import com.billtech.command.ModCommands;
+import com.billtech.config.BillTechConfig;
+import com.billtech.fluid.ModFluids;
 import com.billtech.item.ModItems;
 import com.billtech.item.ModItemGroups;
 import com.billtech.menu.ModMenus;
@@ -20,6 +23,7 @@ public class BillTech implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		BillTechConfig.load();
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
@@ -31,7 +35,9 @@ public class BillTech implements ModInitializer {
 		// Touch classes to ensure static init runs.
 		ModBlocks.FLUID_PIPE.toString();
 		ModBlockEntities.FLUID_PIPE.toString();
+		ModFluids.init();
 		ModMenus.TANK_CONTROLLER.toString();
+		ModCommands.register();
 
 		// Custom BillTech creative tab is registered in ModItemGroups.
 

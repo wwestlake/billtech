@@ -8,6 +8,7 @@ import com.billtech.block.RegulatorBlock;
 import com.billtech.block.ValveBlock;
 import com.billtech.block.entity.FlowMeterBlockEntity;
 import com.billtech.block.entity.TankBlockEntity;
+import com.billtech.fluid.ModFluids;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -490,6 +491,7 @@ public final class FluidPipeNetwork {
         long minRate = FluidPipeTiers.maxRate(originState);
         int minDistance = FluidPipeTiers.maxDistance(originState);
         boolean waterOnly = !FluidPipeTiers.allows(originState, FluidVariant.of(net.minecraft.world.level.material.Fluids.LAVA));
+        boolean allowsMethane = FluidPipeTiers.allows(originState, FluidVariant.of(ModFluids.METHANE));
         BlockPos controller = origin;
         long controllerKey = origin.asLong();
         while (!queue.isEmpty()) {
@@ -499,6 +501,9 @@ public final class FluidPipeNetwork {
             minDistance = Math.min(minDistance, FluidPipeTiers.maxDistance(state));
             if (!FluidPipeTiers.allows(state, FluidVariant.of(net.minecraft.world.level.material.Fluids.LAVA))) {
                 waterOnly = true;
+            }
+            if (!FluidPipeTiers.allows(state, FluidVariant.of(ModFluids.METHANE))) {
+                allowsMethane = false;
             }
             if (state.getBlock() instanceof PumpBlock) {
                 Direction facing = state.getValue(PumpBlock.FACING);
@@ -547,7 +552,7 @@ public final class FluidPipeNetwork {
                 endpoints.add(new Endpoint(pipePos, neighbor, dir, storage, isTank));
             }
         }
-        return new NetworkScan(level, pipes, endpoints, pumps, meters, controller, minRate, minDistance, waterOnly);
+        return new NetworkScan(level, pipes, endpoints, pumps, meters, controller, minRate, minDistance, waterOnly, allowsMethane);
     }
 
     private record SourceInfo(FluidVariant variant) {
@@ -574,9 +579,13 @@ public final class FluidPipeNetwork {
             BlockPos controller,
             long maxRate,
             int maxDistance,
-            boolean waterOnly
+            boolean waterOnly,
+            boolean allowsMethane
     ) {
         boolean allows(FluidVariant variant) {
+            if (!allowsMethane && variant.getFluid() == ModFluids.METHANE) {
+                return false;
+            }
             if (!waterOnly) {
                 return true;
             }

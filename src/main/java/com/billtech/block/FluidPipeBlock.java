@@ -172,7 +172,19 @@ public class FluidPipeBlock extends Block implements EntityBlock {
             return ConnectionType.ENDPOINT;
         }
         if (neighborState.getBlock() instanceof RegulatorBlock) {
-            return ConnectionType.PIPE;
+            return ConnectionType.ENDPOINT;
+        }
+        if (neighborState.getBlock() instanceof GasPipeBlock) {
+            return ConnectionType.NONE;
+        }
+        if (neighborState.getBlock() instanceof MethaneCollectorBlock) {
+            return ConnectionType.NONE;
+        }
+        if (neighborState.getBlock() instanceof MethaneGeneratorBlock) {
+            return ConnectionType.NONE;
+        }
+        if (neighborState.getBlock() instanceof MethaneTankBlock) {
+            return ConnectionType.NONE;
         }
         if (level instanceof Level world) {
             Storage<FluidVariant> storage = FluidStorage.SIDED.find(world, neighborPos, dir.getOpposite());

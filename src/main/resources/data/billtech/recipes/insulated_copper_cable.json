@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "CCC",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "billtech:plastic_sheet"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "result": {
+    "id": "billtech:insulated_copper_cable",
+    "count": 6
+  }
+}

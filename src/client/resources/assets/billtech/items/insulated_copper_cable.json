@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "billtech:block/insulated_copper_cable_center"
+  }
+}
