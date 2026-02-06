@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-public class MethaneGeneratorBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess {
+public class MethaneGeneratorBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess, MachineStatusAccess {
     private final long energyCapacity;
     private final long energyPerTick;
     private final long methanePerTick;
@@ -218,7 +218,7 @@ public class MethaneGeneratorBlockEntity extends BlockEntity implements MenuProv
         return energy.getAmount();
     }
 
-    public long getEnergyCapacity() {
+    public long getEnergyCapacityLong() {
         return energy.getCapacity();
     }
 
@@ -306,5 +306,35 @@ public class MethaneGeneratorBlockEntity extends BlockEntity implements MenuProv
     @Override
     public Direction getFacing() {
         return getBlockState().getValue(MethaneGeneratorBlock.FACING);
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return clampLong(energy.getAmount());
+    }
+
+    @Override
+    public int getEnergyCapacity() {
+        return clampLong(getEffectiveEnergyCapacity());
+    }
+
+    @Override
+    public int getFluidInStored() {
+        return clampLong(inputStorage.getAmount());
+    }
+
+    @Override
+    public int getFluidInCapacity() {
+        return clampLong(inputBuffer);
+    }
+
+    @Override
+    public int getFluidOutStored() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidOutCapacity() {
+        return 0;
     }
 }

@@ -31,7 +31,7 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.List;
 
-public class DistillerBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess {
+public class DistillerBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess, MachineStatusAccess {
     private final long energyCapacity;
     private final long energyPerTick;
     private final int ticksPerBatch;
@@ -477,5 +477,36 @@ public class DistillerBlockEntity extends BlockEntity implements MenuProvider, S
     @Override
     public Direction getFacing() {
         return getBlockState().getValue(DistillerBlock.FACING);
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return clampLong(energy.getAmount());
+    }
+
+    @Override
+    public int getEnergyCapacity() {
+        return clampLong(getEffectiveEnergyCapacity());
+    }
+
+    @Override
+    public int getFluidInStored() {
+        return clampLong(inputStorage.getAmount());
+    }
+
+    @Override
+    public int getFluidInCapacity() {
+        return clampLong(inputBuffer);
+    }
+
+    @Override
+    public int getFluidOutStored() {
+        long total = lightStorage.getAmount() + heavyStorage.getAmount() + sludgeStorage.getAmount();
+        return clampLong(total);
+    }
+
+    @Override
+    public int getFluidOutCapacity() {
+        return clampLong(outputBuffer);
     }
 }

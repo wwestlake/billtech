@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-public class PaperPressBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider, SideConfigAccess {
+public class PaperPressBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider, SideConfigAccess, MachineStatusAccess {
     private static final int SLOT_INPUT = 0;
     private static final int SLOT_OUTPUT = 1;
     private static final int[] SLOTS_INPUT = new int[]{SLOT_INPUT};
@@ -352,5 +352,35 @@ public class PaperPressBlockEntity extends BlockEntity implements WorldlyContain
     @Override
     public Direction getFacing() {
         return getBlockState().getValue(PaperPressBlock.FACING);
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return clampLong(energy.getAmount());
+    }
+
+    @Override
+    public int getEnergyCapacity() {
+        return clampLong(getEffectiveEnergyCapacity());
+    }
+
+    @Override
+    public int getFluidInStored() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidInCapacity() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidOutStored() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidOutCapacity() {
+        return 0;
     }
 }

@@ -40,7 +40,7 @@ public abstract class MachineScreenBase<T extends MachineMenuBase> extends Abstr
     protected void init() {
         super.init();
         currentType = defaultTransport();
-        int buttonY = topPos + 20;
+        int buttonY = topPos + 44;
         configButton = Button.builder(Component.literal("IO"), button -> toggleConfig())
                 .pos(leftPos + imageWidth - 28, buttonY)
                 .size(20, 14)
@@ -193,5 +193,32 @@ public abstract class MachineScreenBase<T extends MachineMenuBase> extends Abstr
     @Override
     protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
         graphics.drawString(font, title, 8, 6, 0xFFFFFF, false);
+        if (useDefaultStatusLines()) {
+            renderStatusLines(graphics);
+        }
+    }
+
+    protected boolean useDefaultStatusLines() {
+        return true;
+    }
+
+    private void renderStatusLines(GuiGraphics graphics) {
+        if (!menu.hasStatus()) {
+            return;
+        }
+        int x = 8;
+        int y = 18;
+        int color = 0xD0D0D0;
+        if (menu.getStatusEnergyCapacity() > 0) {
+            graphics.drawString(font, "Energy: " + menu.getStatusEnergyStored() + " / " + menu.getStatusEnergyCapacity(), x, y, color, false);
+            y += 10;
+        }
+        if (menu.getStatusFluidInCapacity() > 0) {
+            graphics.drawString(font, "Fluid In: " + menu.getStatusFluidInStored() + " / " + menu.getStatusFluidInCapacity(), x, y, color, false);
+            y += 10;
+        }
+        if (menu.getStatusFluidOutCapacity() > 0) {
+            graphics.drawString(font, "Fluid Out: " + menu.getStatusFluidOutStored() + " / " + menu.getStatusFluidOutCapacity(), x, y, color, false);
+        }
     }
 }

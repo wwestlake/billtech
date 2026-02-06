@@ -30,7 +30,7 @@ import team.reborn.energy.api.EnergyStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 
-public class BasicCombustionGeneratorBlockEntity extends BlockEntity implements WorldlyContainer, UpgradeInventoryProvider, MenuProvider, SideConfigAccess {
+public class BasicCombustionGeneratorBlockEntity extends BlockEntity implements WorldlyContainer, UpgradeInventoryProvider, MenuProvider, SideConfigAccess, MachineStatusAccess {
     private static final int SLOT_FUEL = 0;
     private static final int[] SLOTS = new int[]{SLOT_FUEL};
 
@@ -423,5 +423,35 @@ public class BasicCombustionGeneratorBlockEntity extends BlockEntity implements 
     @Override
     public Direction getFacing() {
         return getBlockState().getValue(com.billtech.block.BasicCombustionGeneratorBlock.FACING);
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return clampLong(energy.getAmount());
+    }
+
+    @Override
+    public int getEnergyCapacity() {
+        return clampLong(getEffectiveEnergyCapacity());
+    }
+
+    @Override
+    public int getFluidInStored() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidInCapacity() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidOutStored() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidOutCapacity() {
+        return 0;
     }
 }

@@ -45,7 +45,7 @@ public class MethaneGeneratorMenu extends MachineMenuBase {
                 }
                 return switch (index) {
                     case 0 -> (int) Math.min(Integer.MAX_VALUE, blockEntity.getEnergyAmount());
-                    case 1 -> (int) Math.min(Integer.MAX_VALUE, blockEntity.getEnergyCapacity());
+                    case 1 -> (int) Math.min(Integer.MAX_VALUE, blockEntity.getEnergyCapacityLong());
                     case 2 -> (int) Math.min(Integer.MAX_VALUE, blockEntity.getInputAmount());
                     case 3 -> (int) Math.min(Integer.MAX_VALUE, blockEntity.getInputBuffer());
                     case 4 -> (int) Math.min(Integer.MAX_VALUE, blockEntity.getMethanePerTick());

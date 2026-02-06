@@ -33,7 +33,7 @@ import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 
-public class ElectricFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, UpgradeInventoryProvider, MenuProvider, SideConfigAccess {
+public class ElectricFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, UpgradeInventoryProvider, MenuProvider, SideConfigAccess, MachineStatusAccess {
     private static final int SLOT_INPUT = 0;
     private static final int SLOT_OUTPUT = 1;
     private static final int[] SLOTS_INPUT = new int[]{SLOT_INPUT};
@@ -498,5 +498,35 @@ public class ElectricFurnaceBlockEntity extends BlockEntity implements WorldlyCo
     @Override
     public Direction getFacing() {
         return getBlockState().getValue(com.billtech.block.ElectricFurnaceBlock.FACING);
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return clampLong(energy.getAmount());
+    }
+
+    @Override
+    public int getEnergyCapacity() {
+        return clampLong(getEffectiveEnergyCapacity());
+    }
+
+    @Override
+    public int getFluidInStored() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidInCapacity() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidOutStored() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidOutCapacity() {
+        return 0;
     }
 }

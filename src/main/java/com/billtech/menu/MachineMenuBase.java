@@ -1,6 +1,7 @@
 package com.billtech.menu;
 
 import com.billtech.block.entity.PortMode;
+import com.billtech.block.entity.MachineStatusAccess;
 import com.billtech.block.entity.SideConfigAccess;
 import com.billtech.transport.TransportType;
 import com.billtech.upgrade.UpgradeItem;
@@ -19,6 +20,7 @@ public abstract class MachineMenuBase extends AbstractContainerMenu {
     private final SideConfigAccess sideConfigAccess;
     private final SideConfigData sideConfigData;
     private final EnumSet<TransportType> supportedTypes;
+    private final MachineStatusData statusData;
 
     protected MachineMenuBase(
             MenuType<?> type,
@@ -31,6 +33,12 @@ public abstract class MachineMenuBase extends AbstractContainerMenu {
         this.supportedTypes = supportedTypes.clone();
         this.sideConfigData = new SideConfigData(sideConfigAccess);
         addDataSlots(sideConfigData);
+        if (sideConfigAccess instanceof MachineStatusAccess statusAccess) {
+            this.statusData = new MachineStatusData(statusAccess);
+            addDataSlots(statusData);
+        } else {
+            this.statusData = null;
+        }
     }
 
     protected void addPlayerSlots(Inventory inventory, int startX, int startY) {
@@ -73,6 +81,34 @@ public abstract class MachineMenuBase extends AbstractContainerMenu {
 
     public int getSideButtonId(TransportType type, Direction dir) {
         return sideConfigData.getIndex(type, dir);
+    }
+
+    public boolean hasStatus() {
+        return statusData != null;
+    }
+
+    public int getStatusEnergyStored() {
+        return statusData == null ? 0 : statusData.get(MachineStatusData.ENERGY_STORED);
+    }
+
+    public int getStatusEnergyCapacity() {
+        return statusData == null ? 0 : statusData.get(MachineStatusData.ENERGY_CAPACITY);
+    }
+
+    public int getStatusFluidInStored() {
+        return statusData == null ? 0 : statusData.get(MachineStatusData.FLUID_IN_STORED);
+    }
+
+    public int getStatusFluidInCapacity() {
+        return statusData == null ? 0 : statusData.get(MachineStatusData.FLUID_IN_CAPACITY);
+    }
+
+    public int getStatusFluidOutStored() {
+        return statusData == null ? 0 : statusData.get(MachineStatusData.FLUID_OUT_STORED);
+    }
+
+    public int getStatusFluidOutCapacity() {
+        return statusData == null ? 0 : statusData.get(MachineStatusData.FLUID_OUT_CAPACITY);
     }
 
     @Override

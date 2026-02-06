@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class MethaneCollectorBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess {
+public class MethaneCollectorBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess, MachineStatusAccess {
     private final long outputPerTick;
     private final long outputBuffer;
     private final SideConfig sideConfig = new SideConfig(PortMode.NONE);
@@ -204,5 +204,35 @@ public class MethaneCollectorBlockEntity extends BlockEntity implements MenuProv
     @Override
     public Direction getFacing() {
         return getBlockState().getValue(MethaneCollectorBlock.FACING);
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return 0;
+    }
+
+    @Override
+    public int getEnergyCapacity() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidInStored() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidInCapacity() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidOutStored() {
+        return clampLong(outputStorage.getAmount());
+    }
+
+    @Override
+    public int getFluidOutCapacity() {
+        return clampLong(outputBuffer);
     }
 }
