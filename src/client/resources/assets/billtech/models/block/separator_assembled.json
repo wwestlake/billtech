@@ -1,0 +1,35 @@
+﻿{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "front": "billtech:block/separator_base_front",
+    "side": "billtech:block/metal_panel",
+    "top": "billtech:block/metal_panel_power",
+    "bottom": "billtech:block/metal_panel_power"
+  },
+  "elements": [
+    {
+      "from": [1, 0, 1],
+      "to": [15, 12, 15],
+      "faces": {
+        "north": {"texture": "#front"},
+        "south": {"texture": "#side"},
+        "east": {"texture": "#side"},
+        "west": {"texture": "#side"},
+        "up": {"texture": "#side"},
+        "down": {"texture": "#bottom"}
+      }
+    },
+    {
+      "from": [2, 12, 2],
+      "to": [14, 16, 14],
+      "faces": {
+        "north": {"texture": "#front"},
+        "south": {"texture": "#side"},
+        "east": {"texture": "#side"},
+        "west": {"texture": "#side"},
+        "up": {"texture": "#top"},
+        "down": {"texture": "#side"}
+      }
+    }
+  ]
+}

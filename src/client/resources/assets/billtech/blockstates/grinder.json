@@ -1,0 +1,12 @@
+﻿{
+  "variants": {
+    "facing=north,assembled=false": { "model": "billtech:block/grinder" },
+    "facing=north,assembled=true": { "model": "billtech:block/grinder_assembled" },
+    "facing=east,assembled=false": { "model": "billtech:block/grinder", "y": 90 },
+    "facing=east,assembled=true": { "model": "billtech:block/grinder_assembled", "y": 90 },
+    "facing=south,assembled=false": { "model": "billtech:block/grinder", "y": 180 },
+    "facing=south,assembled=true": { "model": "billtech:block/grinder_assembled", "y": 180 },
+    "facing=west,assembled=false": { "model": "billtech:block/grinder", "y": 270 },
+    "facing=west,assembled=true": { "model": "billtech:block/grinder_assembled", "y": 270 }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PSP",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "billtech:plastic_sheet"
+    },
+    "S": {
+      "item": "billtech:sulfur_powder"
+    }
+  },
+  "result": {
+    "item": "billtech:pipe_cover",
+    "count": 8
+  }
+}
