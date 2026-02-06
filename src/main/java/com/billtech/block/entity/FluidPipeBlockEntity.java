@@ -1,20 +1,27 @@
 package com.billtech.block.entity;
 
 import com.billtech.block.ModBlockEntities;
+import com.billtech.cover.CoverProvider;
+import com.billtech.cover.CoverStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import com.billtech.pipe.FluidPipeNetwork;
 
-public class FluidPipeBlockEntity extends BlockEntity {
+public class FluidPipeBlockEntity extends BlockEntity implements CoverProvider {
     private final PipeStorage[] storages = new PipeStorage[Direction.values().length + 1];
     private final net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount<FluidVariant>[] cachedExtractableBySide =
             new net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount[Direction.values().length + 1];
+    private final CoverStorage covers = new CoverStorage();
 
     public FluidPipeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.FLUID_PIPE, pos, state);
@@ -35,6 +42,52 @@ public class FluidPipeBlockEntity extends BlockEntity {
         be.refreshCache(level);
     }
 
+    @Override
+    public boolean hasCover(Direction side) {
+        return covers.hasCover(side);
+    }
+
+    @Override
+    public BlockState getCoverState(Direction side) {
+        return covers.getCoverState(side);
+    }
+
+    @Override
+    public void setCover(Direction side, ResourceLocation blockId) {
+        covers.setCover(side, blockId);
+        markCoverDirty();
+    }
+
+    @Override
+    public void clearCover(Direction side) {
+        covers.clearCover(side);
+        markCoverDirty();
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
+        covers.save(tag);
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
+        covers.load(tag);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+        CompoundTag tag = new CompoundTag();
+        saveAdditional(tag, provider);
+        return tag;
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
     private void refreshCache(Level level) {
         if (level == null) {
             for (int i = 0; i < cachedExtractableBySide.length; i++) {
@@ -48,6 +101,13 @@ public class FluidPipeBlockEntity extends BlockEntity {
         }
         cachedExtractableBySide[cachedExtractableBySide.length - 1] =
                 FluidPipeNetwork.peekExtractable(level, worldPosition, null);
+    }
+
+    private void markCoverDirty() {
+        setChanged();
+        if (level != null) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+        }
     }
 
     private final class PipeStorage implements Storage<FluidVariant> {

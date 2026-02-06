@@ -36,6 +36,8 @@ public final class ModItemGroups {
                         entries.accept(ModBlocks.OIL_EXTRACTOR);
                         entries.accept(ModBlocks.DISTILLER);
                         entries.accept(ModBlocks.PAPER_PRESS);
+                        entries.accept(ModBlocks.GRINDER);
+                        entries.accept(ModBlocks.SEPARATOR);
                         entries.accept(ModBlocks.METHANE_COLLECTOR);
                         entries.accept(ModBlocks.METHANE_TANK);
                         entries.accept(ModBlocks.METHANE_GENERATOR);
@@ -48,6 +50,14 @@ public final class ModItemGroups {
                         entries.accept(ModFluids.LIGHT_FUEL_BUCKET);
                         entries.accept(ModFluids.HEAVY_FUEL_BUCKET);
                         entries.accept(ModFluids.METHANE_BUCKET);
+                        entries.accept(ModItems.SILICA_POWDER);
+                        entries.accept(ModItems.LIME_POWDER);
+                        entries.accept(ModItems.ALUMINA_POWDER);
+                        entries.accept(ModItems.IRON_OXIDE_POWDER);
+                        entries.accept(ModItems.SODIUM_SALT);
+                        entries.accept(ModItems.SULFUR_POWDER);
+                        entries.accept(ModItems.SLAG);
+                        entries.accept(ModItems.PIPE_COVER);
                         entries.accept(ModItems.SPEED_UPGRADE);
                         entries.accept(ModItems.POWER_UPGRADE);
                         entries.accept(ModItems.ENERGY_UPGRADE);

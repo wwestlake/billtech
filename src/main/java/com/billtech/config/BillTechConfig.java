@@ -23,6 +23,7 @@ public final class BillTechConfig {
     public OilExtractor oilExtractor = new OilExtractor();
     public Distiller distiller = new Distiller();
     public PaperPress paperPress = new PaperPress();
+    public InorganicSeparator inorganicSeparator = new InorganicSeparator();
     public MethaneCollector methaneCollector = new MethaneCollector();
     public MethaneGenerator methaneGenerator = new MethaneGenerator();
     public MethaneTank methaneTank = new MethaneTank();
@@ -81,6 +82,9 @@ public final class BillTechConfig {
         }
         if (paperPress == null) {
             paperPress = new PaperPress();
+        }
+        if (inorganicSeparator == null) {
+            inorganicSeparator = new InorganicSeparator();
         }
         if (methaneCollector == null) {
             methaneCollector = new MethaneCollector();
@@ -145,6 +149,14 @@ public final class BillTechConfig {
         public long energyCapacity = 4000;
         public long energyPerTick = 5;
         public int ticksPerItem = 100;
+    }
+
+    public static final class InorganicSeparator {
+        public long energyCapacity = 8000;
+        public long energyPerTick = 10;
+        public int ticksPerItem = 120;
+        public int outputPerItem = 1;
+        public double slagChance = 0.15;
     }
 
     public static final class MethaneCollector {

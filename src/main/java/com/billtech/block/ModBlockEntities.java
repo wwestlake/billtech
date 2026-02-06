@@ -15,6 +15,7 @@ import com.billtech.block.entity.CoalPyrolyzerBlockEntity;
 import com.billtech.block.entity.OilExtractorBlockEntity;
 import com.billtech.block.entity.DistillerBlockEntity;
 import com.billtech.block.entity.PaperPressBlockEntity;
+import com.billtech.block.entity.SeparatorBlockEntity;
 import com.billtech.block.entity.RegulatorBlockEntity;
 import com.billtech.block.entity.TankBlockEntity;
 import com.billtech.block.entity.TankControllerBlockEntity;
@@ -140,6 +141,14 @@ public final class ModBlockEntities {
                     ModBlocks.PAPER_PRESS
             ).build()
     );
+    public static final BlockEntityType<SeparatorBlockEntity> SEPARATOR = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "separator"),
+            FabricBlockEntityTypeBuilder.create(
+                    SeparatorBlockEntity::new,
+                    ModBlocks.SEPARATOR
+            ).build()
+    );
     public static final BlockEntityType<MethaneCollectorBlockEntity> METHANE_COLLECTOR = Registry.register(
             BuiltInRegistries.BLOCK_ENTITY_TYPE,
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "methane_collector"),
@@ -202,6 +211,10 @@ public final class ModBlockEntities {
         team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
                 (be, direction) -> be.getEnergyStorage(direction),
                 PAPER_PRESS
+        );
+        team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
+                (be, direction) -> be.getEnergyStorage(direction),
+                SEPARATOR
         );
         team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
                 (be, direction) -> be.getEnergyStorage(direction),

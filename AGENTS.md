@@ -54,3 +54,4 @@ Note: This is a standard Fabric Loom setup; tasks above should exist unless the 
 ## Notes for new helpers
 - If changes are in rendering, always verify both client NBT updates and render layer/buffer setup.
 - If touching tank storage balancing, watch for server/client desync and oscillation.
+- If a block is added, ensure it ships with a recipe in the same change.

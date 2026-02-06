@@ -55,6 +55,11 @@ public final class ModMenus {
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "paper_press"),
             new MenuType<>(PaperPressMenu::new, FeatureFlags.VANILLA_SET)
     );
+    public static final MenuType<SeparatorMenu> SEPARATOR = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "separator"),
+            new MenuType<>(SeparatorMenu::new, FeatureFlags.VANILLA_SET)
+    );
     public static final MenuType<MethaneCollectorMenu> METHANE_COLLECTOR = Registry.register(
             BuiltInRegistries.MENU,
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "methane_collector"),

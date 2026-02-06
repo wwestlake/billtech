@@ -1,12 +1,17 @@
 package com.billtech.block;
 
 import com.billtech.block.entity.FluidPipeBlockEntity;
+import com.billtech.cover.CoverInteraction;
+import com.billtech.cover.CoverProvider;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
@@ -22,6 +27,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.BlockHitResult;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -74,6 +81,31 @@ public class FluidPipeBlock extends Block implements EntityBlock {
     @Override
     public BlockState getStateForPlacement(net.minecraft.world.item.context.BlockPlaceContext context) {
         return updateConnections(context.getLevel(), context.getClickedPos(), this.defaultBlockState());
+    }
+
+    @Override
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        BlockEntity be = level.getBlockEntity(pos);
+        if (be instanceof CoverProvider coverable) {
+            InteractionResult result = CoverInteraction.handle(level, player, ItemStack.EMPTY, hit.getDirection(), coverable);
+            if (result != InteractionResult.PASS) {
+                return result;
+            }
+        }
+        return InteractionResult.PASS;
+    }
+
+    @Override
+    public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
+                                       InteractionHand hand, BlockHitResult hit) {
+        BlockEntity be = level.getBlockEntity(pos);
+        if (be instanceof CoverProvider coverable) {
+            InteractionResult result = CoverInteraction.handle(level, player, stack, hit.getDirection(), coverable);
+            if (result != InteractionResult.PASS) {
+                return result;
+            }
+        }
+        return InteractionResult.PASS;
     }
 
     @Override

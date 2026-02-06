@@ -15,6 +15,14 @@ public class ModItems {
     public static final Item PLASTIC_SHEET = registerSimpleItem("plastic_sheet");
     public static final Item UPGRADE_BASE = registerSimpleItem("upgrade_base");
     public static final Item STEEL_INGOT = registerSimpleItem("steel_ingot");
+    public static final Item SILICA_POWDER = registerSimpleItem("silica_powder");
+    public static final Item LIME_POWDER = registerSimpleItem("lime_powder");
+    public static final Item ALUMINA_POWDER = registerSimpleItem("alumina_powder");
+    public static final Item IRON_OXIDE_POWDER = registerSimpleItem("iron_oxide_powder");
+    public static final Item SODIUM_SALT = registerSimpleItem("sodium_salt");
+    public static final Item SULFUR_POWDER = registerSimpleItem("sulfur_powder");
+    public static final Item SLAG = registerSimpleItem("slag");
+    public static final Item PIPE_COVER = registerSimpleItem("pipe_cover");
     public static final Item SPEED_UPGRADE = registerItem("speed_upgrade", UpgradeType.SPEED);
     public static final Item POWER_UPGRADE = registerItem("power_upgrade", UpgradeType.POWER);
     public static final Item ENERGY_UPGRADE = registerItem("energy_upgrade", UpgradeType.ENERGY);

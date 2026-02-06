@@ -62,6 +62,10 @@ public final class ModBlocks {
             "cloth_insulated_copper_cable",
             props -> new EnergyCableBlock(props.strength(1.0f).noOcclusion())
     );
+    public static final Block COVER_PANEL = registerBlock(
+            "cover_panel",
+            props -> new Block(props.strength(1.0f))
+    );
     public static final Block BASIC_COMBUSTION_GENERATOR = registerBlock(
             "basic_combustion_generator",
             props -> new BasicCombustionGeneratorBlock(props.strength(2.0f))
@@ -85,6 +89,14 @@ public final class ModBlocks {
     public static final Block PAPER_PRESS = registerBlock(
             "paper_press",
             props -> new PaperPressBlock(props.strength(2.0f))
+    );
+    public static final Block GRINDER = registerBlock(
+            "grinder",
+            props -> new GrinderBlock(props.strength(2.0f))
+    );
+    public static final Block SEPARATOR = registerBlock(
+            "separator",
+            props -> new SeparatorBlock(props.strength(2.0f))
     );
     public static final Block METHANE_COLLECTOR = registerBlock(
             "methane_collector",

@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.RenderType;
 import com.billtech.block.ModBlocks;
 import com.billtech.block.ModBlockEntities;
 import com.billtech.client.render.FlowMeterBlockEntityRenderer;
+import com.billtech.client.render.PipeCoverBlockEntityRenderer;
 import com.billtech.client.render.TankBlockEntityRenderer;
 import com.billtech.menu.ModMenus;
 import com.billtech.client.screen.BasicCombustionGeneratorScreen;
@@ -20,6 +21,7 @@ import com.billtech.client.screen.MethaneTankScreen;
 import com.billtech.client.screen.OilExtractorScreen;
 import com.billtech.client.screen.PaperPressScreen;
 import com.billtech.client.screen.RegulatorScreen;
+import com.billtech.client.screen.SeparatorScreen;
 import com.billtech.client.screen.TankControllerScreen;
 import com.billtech.client.screen.UpgradeScreen;
 import com.billtech.fluid.ModFluids;
@@ -46,12 +48,16 @@ public class BillTechClient implements ClientModInitializer {
 		MenuScreens.register(ModMenus.OIL_EXTRACTOR, OilExtractorScreen::new);
 		MenuScreens.register(ModMenus.DISTILLER, DistillerScreen::new);
 		MenuScreens.register(ModMenus.PAPER_PRESS, PaperPressScreen::new);
+		MenuScreens.register(ModMenus.SEPARATOR, SeparatorScreen::new);
 		MenuScreens.register(ModMenus.METHANE_COLLECTOR, MethaneCollectorScreen::new);
 		MenuScreens.register(ModMenus.METHANE_GENERATOR, MethaneGeneratorScreen::new);
 		MenuScreens.register(ModMenus.METHANE_TANK, MethaneTankScreen::new);
 		registerFluidRenders();
 		BlockEntityRendererRegistry.register(ModBlockEntities.TANK_BLOCK, TankBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(ModBlockEntities.FLOW_METER, FlowMeterBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.register(ModBlockEntities.FLUID_PIPE, PipeCoverBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.register(ModBlockEntities.GAS_PIPE, PipeCoverBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.register(ModBlockEntities.ENERGY_CABLE, PipeCoverBlockEntityRenderer::new);
 	}
 
 	private static void registerFluidRenders() {
