@@ -21,7 +21,9 @@ public final class BillTechConfig {
     public Generator generator = new Generator();
     public CoalPyrolyzer coalPyrolyzer = new CoalPyrolyzer();
     public OilExtractor oilExtractor = new OilExtractor();
+    public Reactor reactor = new Reactor();
     public Distiller distiller = new Distiller();
+    public CrackingTower crackingTower = new CrackingTower();
     public PaperPress paperPress = new PaperPress();
     public InorganicSeparator inorganicSeparator = new InorganicSeparator();
     public MethaneCollector methaneCollector = new MethaneCollector();
@@ -77,8 +79,14 @@ public final class BillTechConfig {
         if (oilExtractor == null) {
             oilExtractor = new OilExtractor();
         }
+        if (reactor == null) {
+            reactor = new Reactor();
+        }
         if (distiller == null) {
             distiller = new Distiller();
+        }
+        if (crackingTower == null) {
+            crackingTower = new CrackingTower();
         }
         if (paperPress == null) {
             paperPress = new PaperPress();
@@ -133,6 +141,16 @@ public final class BillTechConfig {
         public long outputBuffer = 8000;
     }
 
+    public static final class Reactor {
+        public long energyCapacity = 8000;
+        public long energyPerTick = 12;
+        public int ticksPerItem = 120;
+        public long outputPerItem = 1000;
+        public long waterPerItem = 1000;
+        public long inputBuffer = 8000;
+        public long outputBuffer = 8000;
+    }
+
     public static final class Distiller {
         public long energyCapacity = 12000;
         public long energyPerTick = 20;
@@ -141,6 +159,19 @@ public final class BillTechConfig {
         public long outputLight = 700;
         public long outputHeavy = 250;
         public long outputSludge = 50;
+        public long inputBuffer = 8000;
+        public long outputBuffer = 8000;
+    }
+
+    public static final class CrackingTower {
+        public long energyCapacity = 16000;
+        public long energyPerTick = 25;
+        public int ticksPerBatch = 240;
+        public long inputPerBatch = 1000;
+        public long outputLight = 400;
+        public long outputMedium = 300;
+        public long outputHeavy = 200;
+        public long outputResidue = 100;
         public long inputBuffer = 8000;
         public long outputBuffer = 8000;
     }

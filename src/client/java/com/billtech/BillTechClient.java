@@ -12,7 +12,9 @@ import com.billtech.client.render.PipeCoverBlockEntityRenderer;
 import com.billtech.client.render.TankBlockEntityRenderer;
 import com.billtech.menu.ModMenus;
 import com.billtech.client.screen.BasicCombustionGeneratorScreen;
+import com.billtech.client.screen.ReactorScreen;
 import com.billtech.client.screen.CoalPyrolyzerScreen;
+import com.billtech.client.screen.CrackingTowerScreen;
 import com.billtech.client.screen.DistillerScreen;
 import com.billtech.client.screen.ElectricFurnaceScreen;
 import com.billtech.client.screen.MethaneCollectorScreen;
@@ -46,7 +48,9 @@ public class BillTechClient implements ClientModInitializer {
 		MenuScreens.register(ModMenus.ELECTRIC_FURNACE, ElectricFurnaceScreen::new);
 		MenuScreens.register(ModMenus.COAL_PYROLYZER, CoalPyrolyzerScreen::new);
 		MenuScreens.register(ModMenus.OIL_EXTRACTOR, OilExtractorScreen::new);
+		MenuScreens.register(ModMenus.REACTOR, ReactorScreen::new);
 		MenuScreens.register(ModMenus.DISTILLER, DistillerScreen::new);
+		MenuScreens.register(ModMenus.CRACKING_TOWER, CrackingTowerScreen::new);
 		MenuScreens.register(ModMenus.PAPER_PRESS, PaperPressScreen::new);
 		MenuScreens.register(ModMenus.SEPARATOR, SeparatorScreen::new);
 		MenuScreens.register(ModMenus.METHANE_COLLECTOR, MethaneCollectorScreen::new);
@@ -61,17 +65,32 @@ public class BillTechClient implements ClientModInitializer {
 	}
 
 	private static void registerFluidRenders() {
-		registerFluid(ModFluids.COAL_OIL, ModFluids.COAL_OIL_FLOWING, "coal_oil");
-		registerFluid(ModFluids.CRUDE_OIL, ModFluids.CRUDE_OIL_FLOWING, "crude_oil");
-		registerFluid(ModFluids.SLUDGE, ModFluids.SLUDGE_FLOWING, "sludge");
-		registerFluid(ModFluids.LIGHT_FUEL, ModFluids.LIGHT_FUEL_FLOWING, "light_fuel");
-		registerFluid(ModFluids.HEAVY_FUEL, ModFluids.HEAVY_FUEL_FLOWING, "heavy_fuel");
-		registerFluid(ModFluids.METHANE, ModFluids.METHANE_FLOWING, "methane");
+		int color = 0xFFFFFFFF;
+		registerFluid(ModFluids.COAL_OIL, ModFluids.COAL_OIL_FLOWING, "coal_oil", color);
+		registerFluid(ModFluids.CRUDE_OIL, ModFluids.CRUDE_OIL_FLOWING, "crude_oil", color);
+		registerFluid(ModFluids.SLUDGE, ModFluids.SLUDGE_FLOWING, "sludge", color);
+		registerFluid(ModFluids.LIGHT_FUEL, ModFluids.LIGHT_FUEL_FLOWING, "light_fuel", color);
+		registerFluid(ModFluids.HEAVY_FUEL, ModFluids.HEAVY_FUEL_FLOWING, "heavy_fuel", color);
+		registerFluid(ModFluids.METHANE, ModFluids.METHANE_FLOWING, "methane", color);
+		registerFluid(ModFluids.SULFURIC_ACID, ModFluids.SULFURIC_ACID_FLOWING, "sulfuric_acid", color);
+		registerFluid(ModFluids.HYDROCHLORIC_ACID, ModFluids.HYDROCHLORIC_ACID_FLOWING, "hydrochloric_acid", color);
+		registerFluid(ModFluids.PHOSPHORIC_ACID, ModFluids.PHOSPHORIC_ACID_FLOWING, "phosphoric_acid", color);
+		registerFluid(ModFluids.SODIUM_HYDROXIDE, ModFluids.SODIUM_HYDROXIDE_FLOWING, "sodium_hydroxide", color);
+		registerFluid(ModFluids.LIMEWATER, ModFluids.LIMEWATER_FLOWING, "limewater", color);
+		registerFluid(ModFluids.LIGHT_FRACTION, ModFluids.LIGHT_FRACTION_FLOWING, "light_fraction", color);
+		registerFluid(ModFluids.MEDIUM_FRACTION, ModFluids.MEDIUM_FRACTION_FLOWING, "medium_fraction", color);
+		registerFluid(ModFluids.HEAVY_FRACTION, ModFluids.HEAVY_FRACTION_FLOWING, "heavy_fraction", color);
+		registerFluid(ModFluids.RESIDUE, ModFluids.RESIDUE_FLOWING, "residue", color);
 	}
 
-	private static void registerFluid(net.minecraft.world.level.material.Fluid still, net.minecraft.world.level.material.Fluid flowing, String name) {
+	private static void registerFluid(net.minecraft.world.level.material.Fluid still, net.minecraft.world.level.material.Fluid flowing, String name, int color) {
 		ResourceLocation stillTex = ResourceLocation.fromNamespaceAndPath("billtech", "block/" + name + "_still");
 		ResourceLocation flowTex = ResourceLocation.fromNamespaceAndPath("billtech", "block/" + name + "_flow");
-		FluidRenderHandlerRegistry.INSTANCE.register(still, flowing, new SimpleFluidRenderHandler(stillTex, flowTex));
+		FluidRenderHandlerRegistry.INSTANCE.register(still, flowing, new SimpleFluidRenderHandler(stillTex, flowTex) {
+			@Override
+			public int getFluidColor(net.minecraft.world.level.BlockAndTintGetter world, net.minecraft.core.BlockPos pos, net.minecraft.world.level.material.FluidState state) {
+				return color;
+			}
+		});
 	}
 }

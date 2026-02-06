@@ -82,9 +82,21 @@ public final class ModBlocks {
             "oil_extractor",
             props -> new OilExtractorBlock(props.strength(2.0f))
     );
+    public static final Block REACTOR = registerBlock(
+            "reactor",
+            props -> new ReactorBlock(props.strength(2.0f))
+    );
     public static final Block DISTILLER = registerBlock(
             "distiller",
             props -> new DistillerBlock(props.strength(2.0f))
+    );
+    public static final Block CRACKING_TOWER_CONTROLLER = registerBlock(
+            "cracking_tower_controller",
+            props -> new CrackingTowerControllerBlock(props.strength(2.0f))
+    );
+    public static final Block CRACKING_TOWER = registerBlock(
+            "cracking_tower",
+            props -> new CrackingTowerBlock(props.strength(2.0f))
     );
     public static final Block PAPER_PRESS = registerBlock(
             "paper_press",

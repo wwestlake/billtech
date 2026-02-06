@@ -45,10 +45,20 @@ public final class ModMenus {
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "oil_extractor"),
             new MenuType<>(OilExtractorMenu::new, FeatureFlags.VANILLA_SET)
     );
+    public static final MenuType<ReactorMenu> REACTOR = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "reactor"),
+            new MenuType<>(ReactorMenu::new, FeatureFlags.VANILLA_SET)
+    );
     public static final MenuType<DistillerMenu> DISTILLER = Registry.register(
             BuiltInRegistries.MENU,
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "distiller"),
             new MenuType<>(DistillerMenu::new, FeatureFlags.VANILLA_SET)
+    );
+    public static final MenuType<CrackingTowerMenu> CRACKING_TOWER = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "cracking_tower"),
+            new MenuType<>(CrackingTowerMenu::new, FeatureFlags.VANILLA_SET)
     );
     public static final MenuType<PaperPressMenu> PAPER_PRESS = Registry.register(
             BuiltInRegistries.MENU,

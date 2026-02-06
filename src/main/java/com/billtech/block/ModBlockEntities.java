@@ -12,8 +12,10 @@ import com.billtech.block.entity.MethaneTankBlockEntity;
 import com.billtech.block.entity.PumpBlockEntity;
 import com.billtech.block.entity.ElectricFurnaceBlockEntity;
 import com.billtech.block.entity.CoalPyrolyzerBlockEntity;
+import com.billtech.block.entity.ReactorBlockEntity;
 import com.billtech.block.entity.OilExtractorBlockEntity;
 import com.billtech.block.entity.DistillerBlockEntity;
+import com.billtech.block.entity.CrackingTowerControllerBlockEntity;
 import com.billtech.block.entity.PaperPressBlockEntity;
 import com.billtech.block.entity.SeparatorBlockEntity;
 import com.billtech.block.entity.RegulatorBlockEntity;
@@ -125,12 +127,28 @@ public final class ModBlockEntities {
                     ModBlocks.OIL_EXTRACTOR
             ).build()
     );
+    public static final BlockEntityType<ReactorBlockEntity> REACTOR = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "reactor"),
+            FabricBlockEntityTypeBuilder.create(
+                    ReactorBlockEntity::new,
+                    ModBlocks.REACTOR
+            ).build()
+    );
     public static final BlockEntityType<DistillerBlockEntity> DISTILLER = Registry.register(
             BuiltInRegistries.BLOCK_ENTITY_TYPE,
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "distiller"),
             FabricBlockEntityTypeBuilder.create(
                     DistillerBlockEntity::new,
                     ModBlocks.DISTILLER
+            ).build()
+    );
+    public static final BlockEntityType<CrackingTowerControllerBlockEntity> CRACKING_TOWER_CONTROLLER = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "cracking_tower_controller"),
+            FabricBlockEntityTypeBuilder.create(
+                    CrackingTowerControllerBlockEntity::new,
+                    ModBlocks.CRACKING_TOWER_CONTROLLER
             ).build()
     );
     public static final BlockEntityType<PaperPressBlockEntity> PAPER_PRESS = Registry.register(
@@ -184,7 +202,9 @@ public final class ModBlockEntities {
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getStorage(direction), PUMP);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), COAL_PYROLYZER);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), OIL_EXTRACTOR);
+        FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), REACTOR);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), DISTILLER);
+        FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), CRACKING_TOWER_CONTROLLER);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), METHANE_COLLECTOR);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), METHANE_GENERATOR);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getStorage(), METHANE_TANK);
@@ -206,7 +226,15 @@ public final class ModBlockEntities {
         );
         team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
                 (be, direction) -> be.getEnergyStorage(direction),
+                REACTOR
+        );
+        team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
+                (be, direction) -> be.getEnergyStorage(direction),
                 DISTILLER
+        );
+        team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
+                (be, direction) -> be.getEnergyStorage(direction),
+                CRACKING_TOWER_CONTROLLER
         );
         team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
                 (be, direction) -> be.getEnergyStorage(direction),

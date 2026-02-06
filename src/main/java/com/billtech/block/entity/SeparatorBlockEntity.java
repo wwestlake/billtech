@@ -32,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-public class SeparatorBlockEntity extends BlockEntity implements WorldlyContainer, UpgradeInventoryProvider, MenuProvider, SideConfigAccess {
+public class SeparatorBlockEntity extends BlockEntity implements WorldlyContainer, UpgradeInventoryProvider, MenuProvider, SideConfigAccess, MachineStatusAccess {
     private static final int SLOT_INPUT = 0;
     private static final int SLOT_OUTPUT = 1;
     private static final int SLOT_BYPRODUCT = 2;
@@ -214,7 +214,14 @@ public class SeparatorBlockEntity extends BlockEntity implements WorldlyContaine
     private OutputRecipe getRecipe(ItemStack input) {
         Item item = input.getItem();
         if (item == Items.SAND || item == Items.RED_SAND || item == Items.SANDSTONE) {
-            Item byproduct = (item == Items.RED_SAND || item == Items.SANDSTONE) ? ModItems.SODIUM_SALT : null;
+            Item byproduct;
+            if (item == Items.SAND) {
+                byproduct = ModItems.SODA_ASH;
+            } else if (item == Items.RED_SAND || item == Items.SANDSTONE) {
+                byproduct = ModItems.SODIUM_SALT;
+            } else {
+                byproduct = null;
+            }
             return new OutputRecipe(ModItems.SILICA_POWDER, byproduct);
         }
         if (item == Items.CALCITE || item == Items.DRIPSTONE_BLOCK) {
@@ -230,6 +237,9 @@ public class SeparatorBlockEntity extends BlockEntity implements WorldlyContaine
         }
         if (item == Items.BASALT || item == Items.BLACKSTONE || item == Items.NETHERRACK) {
             return new OutputRecipe(ModItems.SULFUR_POWDER, null);
+        }
+        if (item == Items.GLOW_INK_SAC) {
+            return new OutputRecipe(ModItems.PHOSPHORUS_POWDER, null);
         }
         return null;
     }
@@ -534,5 +544,35 @@ public class SeparatorBlockEntity extends BlockEntity implements WorldlyContaine
     @Override
     public Direction getFacing() {
         return getBlockState().getValue(SeparatorBlock.FACING);
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return clampLong(energy.getAmount());
+    }
+
+    @Override
+    public int getEnergyCapacity() {
+        return clampLong(getEffectiveEnergyCapacity());
+    }
+
+    @Override
+    public int getFluidInStored() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidInCapacity() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidOutStored() {
+        return 0;
+    }
+
+    @Override
+    public int getFluidOutCapacity() {
+        return 0;
     }
 }
