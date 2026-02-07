@@ -203,6 +203,9 @@ public abstract class MachineScreenBase<T extends MachineMenuBase> extends Abstr
         if (currentTab == Tab.IO && handleSideClick(mouseX, mouseY)) {
             return true;
         }
+        if (currentTab != Tab.MAIN && isHoveringAnySlot(mouseX, mouseY)) {
+            return true;
+        }
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
@@ -253,6 +256,22 @@ public abstract class MachineScreenBase<T extends MachineMenuBase> extends Abstr
         }
     }
 
+    @Override
+    protected void renderSlot(GuiGraphics graphics, Slot slot) {
+        if (currentTab != Tab.MAIN) {
+            return;
+        }
+        super.renderSlot(graphics, slot);
+    }
+
+    @Override
+    protected void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
+        if (currentTab != Tab.MAIN) {
+            return;
+        }
+        super.renderTooltip(graphics, mouseX, mouseY);
+    }
+
     protected boolean useDefaultStatusLines() {
         return true;
     }
@@ -262,7 +281,7 @@ public abstract class MachineScreenBase<T extends MachineMenuBase> extends Abstr
             return;
         }
         int x = 8;
-        int y = 18;
+        int y = 34;
         int color = 0xD0D0D0;
         if (menu.getStatusEnergyCapacity() > 0) {
             graphics.drawString(font, "Energy: " + menu.getStatusEnergyStored() + " / " + menu.getStatusEnergyCapacity(), x, y, color, false);
@@ -275,5 +294,14 @@ public abstract class MachineScreenBase<T extends MachineMenuBase> extends Abstr
         if (menu.getStatusFluidOutCapacity() > 0) {
             graphics.drawString(font, "Fluid Out: " + menu.getStatusFluidOutStored() + " / " + menu.getStatusFluidOutCapacity(), x, y, color, false);
         }
+    }
+
+    private boolean isHoveringAnySlot(double mouseX, double mouseY) {
+        for (Slot slot : menu.slots) {
+            if (isHovering(slot.x, slot.y, 16, 16, mouseX, mouseY)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

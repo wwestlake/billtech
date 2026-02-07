@@ -1,12 +1,73 @@
 {
-  "parent": "minecraft:block/cube",
+  "parent": "minecraft:block/block",
   "textures": {
     "north": "billtech:block/cracking_tower_segment_1",
-    "south": "billtech:block/metal_panel",
-    "east": "billtech:block/metal_panel",
-    "west": "billtech:block/metal_panel",
-    "up": "billtech:block/metal_panel",
-    "down": "billtech:block/metal_panel",
+    "side": "billtech:block/metal_panel",
+    "top": "billtech:block/metal_panel",
+    "bottom": "billtech:block/metal_panel",
+    "rail": "billtech:block/gas_pipe",
     "particle": "billtech:block/metal_panel"
-  }
+  },
+  "elements": [
+    {
+      "from": [2, 0, 2],
+      "to": [14, 16, 14],
+      "faces": {
+        "north": { "texture": "#north" },
+        "south": { "texture": "#side" },
+        "east": { "texture": "#side" },
+        "west": { "texture": "#side" },
+        "up": { "texture": "#top" },
+        "down": { "texture": "#bottom" }
+      }
+    },
+    {
+      "from": [0, 0, 0],
+      "to": [1, 16, 1],
+      "faces": {
+        "north": { "texture": "#rail" },
+        "south": { "texture": "#rail" },
+        "east": { "texture": "#rail" },
+        "west": { "texture": "#rail" },
+        "up": { "texture": "#rail" },
+        "down": { "texture": "#rail" }
+      }
+    },
+    {
+      "from": [15, 0, 0],
+      "to": [16, 16, 1],
+      "faces": {
+        "north": { "texture": "#rail" },
+        "south": { "texture": "#rail" },
+        "east": { "texture": "#rail" },
+        "west": { "texture": "#rail" },
+        "up": { "texture": "#rail" },
+        "down": { "texture": "#rail" }
+      }
+    },
+    {
+      "from": [0, 0, 15],
+      "to": [1, 16, 16],
+      "faces": {
+        "north": { "texture": "#rail" },
+        "south": { "texture": "#rail" },
+        "east": { "texture": "#rail" },
+        "west": { "texture": "#rail" },
+        "up": { "texture": "#rail" },
+        "down": { "texture": "#rail" }
+      }
+    },
+    {
+      "from": [15, 0, 15],
+      "to": [16, 16, 16],
+      "faces": {
+        "north": { "texture": "#rail" },
+        "south": { "texture": "#rail" },
+        "east": { "texture": "#rail" },
+        "west": { "texture": "#rail" },
+        "up": { "texture": "#rail" },
+        "down": { "texture": "#rail" }
+      }
+    }
+  ]
 }
