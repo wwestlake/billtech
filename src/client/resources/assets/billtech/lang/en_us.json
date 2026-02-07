@@ -2,9 +2,11 @@
   "block.billtech.tank_block": "Tank Block",
   "block.billtech.tank_controller": "Tank Controller",
   "block.billtech.gas_pipe": "Gas Pipe",
+  "block.billtech.item_pipe": "Item Pipe",
   "block.billtech.methane_collector": "Methane Collector",
   "block.billtech.methane_tank": "Methane Tank",
   "block.billtech.methane_generator": "Methane Generator",
+  "block.billtech.item_controller": "Item Controller",
   "block.billtech.pump": "Pump",
   "block.billtech.valve": "Valve",
   "block.billtech.check_valve": "Check Valve",
@@ -38,6 +40,7 @@
   "container.billtech.methane_collector": "Methane Collector",
   "container.billtech.methane_generator": "Methane Generator",
   "container.billtech.methane_tank": "Methane Tank",
+  "container.billtech.item_controller": "Item Controller",
   "container.billtech.upgrades": "Upgrades",
   "container.billtech.regulator": "Regulator",
 
@@ -75,6 +78,7 @@
   "item.billtech.heavy_fuel_bucket": "Heavy Fuel Bucket",
   "item.billtech.methane_bucket": "Methane Bucket",
   "item.billtech.pipe_cover": "Pipe Cover",
+  "gui.billtech.search": "Search",
 
   "advancement.billtech.root.title": "BillTech",
   "advancement.billtech.root.description": "Industrial chemistry begins here.",

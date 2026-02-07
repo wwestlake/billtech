@@ -23,6 +23,7 @@ public final class ModItemGroups {
                         entries.accept(ModBlocks.FLUID_PIPE);
                         entries.accept(ModBlocks.COPPER_WATER_PIPE);
                         entries.accept(ModBlocks.GAS_PIPE);
+                        entries.accept(ModBlocks.ITEM_PIPE);
                         entries.accept(ModBlocks.PUMP);
                         entries.accept(ModBlocks.VALVE);
                         entries.accept(ModBlocks.CHECK_VALVE);
@@ -44,6 +45,7 @@ public final class ModItemGroups {
                         entries.accept(ModBlocks.METHANE_COLLECTOR);
                         entries.accept(ModBlocks.METHANE_TANK);
                         entries.accept(ModBlocks.METHANE_GENERATOR);
+                        entries.accept(ModBlocks.ITEM_CONTROLLER);
                         entries.accept(ModBlocks.TANK_BLOCK);
                         entries.accept(ModBlocks.TANK_CONTROLLER);
                         entries.accept(ModItems.BILLTECH_BUCKET);

@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 
@@ -25,6 +26,10 @@ public class TankBlockEntity extends BlockEntity {
     public static final long CAPACITY = 10_000;
 
     private final TankStorage storage = new TankStorage();
+    private FluidVariant lastNetworkFluid = FluidVariant.blank();
+    private long lastNetworkAmount;
+    private long lastNetworkCapacity;
+    private boolean lastNetworkConflict;
 
     private final class TankStorage extends SingleVariantStorage<FluidVariant> {
         @Override
@@ -69,6 +74,9 @@ public class TankBlockEntity extends BlockEntity {
             syncToClient();
         }
         void setRaw(FluidVariant variant, long amount) {
+            if (Objects.equals(this.variant, variant) && this.amount == amount) {
+                return;
+            }
             this.variant = variant;
             this.amount = amount;
             setChanged();
@@ -148,6 +156,9 @@ public class TankBlockEntity extends BlockEntity {
         if (scan == null || !scan.controller.equals(pos)) {
             return;
         }
+        if (be.isNetworkSnapshotUnchanged(scan)) {
+            return;
+        }
         if (scan.fluidConflict) {
             return;
         }
@@ -165,6 +176,18 @@ public class TankBlockEntity extends BlockEntity {
                 tank.setContents(FluidVariant.blank(), 0);
             }
         }
+    }
+
+    private boolean isNetworkSnapshotUnchanged(NetworkScan scan) {
+        boolean unchanged = lastNetworkConflict == scan.fluidConflict
+                && lastNetworkAmount == scan.totalAmount
+                && lastNetworkCapacity == scan.totalCapacity
+                && Objects.equals(lastNetworkFluid, scan.fluid);
+        lastNetworkConflict = scan.fluidConflict;
+        lastNetworkAmount = scan.totalAmount;
+        lastNetworkCapacity = scan.totalCapacity;
+        lastNetworkFluid = scan.fluid;
+        return unchanged;
     }
 
     private static NetworkScan scanNetwork(Level level, BlockPos origin) {

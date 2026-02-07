@@ -8,6 +8,10 @@ import com.billtech.fluid.ModFluids;
 import com.billtech.item.ModItems;
 import com.billtech.item.ModItemGroups;
 import com.billtech.menu.ModMenus;
+import com.billtech.menu.ItemControllerMenu;
+import com.billtech.network.ItemControllerSearchPayload;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -38,9 +42,22 @@ public class BillTech implements ModInitializer {
 		ModFluids.init();
 		ModMenus.TANK_CONTROLLER.toString();
 		ModCommands.register();
+		registerNetworking();
 
 		// Custom BillTech creative tab is registered in ModItemGroups.
 
 
+	}
+
+	private void registerNetworking() {
+		PayloadTypeRegistry.playC2S().register(ItemControllerSearchPayload.TYPE, ItemControllerSearchPayload.STREAM_CODEC);
+		ServerPlayNetworking.registerGlobalReceiver(
+				ItemControllerSearchPayload.TYPE,
+				(payload, context) -> context.player().server.execute(() -> {
+					if (context.player().containerMenu instanceof ItemControllerMenu menu) {
+						menu.setSearchText(payload.query());
+					}
+				})
+		);
 	}
 }

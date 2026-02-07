@@ -63,16 +63,24 @@ public class TankControllerBlockEntity extends BlockEntity implements MenuProvid
 
     private void refreshSnapshot(Level level) {
         NetworkSnapshot snapshot = scanTankNetwork(level, getBlockPos());
-        this.lastAmount = snapshot.amount;
-        this.lastCapacity = snapshot.capacity;
-        this.lastFluid = snapshot.fluid;
+        boolean changed = lastAmount != snapshot.amount
+                || lastCapacity != snapshot.capacity
+                || !lastFluid.equals(snapshot.fluid);
+        if (changed) {
+            this.lastAmount = snapshot.amount;
+            this.lastCapacity = snapshot.capacity;
+            this.lastFluid = snapshot.fluid;
+        }
         int levelValue = computeRedstoneLevel();
         if (levelValue != lastRedstoneLevel) {
             lastRedstoneLevel = levelValue;
             level.updateNeighborsAt(getBlockPos(), getBlockState().getBlock());
             level.updateNeighbourForOutputSignal(getBlockPos(), getBlockState().getBlock());
+            changed = true;
         }
-        setChanged();
+        if (changed) {
+            setChanged();
+        }
     }
 
     public int getRedstoneLevel() {

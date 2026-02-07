@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_liquid",
+  "textures": {
+    "particle": "billtech:block/phosphoric_acid_still",
+    "still": "billtech:block/phosphoric_acid_still",
+    "flow": "billtech:block/phosphoric_acid_flow"
+  }
+}

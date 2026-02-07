@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SGS",
+    "RCR",
+    "SWS"
+  ],
+  "key": {
+    "S": {
+      "item": "billtech:steel_ingot"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "C": {
+      "item": "minecraft:chest"
+    },
+    "W": {
+      "item": "billtech:insulated_copper_cable"
+    }
+  },
+  "result": {
+    "id": "billtech:item_controller"
+  }
+}

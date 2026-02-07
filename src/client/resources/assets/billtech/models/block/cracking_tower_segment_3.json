@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "north": "billtech:block/cracking_tower_segment_3",
+    "south": "billtech:block/metal_panel",
+    "east": "billtech:block/metal_panel",
+    "west": "billtech:block/metal_panel",
+    "up": "billtech:block/metal_panel",
+    "down": "billtech:block/metal_panel",
+    "particle": "billtech:block/metal_panel"
+  }
+}

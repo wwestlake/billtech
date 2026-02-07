@@ -26,6 +26,10 @@ public final class ModBlocks {
             "gas_pipe",
             props -> new GasPipeBlock(props.strength(1.0f).noOcclusion())
     );
+    public static final Block ITEM_PIPE = registerBlock(
+            "item_pipe",
+            props -> new ItemPipeBlock(props.strength(1.0f).noOcclusion())
+    );
     public static final Block TANK_BLOCK = registerBlock(
             "tank_block",
             props -> new TankBlock(props.strength(2.0f).noOcclusion())
@@ -121,6 +125,10 @@ public final class ModBlocks {
     public static final Block METHANE_GENERATOR = registerBlock(
             "methane_generator",
             props -> new MethaneGeneratorBlock(props.strength(2.0f))
+    );
+    public static final Block ITEM_CONTROLLER = registerBlock(
+            "item_controller",
+            props -> new ItemControllerBlock(props.strength(2.0f))
     );
 
     private ModBlocks() {

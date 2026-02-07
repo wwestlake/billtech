@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SGS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "billtech:steel_ingot"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    }
+  },
+  "result": {
+    "id": "billtech:cracking_tower"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/template_liquid",
+  "textures": {
+    "particle": "billtech:block/sodium_hydroxide_still",
+    "still": "billtech:block/sodium_hydroxide_still",
+    "flow": "billtech:block/sodium_hydroxide_flow"
+  }
+}
+

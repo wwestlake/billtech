@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=north,assembled=false,segment=0": { "model": "billtech:block/cracking_tower_unassembled" },
+    "facing=east,assembled=false,segment=0": { "model": "billtech:block/cracking_tower_unassembled", "y": 90 },
+    "facing=south,assembled=false,segment=0": { "model": "billtech:block/cracking_tower_unassembled", "y": 180 },
+    "facing=west,assembled=false,segment=0": { "model": "billtech:block/cracking_tower_unassembled", "y": 270 },
+
+    "facing=north,assembled=true,segment=0": { "model": "billtech:block/cracking_tower_segment_0" },
+    "facing=east,assembled=true,segment=0": { "model": "billtech:block/cracking_tower_segment_0", "y": 90 },
+    "facing=south,assembled=true,segment=0": { "model": "billtech:block/cracking_tower_segment_0", "y": 180 },
+    "facing=west,assembled=true,segment=0": { "model": "billtech:block/cracking_tower_segment_0", "y": 270 },
+
+    "facing=north,assembled=true,segment=1": { "model": "billtech:block/cracking_tower_segment_1" },
+    "facing=east,assembled=true,segment=1": { "model": "billtech:block/cracking_tower_segment_1", "y": 90 },
+    "facing=south,assembled=true,segment=1": { "model": "billtech:block/cracking_tower_segment_1", "y": 180 },
+    "facing=west,assembled=true,segment=1": { "model": "billtech:block/cracking_tower_segment_1", "y": 270 },
+
+    "facing=north,assembled=true,segment=2": { "model": "billtech:block/cracking_tower_segment_2" },
+    "facing=east,assembled=true,segment=2": { "model": "billtech:block/cracking_tower_segment_2", "y": 90 },
+    "facing=south,assembled=true,segment=2": { "model": "billtech:block/cracking_tower_segment_2", "y": 180 },
+    "facing=west,assembled=true,segment=2": { "model": "billtech:block/cracking_tower_segment_2", "y": 270 },
+
+    "facing=north,assembled=true,segment=3": { "model": "billtech:block/cracking_tower_segment_3" },
+    "facing=east,assembled=true,segment=3": { "model": "billtech:block/cracking_tower_segment_3", "y": 90 },
+    "facing=south,assembled=true,segment=3": { "model": "billtech:block/cracking_tower_segment_3", "y": 180 },
+    "facing=west,assembled=true,segment=3": { "model": "billtech:block/cracking_tower_segment_3", "y": 270 }
+  }
+}

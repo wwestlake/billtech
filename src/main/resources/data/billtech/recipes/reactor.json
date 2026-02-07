@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SFS",
+    "SPS"
+  ],
+  "key": {
+    "S": {
+      "item": "billtech:steel_ingot"
+    },
+    "F": {
+      "item": "billtech:electric_furnace"
+    },
+    "P": {
+      "item": "billtech:fluid_pipe"
+    }
+  },
+  "result": {
+    "item": "billtech:reactor"
+  }
+}

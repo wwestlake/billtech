@@ -33,12 +33,11 @@ public abstract class MachineMenuBase extends AbstractContainerMenu {
         this.supportedTypes = supportedTypes.clone();
         this.sideConfigData = new SideConfigData(sideConfigAccess);
         addDataSlots(sideConfigData);
-        if (sideConfigAccess instanceof MachineStatusAccess statusAccess) {
-            this.statusData = new MachineStatusData(statusAccess);
-            addDataSlots(statusData);
-        } else {
-            this.statusData = null;
-        }
+        MachineStatusAccess statusAccess = sideConfigAccess instanceof MachineStatusAccess cast
+                ? cast
+                : null;
+        this.statusData = new MachineStatusData(statusAccess);
+        addDataSlots(statusData);
     }
 
     protected void addPlayerSlots(Inventory inventory, int startX, int startY) {

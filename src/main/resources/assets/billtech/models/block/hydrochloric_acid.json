@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_liquid",
+  "textures": {
+    "particle": "billtech:block/hydrochloric_acid_still",
+    "still": "billtech:block/hydrochloric_acid_still",
+    "flow": "billtech:block/hydrochloric_acid_flow"
+  }
+}

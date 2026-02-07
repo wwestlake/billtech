@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "level=0": { "model": "billtech:block/limewater" },
+    "level=1": { "model": "billtech:block/limewater" },
+    "level=2": { "model": "billtech:block/limewater" },
+    "level=3": { "model": "billtech:block/limewater" },
+    "level=4": { "model": "billtech:block/limewater" },
+    "level=5": { "model": "billtech:block/limewater" },
+    "level=6": { "model": "billtech:block/limewater" },
+    "level=7": { "model": "billtech:block/limewater" },
+    "level=8": { "model": "billtech:block/limewater" },
+    "level=9": { "model": "billtech:block/limewater" },
+    "level=10": { "model": "billtech:block/limewater" },
+    "level=11": { "model": "billtech:block/limewater" },
+    "level=12": { "model": "billtech:block/limewater" },
+    "level=13": { "model": "billtech:block/limewater" },
+    "level=14": { "model": "billtech:block/limewater" },
+    "level=15": { "model": "billtech:block/limewater" }
+  }
+}
+

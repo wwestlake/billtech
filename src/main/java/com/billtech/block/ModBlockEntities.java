@@ -6,9 +6,11 @@ import com.billtech.block.entity.EnergyCableBlockEntity;
 import com.billtech.block.entity.BasicCombustionGeneratorBlockEntity;
 import com.billtech.block.entity.FlowMeterBlockEntity;
 import com.billtech.block.entity.GasPipeBlockEntity;
+import com.billtech.block.entity.ItemPipeBlockEntity;
 import com.billtech.block.entity.MethaneCollectorBlockEntity;
 import com.billtech.block.entity.MethaneGeneratorBlockEntity;
 import com.billtech.block.entity.MethaneTankBlockEntity;
+import com.billtech.block.entity.ItemControllerBlockEntity;
 import com.billtech.block.entity.PumpBlockEntity;
 import com.billtech.block.entity.ElectricFurnaceBlockEntity;
 import com.billtech.block.entity.CoalPyrolyzerBlockEntity;
@@ -44,6 +46,14 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(
                     GasPipeBlockEntity::new,
                     ModBlocks.GAS_PIPE
+            ).build()
+    );
+    public static final BlockEntityType<ItemPipeBlockEntity> ITEM_PIPE = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "item_pipe"),
+            FabricBlockEntityTypeBuilder.create(
+                    ItemPipeBlockEntity::new,
+                    ModBlocks.ITEM_PIPE
             ).build()
     );
     public static final BlockEntityType<TankBlockEntity> TANK_BLOCK = Registry.register(
@@ -191,6 +201,14 @@ public final class ModBlockEntities {
                     ModBlocks.METHANE_TANK
             ).build()
     );
+    public static final BlockEntityType<ItemControllerBlockEntity> ITEM_CONTROLLER = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "item_controller"),
+            FabricBlockEntityTypeBuilder.create(
+                    ItemControllerBlockEntity::new,
+                    ModBlocks.ITEM_CONTROLLER
+            ).build()
+    );
 
     private ModBlockEntities() {
     }
@@ -199,6 +217,10 @@ public final class ModBlockEntities {
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getNetworkStorage(), TANK_BLOCK);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getStorage(direction), FLUID_PIPE);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getStorage(direction), GAS_PIPE);
+        net.fabricmc.fabric.api.transfer.v1.item.ItemStorage.SIDED.registerForBlockEntity(
+                (be, direction) -> be.getStorage(direction),
+                ITEM_PIPE
+        );
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getStorage(direction), PUMP);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), COAL_PYROLYZER);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), OIL_EXTRACTOR);

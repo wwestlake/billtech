@@ -26,13 +26,12 @@ public class TankControllerMenu extends AbstractContainerMenu {
                 if (TankControllerMenu.this.controller == null || inventory.player.level().isClientSide) {
                     return cache[index];
                 }
-                TankControllerBlockEntity.Snapshot snapshot = TankControllerMenu.this.controller.computeSnapshot(inventory.player.level());
-                long amount = snapshot.amount();
-                long capacity = snapshot.capacity();
+                long amount = TankControllerMenu.this.controller.getLastAmount();
+                long capacity = TankControllerMenu.this.controller.getLastCapacity();
                 return switch (index) {
                     case 0 -> (int) Math.min(Integer.MAX_VALUE, amount);
                     case 1 -> (int) Math.min(Integer.MAX_VALUE, capacity);
-                    case 2 -> BuiltInRegistries.FLUID.getId(snapshot.fluid().getFluid());
+                    case 2 -> BuiltInRegistries.FLUID.getId(TankControllerMenu.this.controller.getLastFluid().getFluid());
                     default -> 0;
                 };
             }

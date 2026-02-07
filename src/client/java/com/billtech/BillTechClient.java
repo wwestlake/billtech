@@ -26,6 +26,7 @@ import com.billtech.client.screen.RegulatorScreen;
 import com.billtech.client.screen.SeparatorScreen;
 import com.billtech.client.screen.TankControllerScreen;
 import com.billtech.client.screen.UpgradeScreen;
+import com.billtech.client.screen.ItemControllerScreen;
 import com.billtech.fluid.ModFluids;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
@@ -38,6 +39,7 @@ public class BillTechClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.COPPER_WATER_PIPE, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FLUID_PIPE, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GAS_PIPE, RenderType.cutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ITEM_PIPE, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.INSULATED_COPPER_CABLE, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TANK_BLOCK, RenderType.translucent());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TANK_CONTROLLER, RenderType.cutout());
@@ -56,11 +58,13 @@ public class BillTechClient implements ClientModInitializer {
 		MenuScreens.register(ModMenus.METHANE_COLLECTOR, MethaneCollectorScreen::new);
 		MenuScreens.register(ModMenus.METHANE_GENERATOR, MethaneGeneratorScreen::new);
 		MenuScreens.register(ModMenus.METHANE_TANK, MethaneTankScreen::new);
+		MenuScreens.register(ModMenus.ITEM_CONTROLLER, ItemControllerScreen::new);
 		registerFluidRenders();
 		BlockEntityRendererRegistry.register(ModBlockEntities.TANK_BLOCK, TankBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(ModBlockEntities.FLOW_METER, FlowMeterBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(ModBlockEntities.FLUID_PIPE, PipeCoverBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(ModBlockEntities.GAS_PIPE, PipeCoverBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.register(ModBlockEntities.ITEM_PIPE, PipeCoverBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(ModBlockEntities.ENERGY_CABLE, PipeCoverBlockEntityRenderer::new);
 	}
 

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "billtech:block/cracking_tower_controller" },
+    "facing=east": { "model": "billtech:block/cracking_tower_controller", "y": 90 },
+    "facing=south": { "model": "billtech:block/cracking_tower_controller", "y": 180 },
+    "facing=west": { "model": "billtech:block/cracking_tower_controller", "y": 270 }
+  }
+}
