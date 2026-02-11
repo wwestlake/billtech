@@ -11,6 +11,8 @@ import com.billtech.block.entity.MethaneCollectorBlockEntity;
 import com.billtech.block.entity.MethaneGeneratorBlockEntity;
 import com.billtech.block.entity.MethaneTankBlockEntity;
 import com.billtech.block.entity.ItemControllerBlockEntity;
+import com.billtech.block.entity.AutoCrafterBlockEntity;
+import com.billtech.block.entity.RecipeEncoderBlockEntity;
 import com.billtech.block.entity.PumpBlockEntity;
 import com.billtech.block.entity.ElectricFurnaceBlockEntity;
 import com.billtech.block.entity.CoalPyrolyzerBlockEntity;
@@ -207,6 +209,22 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(
                     ItemControllerBlockEntity::new,
                     ModBlocks.ITEM_CONTROLLER
+            ).build()
+    );
+    public static final BlockEntityType<RecipeEncoderBlockEntity> RECIPE_ENCODER = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "recipe_encoder"),
+            FabricBlockEntityTypeBuilder.create(
+                    RecipeEncoderBlockEntity::new,
+                    ModBlocks.RECIPE_ENCODER
+            ).build()
+    );
+    public static final BlockEntityType<AutoCrafterBlockEntity> AUTO_CRAFTER = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "auto_crafter"),
+            FabricBlockEntityTypeBuilder.create(
+                    AutoCrafterBlockEntity::new,
+                    ModBlocks.AUTO_CRAFTER
             ).build()
     );
 

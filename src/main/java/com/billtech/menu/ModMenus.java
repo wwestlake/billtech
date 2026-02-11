@@ -90,6 +90,16 @@ public final class ModMenus {
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "item_controller"),
             new MenuType<>(ItemControllerMenu::new, FeatureFlags.VANILLA_SET)
     );
+    public static final MenuType<RecipeEncoderMenu> RECIPE_ENCODER = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "recipe_encoder"),
+            new MenuType<>(RecipeEncoderMenu::new, FeatureFlags.VANILLA_SET)
+    );
+    public static final MenuType<AutoCrafterMenu> AUTO_CRAFTER = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "auto_crafter"),
+            new MenuType<>(AutoCrafterMenu::new, FeatureFlags.VANILLA_SET)
+    );
 
     private ModMenus() {
     }

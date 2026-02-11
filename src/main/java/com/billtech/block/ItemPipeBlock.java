@@ -1,6 +1,8 @@
 package com.billtech.block;
 
+import com.billtech.BillTech;
 import com.billtech.block.entity.ItemPipeBlockEntity;
+import com.billtech.block.AutoCrafterBlock;
 import com.billtech.cover.CoverInteraction;
 import com.billtech.cover.CoverProvider;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
@@ -8,6 +10,7 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.Container;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -190,16 +193,44 @@ public class ItemPipeBlock extends Block implements EntityBlock {
         if (neighborState.getBlock() instanceof ItemPipeBlock) {
             return ConnectionType.PIPE;
         }
-        if (neighborState.getBlock() instanceof ItemControllerBlock) {
+        if (neighborState.getBlock() instanceof ItemControllerBlock
+                || neighborState.getBlock() instanceof AutoCrafterBlock) {
             return ConnectionType.ENDPOINT;
         }
         if (neighborState.getBlock() instanceof FluidPipeBlock) {
             return ConnectionType.NONE;
         }
         if (level instanceof Level world) {
+            BlockEntity be = world.getBlockEntity(neighborPos);
+            if (be instanceof Container) {
+                logConnection(world, pos, dir, neighborPos, be, "container");
+                return ConnectionType.ENDPOINT;
+            }
+            // Probe both the opposite face (touching face) and the same face to handle sided/non-sided inventories.
             Storage<ItemVariant> storage = ItemStorage.SIDED.find(world, neighborPos, dir.getOpposite());
-            return storage != null ? ConnectionType.ENDPOINT : ConnectionType.NONE;
+            if (storage == null) {
+                storage = ItemStorage.SIDED.find(world, neighborPos, dir);
+            }
+            if (storage != null) {
+                logConnection(world, pos, dir, neighborPos, be, "storage");
+                return ConnectionType.ENDPOINT;
+            }
         }
         return ConnectionType.NONE;
+    }
+
+    private void logConnection(Level world, BlockPos pos, Direction dir, BlockPos neighborPos, BlockEntity be, String kind) {
+        if (world != null && world.isClientSide) {
+            return;
+        }
+        String msg = String.format(
+                "ItemPipe debug: %s pipe=%s dir=%s neighbor=%s be=%s",
+                kind,
+                pos.toShortString(),
+                dir,
+                neighborPos.toShortString(),
+                be == null ? "null" : be.getType().toString()
+        );
+        BillTech.LOGGER.info(msg);
     }
 }

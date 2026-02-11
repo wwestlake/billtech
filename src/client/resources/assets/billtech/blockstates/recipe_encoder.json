@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "billtech:block/recipe_encoder" },
+    "facing=east": { "model": "billtech:block/recipe_encoder", "y": 90 },
+    "facing=south": { "model": "billtech:block/recipe_encoder", "y": 180 },
+    "facing=west": { "model": "billtech:block/recipe_encoder", "y": 270 }
+  }
+}

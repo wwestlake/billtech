@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "billtech:block/auto_crafter" },
+    "facing=east": { "model": "billtech:block/auto_crafter", "y": 90 },
+    "facing=south": { "model": "billtech:block/auto_crafter", "y": 180 },
+    "facing=west": { "model": "billtech:block/auto_crafter", "y": 270 }
+  }
+}

@@ -60,6 +60,26 @@ public class ItemControllerBlockEntity extends BlockEntity implements MenuProvid
         }
     }
 
+    public int requestCraft(Level level, ItemVariant variant, int amount) {
+        if (level == null || variant == null || variant.isBlank() || amount <= 0) {
+            return 0;
+        }
+        int remaining = amount;
+        int crafted = 0;
+        for (AutoCrafterBlockEntity crafter : ItemPipeNetwork.findAutocrafters(level, worldPosition)) {
+            if (!crafter.matchesOutput(level, variant)) {
+                continue;
+            }
+            int made = crafter.craftByItems(level, remaining);
+            crafted += made;
+            remaining -= made;
+            if (remaining <= 0) {
+                break;
+            }
+        }
+        return crafted;
+    }
+
     @Override
     public Component getDisplayName() {
         return Component.translatable("container.billtech.item_controller");

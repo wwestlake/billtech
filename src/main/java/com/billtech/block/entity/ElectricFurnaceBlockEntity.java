@@ -38,7 +38,7 @@ public class ElectricFurnaceBlockEntity extends BlockEntity implements WorldlyCo
     private static final int SLOT_OUTPUT = 1;
     private static final int[] SLOTS_INPUT = new int[]{SLOT_INPUT};
     private static final int[] SLOTS_OUTPUT = new int[]{SLOT_OUTPUT};
-    private static final boolean DEBUG_STATUS = true;
+    private static final boolean DEBUG_STATUS = false;
 
     private final long energyCapacity;
     private final long energyPerTick;
@@ -166,9 +166,6 @@ public class ElectricFurnaceBlockEntity extends BlockEntity implements WorldlyCo
                 .getRecipeFor(RecipeType.SMELTING, new SingleRecipeInput(input), level)
                 .orElse(null);
         if (recipe == null) {
-            if (DEBUG_STATUS) {
-                System.out.println("[BillTech] Furnace idle: no smelting recipe.");
-            }
             cookTime = 0;
             return;
         }

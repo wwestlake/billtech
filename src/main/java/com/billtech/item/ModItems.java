@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 public class ModItems {
     public static final Item BILLTECH_BUCKET = registerBucket("billtech_bucket");
     public static final Item PLASTIC_SHEET = registerSimpleItem("plastic_sheet");
+    public static final Item RECIPE_CARD = registerSimpleItem("recipe_card");
     public static final Item UPGRADE_BASE = registerSimpleItem("upgrade_base");
     public static final Item STEEL_INGOT = registerSimpleItem("steel_ingot");
     public static final Item SILICA_POWDER = registerSimpleItem("silica_powder");

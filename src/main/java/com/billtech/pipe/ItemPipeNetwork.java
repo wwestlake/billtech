@@ -1,7 +1,9 @@
 package com.billtech.pipe;
 
+import com.billtech.block.AutoCrafterBlock;
 import com.billtech.block.ItemControllerBlock;
 import com.billtech.block.ItemPipeBlock;
+import com.billtech.block.entity.AutoCrafterBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -15,20 +17,46 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
+import java.util.WeakHashMap;
 
 public final class ItemPipeNetwork {
+    private static final Map<Level, NetworkCache> CACHES = new WeakHashMap<>();
+
     private ItemPipeNetwork() {
     }
 
     public static void tick(Level level, BlockPos origin) {
         scanNetwork(level, origin);
+    }
+
+    public static List<AutoCrafterBlockEntity> findAutocrafters(Level level, BlockPos origin) {
+        NetworkScan scan = scanNetwork(level, origin);
+        if (scan == null) {
+            return java.util.Collections.emptyList();
+        }
+        Set<BlockPos> seen = new HashSet<>();
+        List<AutoCrafterBlockEntity> found = new ArrayList<>();
+        for (BlockPos pipePos : scan.pipes) {
+            for (Direction dir : Direction.values()) {
+                BlockPos neighbor = pipePos.relative(dir);
+                if (!seen.add(neighbor)) {
+                    continue;
+                }
+                if (level.getBlockEntity(neighbor) instanceof AutoCrafterBlockEntity crafter) {
+                    found.add(crafter);
+                }
+            }
+        }
+        return found;
     }
 
     public static List<ItemEntry> collectItems(Level level, BlockPos origin) {
@@ -164,8 +192,21 @@ public final class ItemPipeNetwork {
     }
 
     private static NetworkScan scanNetwork(Level level, BlockPos origin) {
+        if (level == null) {
+            return null;
+        }
+        NetworkCache cache = CACHES.computeIfAbsent(level, ignored -> new NetworkCache());
+        long tick = level.getGameTime();
+        if (cache.tick != tick) {
+            cache.tick = tick;
+            cache.byPos.clear();
+        }
+        NetworkScan cached = cache.byPos.get(origin);
+        if (cached != null) {
+            return cached;
+        }
         BlockState originState = level.getBlockState(origin);
-        if (!isPipeLike(originState) && !(originState.getBlock() instanceof ItemControllerBlock)) {
+        if (!isPipeLike(originState) && !isNetworkController(originState)) {
             return null;
         }
         Set<BlockPos> pipes = new HashSet<>();
@@ -197,7 +238,8 @@ public final class ItemPipeNetwork {
                 }
             }
         }
-        Map<BlockPos, Endpoint> endpointMap = new HashMap<>();
+        Map<EndpointKey, Endpoint> endpointMap = new HashMap<>();
+        Set<Storage<ItemVariant>> seenStorages = Collections.newSetFromMap(new IdentityHashMap<>());
         for (BlockPos pipePos : pipes) {
             for (Direction dir : Direction.values()) {
                 BlockPos neighbor = pipePos.relative(dir);
@@ -206,16 +248,32 @@ public final class ItemPipeNetwork {
                 }
                 Storage<ItemVariant> storage = ItemStorage.SIDED.find(level, neighbor, dir.getOpposite());
                 if (storage == null) {
+                    storage = ItemStorage.SIDED.find(level, neighbor, dir);
+                }
+                if (storage == null) {
                     continue;
                 }
-                endpointMap.putIfAbsent(neighbor, new Endpoint(pipePos, neighbor, dir, storage));
+                if (!seenStorages.add(storage)) {
+                    continue;
+                }
+                endpointMap.putIfAbsent(new EndpointKey(neighbor, dir), new Endpoint(pipePos, neighbor, dir, storage));
             }
         }
-        return new NetworkScan(level, pipes, new ArrayList<>(endpointMap.values()));
+        NetworkScan scan = new NetworkScan(level, pipes, new ArrayList<>(endpointMap.values()));
+        cache.byPos.put(origin, scan);
+        for (BlockPos pipePos : pipes) {
+            cache.byPos.put(pipePos, scan);
+        }
+        return scan;
     }
 
     private static boolean isPipeLike(BlockState state) {
         return state.getBlock() instanceof ItemPipeBlock;
+    }
+
+    private static boolean isNetworkController(BlockState state) {
+        return state.getBlock() instanceof ItemControllerBlock
+                || state.getBlock() instanceof AutoCrafterBlock;
     }
 
     public record ItemEntry(ItemVariant variant, long amount) {
@@ -230,10 +288,22 @@ public final class ItemPipeNetwork {
         }
     }
 
+    private record EndpointKey(BlockPos neighborPos, Direction dir) {
+        EndpointKey {
+            Objects.requireNonNull(neighborPos, "neighborPos");
+            Objects.requireNonNull(dir, "dir");
+        }
+    }
+
     private record NetworkScan(
             Level level,
             Set<BlockPos> pipes,
             List<Endpoint> endpoints
     ) {
+    }
+
+    private static final class NetworkCache {
+        private long tick = -1;
+        private final Map<BlockPos, NetworkScan> byPos = new HashMap<>();
     }
 }

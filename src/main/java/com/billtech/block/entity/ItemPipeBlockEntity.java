@@ -38,7 +38,6 @@ public class ItemPipeBlockEntity extends BlockEntity implements CoverProvider {
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, ItemPipeBlockEntity be) {
-        ItemPipeNetwork.tick(level, pos);
         be.refreshCache(level);
     }
 

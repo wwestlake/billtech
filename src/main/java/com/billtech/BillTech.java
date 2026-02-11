@@ -10,6 +10,7 @@ import com.billtech.item.ModItemGroups;
 import com.billtech.menu.ModMenus;
 import com.billtech.menu.ItemControllerMenu;
 import com.billtech.network.ItemControllerSearchPayload;
+import com.billtech.network.ItemControllerCraftPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.api.ModInitializer;
@@ -51,11 +52,20 @@ public class BillTech implements ModInitializer {
 
 	private void registerNetworking() {
 		PayloadTypeRegistry.playC2S().register(ItemControllerSearchPayload.TYPE, ItemControllerSearchPayload.STREAM_CODEC);
+		PayloadTypeRegistry.playC2S().register(ItemControllerCraftPayload.TYPE, ItemControllerCraftPayload.STREAM_CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(
 				ItemControllerSearchPayload.TYPE,
 				(payload, context) -> context.player().server.execute(() -> {
 					if (context.player().containerMenu instanceof ItemControllerMenu menu) {
 						menu.setSearchText(payload.query());
+					}
+				})
+		);
+		ServerPlayNetworking.registerGlobalReceiver(
+				ItemControllerCraftPayload.TYPE,
+				(payload, context) -> context.player().server.execute(() -> {
+					if (context.player().containerMenu instanceof ItemControllerMenu menu) {
+						menu.requestCraft(payload.stack(), payload.amount());
 					}
 				})
 		);

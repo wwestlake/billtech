@@ -57,6 +57,14 @@ dependencies {
 
 }
 
+tasks.withType(ProcessResources).configureEach {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.withType(Jar).configureEach {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 processResources {
 	inputs.property "version", project.version
 

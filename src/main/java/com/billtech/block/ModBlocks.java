@@ -130,6 +130,14 @@ public final class ModBlocks {
             "item_controller",
             props -> new ItemControllerBlock(props.strength(2.0f))
     );
+    public static final Block RECIPE_ENCODER = registerBlock(
+            "recipe_encoder",
+            props -> new RecipeEncoderBlock(props.strength(2.0f))
+    );
+    public static final Block AUTO_CRAFTER = registerBlock(
+            "auto_crafter",
+            props -> new AutoCrafterBlock(props.strength(2.0f))
+    );
 
     private ModBlocks() {
     }

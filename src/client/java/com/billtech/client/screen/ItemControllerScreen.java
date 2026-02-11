@@ -7,15 +7,19 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemControllerScreen extends AbstractContainerScreen<ItemControllerMenu> {
     private static final int SLOT_BORDER = 0xFF141414;
     private static final int SLOT_OUTER = 0xFF3A3A3A;
     private static final int SLOT_INNER = 0xFF1E1E1E;
+    private static final int DISPLAY_SIZE = 45;
     private EditBox searchBox;
+    private EditBox craftAmountBox;
+    private Button craftButton;
+    private Button craftMaxButton;
 
     public ItemControllerScreen(ItemControllerMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -46,10 +50,54 @@ public class ItemControllerScreen extends AbstractContainerScreen<ItemController
                 minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 1);
             }
         }).bounds(leftPos + 152, buttonY, 18, 12).build());
+
+        int craftY = topPos + 124;
+        craftAmountBox = new EditBox(font, leftPos + 8, craftY, 40, 12, Component.literal("Qty"));
+        craftAmountBox.setValue("1");
+        addRenderableWidget(craftAmountBox);
+        craftButton = Button.builder(Component.literal("Craft"), btn -> sendCraft(false))
+                .bounds(leftPos + 52, craftY, 46, 12)
+                .build();
+        craftMaxButton = Button.builder(Component.literal("Max"), btn -> sendCraft(true))
+                .bounds(leftPos + 102, craftY, 32, 12)
+                .build();
+        addRenderableWidget(craftButton);
+        addRenderableWidget(craftMaxButton);
     }
 
     private void onSearchChanged(String text) {
         ClientPlayNetworking.send(new ItemControllerSearchPayload(text));
+    }
+
+    private void sendCraft(boolean max) {
+        ItemStack target = findFirstDisplayStack();
+        if (target.isEmpty()) {
+            return;
+        }
+        int amount = max ? Integer.MAX_VALUE : parseCraftAmount();
+        if (amount <= 0) {
+            return;
+        }
+        ClientPlayNetworking.send(new com.billtech.network.ItemControllerCraftPayload(target.copyWithCount(1), amount));
+    }
+
+    private ItemStack findFirstDisplayStack() {
+        for (int i = 0; i < DISPLAY_SIZE; i++) {
+            ItemStack stack = menu.getDisplayStack(i);
+            if (!stack.isEmpty()) {
+                return stack;
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    private int parseCraftAmount() {
+        try {
+            int value = Integer.parseInt(craftAmountBox.getValue().trim());
+            return Math.max(1, value);
+        } catch (NumberFormatException ex) {
+            return 1;
+        }
     }
 
     @Override
@@ -77,5 +125,6 @@ public class ItemControllerScreen extends AbstractContainerScreen<ItemController
     @Override
     protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
         graphics.drawString(font, title, titleLabelX, titleLabelY, 0xFFFFFF, false);
+        graphics.drawString(font, "Craft (first result):", 8, 112, 0xA0A0A0, false);
     }
 }

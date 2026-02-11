@@ -102,6 +102,20 @@ public class ItemControllerMenu extends AbstractContainerMenu {
         return Math.max(1, pageCountSlot.get());
     }
 
+    public ItemStack getDisplayStack(int slot) {
+        if (slot < 0 || slot >= DISPLAY_SIZE) {
+            return ItemStack.EMPTY;
+        }
+        return displayContainer.getItem(slot);
+    }
+
+    public void requestCraft(ItemStack stack, int amount) {
+        if (controller == null || controller.getLevel() == null || amount <= 0 || stack.isEmpty()) {
+            return;
+        }
+        controller.requestCraft(controller.getLevel(), ItemVariant.of(stack), amount);
+    }
+
     @Override
     public void broadcastChanges() {
         super.broadcastChanges();

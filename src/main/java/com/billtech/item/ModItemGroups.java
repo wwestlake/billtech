@@ -46,10 +46,13 @@ public final class ModItemGroups {
                         entries.accept(ModBlocks.METHANE_TANK);
                         entries.accept(ModBlocks.METHANE_GENERATOR);
                         entries.accept(ModBlocks.ITEM_CONTROLLER);
+                        entries.accept(ModBlocks.RECIPE_ENCODER);
+                        entries.accept(ModBlocks.AUTO_CRAFTER);
                         entries.accept(ModBlocks.TANK_BLOCK);
                         entries.accept(ModBlocks.TANK_CONTROLLER);
                         entries.accept(ModItems.BILLTECH_BUCKET);
                         entries.accept(ModItems.PLASTIC_SHEET);
+                        entries.accept(ModItems.RECIPE_CARD);
                         entries.accept(ModFluids.SLUDGE_BUCKET);
                         entries.accept(ModFluids.CRUDE_OIL_BUCKET);
                         entries.accept(ModFluids.LIGHT_FUEL_BUCKET);
