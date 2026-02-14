@@ -23,6 +23,7 @@
   "block.billtech.oil_extractor": "Oil Extractor",
   "block.billtech.reactor": "Reactor",
   "block.billtech.distiller": "Distiller",
+  "block.billtech.stripe_bench": "Stripe Bench",
   "block.billtech.paper_press": "Paper Press",
   "block.billtech.grinder": "Grinder",
   "block.billtech.separator": "Separator",
@@ -45,6 +46,7 @@
   "container.billtech.item_controller": "Item Controller",
   "container.billtech.recipe_encoder": "Recipe Encoder",
   "container.billtech.auto_crafter": "Auto Crafter",
+  "container.billtech.stripe_bench": "Stripe Bench",
   "container.billtech.upgrades": "Upgrades",
   "container.billtech.regulator": "Regulator",
 
@@ -54,6 +56,7 @@
   "item.billtech.storage_upgrade": "Storage Upgrade",
   "item.billtech.plastic_sheet": "Plastic Sheet",
   "item.billtech.recipe_card": "Recipe Card",
+  "item.billtech.stripe_applicator": "Stripe Applicator",
   "item.billtech.upgrade_base": "Upgrade Base",
   "item.billtech.steel_ingot": "Steel Ingot",
   "item.billtech.silica_powder": "Silica Powder",
@@ -83,6 +86,9 @@
   "item.billtech.heavy_fuel_bucket": "Heavy Fuel Bucket",
   "item.billtech.methane_bucket": "Methane Bucket",
   "item.billtech.pipe_cover": "Pipe Cover",
+  "item.billtech.stripe_applicator.tip.apply": "Use on stripe-capable pipes/cables to apply up to 3 dyes.",
+  "item.billtech.stripe_applicator.tip.clear": "Sneak + use on a pipe to clear stripes.",
+  "item.billtech.stripe_applicator.tip.dyes": "Consumes dyes from your inventory (Creative: free).",
   "gui.billtech.search": "Search",
 
   "advancement.billtech.root.title": "BillTech",

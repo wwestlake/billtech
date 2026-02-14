@@ -10,6 +10,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import com.billtech.block.StripeBenchBlock;
 
 import java.util.function.Function;
 
@@ -137,6 +138,10 @@ public final class ModBlocks {
     public static final Block AUTO_CRAFTER = registerBlock(
             "auto_crafter",
             props -> new AutoCrafterBlock(props.strength(2.0f))
+    );
+    public static final Block STRIPE_BENCH = registerBlock(
+            "stripe_bench",
+            props -> new StripeBenchBlock(props.strength(2.0f))
     );
 
     private ModBlocks() {

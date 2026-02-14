@@ -29,6 +29,7 @@ import com.billtech.client.screen.UpgradeScreen;
 import com.billtech.client.screen.ItemControllerScreen;
 import com.billtech.client.screen.RecipeEncoderScreen;
 import com.billtech.client.screen.AutoCrafterScreen;
+import com.billtech.client.screen.StripeBenchScreen;
 import com.billtech.fluid.ModFluids;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
@@ -63,6 +64,7 @@ public class BillTechClient implements ClientModInitializer {
 		MenuScreens.register(ModMenus.ITEM_CONTROLLER, ItemControllerScreen::new);
 		MenuScreens.register(ModMenus.RECIPE_ENCODER, RecipeEncoderScreen::new);
 		MenuScreens.register(ModMenus.AUTO_CRAFTER, AutoCrafterScreen::new);
+		MenuScreens.register(ModMenus.STRIPE_BENCH, StripeBenchScreen::new);
 		registerFluidRenders();
 		BlockEntityRendererRegistry.register(ModBlockEntities.TANK_BLOCK, TankBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(ModBlockEntities.FLOW_METER, FlowMeterBlockEntityRenderer::new);

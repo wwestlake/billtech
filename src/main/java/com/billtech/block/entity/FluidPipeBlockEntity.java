@@ -3,6 +3,9 @@ package com.billtech.block.entity;
 import com.billtech.block.ModBlockEntities;
 import com.billtech.cover.CoverProvider;
 import com.billtech.cover.CoverStorage;
+import com.billtech.stripe.StripeCarrier;
+import com.billtech.stripe.StripeData;
+import com.billtech.stripe.StripeUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
@@ -17,11 +20,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import com.billtech.pipe.FluidPipeNetwork;
 
-public class FluidPipeBlockEntity extends BlockEntity implements CoverProvider {
+public class FluidPipeBlockEntity extends BlockEntity implements CoverProvider, StripeCarrier {
     private final PipeStorage[] storages = new PipeStorage[Direction.values().length + 1];
     private final net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount<FluidVariant>[] cachedExtractableBySide =
             new net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount[Direction.values().length + 1];
     private final CoverStorage covers = new CoverStorage();
+    private StripeData stripes = StripeData.EMPTY;
 
     public FluidPipeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.FLUID_PIPE, pos, state);
@@ -68,12 +72,14 @@ public class FluidPipeBlockEntity extends BlockEntity implements CoverProvider {
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
         covers.save(tag);
+        stripes.save(tag);
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
         covers.load(tag);
+        stripes = StripeData.load(tag);
     }
 
     @Override
@@ -86,6 +92,24 @@ public class FluidPipeBlockEntity extends BlockEntity implements CoverProvider {
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public StripeData getStripeData() {
+        return stripes;
+    }
+
+    @Override
+    public void setStripeData(StripeData data) {
+        StripeData next = data == null ? StripeData.EMPTY : data;
+        if (stripes.signature() == next.signature()) {
+            return;
+        }
+        stripes = next;
+        setChanged();
+        if (level != null) {
+            StripeUtil.notifyStripeChanged(level, worldPosition);
+        }
     }
 
     private void refreshCache(Level level) {

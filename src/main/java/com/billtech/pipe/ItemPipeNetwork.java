@@ -4,6 +4,7 @@ import com.billtech.block.AutoCrafterBlock;
 import com.billtech.block.ItemControllerBlock;
 import com.billtech.block.ItemPipeBlock;
 import com.billtech.block.entity.AutoCrafterBlockEntity;
+import com.billtech.stripe.StripeUtil;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -32,6 +33,10 @@ public final class ItemPipeNetwork {
     private static final Map<Level, NetworkCache> CACHES = new WeakHashMap<>();
 
     private ItemPipeNetwork() {
+    }
+
+    public static void invalidate(Level level) {
+        CACHES.remove(level);
     }
 
     public static void tick(Level level, BlockPos origin) {
@@ -232,7 +237,7 @@ public final class ItemPipeNetwork {
                     continue;
                 }
                 BlockState nextState = level.getBlockState(next);
-                if (isPipeLike(nextState)) {
+                if (isPipeLike(nextState) && stripesMatch(level, pos, next)) {
                     pipes.add(next);
                     queue.add(next);
                 }
@@ -269,6 +274,10 @@ public final class ItemPipeNetwork {
 
     private static boolean isPipeLike(BlockState state) {
         return state.getBlock() instanceof ItemPipeBlock;
+    }
+
+    private static boolean stripesMatch(Level level, BlockPos a, BlockPos b) {
+        return StripeUtil.canConnect(level, a, b);
     }
 
     private static boolean isNetworkController(BlockState state) {

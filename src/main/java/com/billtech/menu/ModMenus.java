@@ -100,6 +100,11 @@ public final class ModMenus {
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "auto_crafter"),
             new MenuType<>(AutoCrafterMenu::new, FeatureFlags.VANILLA_SET)
     );
+    public static final MenuType<StripeBenchMenu> STRIPE_BENCH = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "stripe_bench"),
+            new MenuType<>(StripeBenchMenu::new, FeatureFlags.VANILLA_SET)
+    );
 
     private ModMenus() {
     }

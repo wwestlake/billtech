@@ -1,6 +1,7 @@
 package com.billtech.energy;
 
 import com.billtech.block.EnergyCableBlock;
+import com.billtech.stripe.StripeUtil;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -122,7 +123,8 @@ public final class EnergyCableNetwork {
                     continue;
                 }
                 BlockState nextState = level.getBlockState(next);
-                if (nextState.getBlock() instanceof EnergyCableBlock) {
+                if (nextState.getBlock() instanceof EnergyCableBlock
+                        && StripeUtil.canConnect(level, pos, next)) {
                     pipes.add(next);
                     queue.add(next);
                 }

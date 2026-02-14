@@ -40,6 +40,7 @@ public final class ModItemGroups {
                         entries.accept(ModBlocks.CRACKING_TOWER_CONTROLLER);
                         entries.accept(ModBlocks.CRACKING_TOWER);
                         entries.accept(ModBlocks.PAPER_PRESS);
+                        entries.accept(ModBlocks.STRIPE_BENCH);
                         entries.accept(ModBlocks.GRINDER);
                         entries.accept(ModBlocks.SEPARATOR);
                         entries.accept(ModBlocks.METHANE_COLLECTOR);
@@ -77,6 +78,7 @@ public final class ModItemGroups {
                         entries.accept(ModItems.SULFUR_POWDER);
                         entries.accept(ModItems.SLAG);
                         entries.accept(ModItems.PIPE_COVER);
+                        entries.accept(ModItems.STRIPE_APPLICATOR);
                         entries.accept(ModItems.PHOSPHORUS_POWDER);
                         entries.accept(ModItems.SPEED_UPGRADE);
                         entries.accept(ModItems.POWER_UPGRADE);

@@ -3,6 +3,9 @@ package com.billtech.block;
 import com.billtech.block.entity.EnergyCableBlockEntity;
 import com.billtech.cover.CoverInteraction;
 import com.billtech.cover.CoverProvider;
+import com.billtech.stripe.StripeCarrier;
+import com.billtech.stripe.StripeItemData;
+import com.billtech.stripe.StripeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -80,6 +83,18 @@ public class EnergyCableBlock extends Block implements EntityBlock {
     @Override
     public BlockState getStateForPlacement(net.minecraft.world.item.context.BlockPlaceContext context) {
         return updateConnections(context.getLevel(), context.getClickedPos(), this.defaultBlockState());
+    }
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (level.isClientSide) {
+            return;
+        }
+        BlockEntity be = level.getBlockEntity(pos);
+        if (be instanceof StripeCarrier carrier) {
+            carrier.setStripeData(StripeItemData.read(stack));
+        }
     }
 
     @Override
@@ -174,7 +189,7 @@ public class EnergyCableBlock extends Block implements EntityBlock {
         return shape;
     }
 
-    private BlockState updateConnections(LevelReader level, BlockPos pos, BlockState state) {
+    public BlockState updateConnections(LevelReader level, BlockPos pos, BlockState state) {
         return state
                 .setValue(NORTH, connectionType(level, pos, Direction.NORTH))
                 .setValue(SOUTH, connectionType(level, pos, Direction.SOUTH))
@@ -188,7 +203,7 @@ public class EnergyCableBlock extends Block implements EntityBlock {
         BlockPos neighborPos = pos.relative(dir);
         BlockState neighborState = level.getBlockState(neighborPos);
         if (neighborState.getBlock() instanceof EnergyCableBlock) {
-            return ConnectionType.PIPE;
+            return StripeUtil.canConnect(level, pos, neighborPos) ? ConnectionType.PIPE : ConnectionType.NONE;
         }
         if (level instanceof Level world) {
             team.reborn.energy.api.EnergyStorage storage =

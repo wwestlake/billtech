@@ -1,0 +1,4 @@
+﻿{
+  "parent": "minecraft:item/handheld",
+  "textures": {"layer0": "billtech:item/stripe_applicator"}
+}

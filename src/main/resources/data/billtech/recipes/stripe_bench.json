@@ -1,0 +1,10 @@
+﻿{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["PIP","IRI","PIP"],
+  "key": {
+    "P": {"item": "billtech:plastic_sheet"},
+    "I": {"item": "minecraft:iron_ingot"},
+    "R": {"item": "minecraft:redstone"}
+  },
+  "result": {"item": "billtech:stripe_bench"}
+}

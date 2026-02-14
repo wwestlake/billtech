@@ -23,6 +23,7 @@ import com.billtech.block.entity.CrackingTowerControllerBlockEntity;
 import com.billtech.block.entity.PaperPressBlockEntity;
 import com.billtech.block.entity.SeparatorBlockEntity;
 import com.billtech.block.entity.RegulatorBlockEntity;
+import com.billtech.block.entity.StripeBenchBlockEntity;
 import com.billtech.block.entity.TankBlockEntity;
 import com.billtech.block.entity.TankControllerBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
@@ -177,6 +178,14 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(
                     SeparatorBlockEntity::new,
                     ModBlocks.SEPARATOR
+            ).build()
+    );
+    public static final BlockEntityType<StripeBenchBlockEntity> STRIPE_BENCH = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "stripe_bench"),
+            FabricBlockEntityTypeBuilder.create(
+                    StripeBenchBlockEntity::new,
+                    ModBlocks.STRIPE_BENCH
             ).build()
     );
     public static final BlockEntityType<MethaneCollectorBlockEntity> METHANE_COLLECTOR = Registry.register(

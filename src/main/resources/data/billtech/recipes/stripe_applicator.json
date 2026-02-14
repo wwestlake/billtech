@@ -1,0 +1,10 @@
+﻿{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {"item": "minecraft:brush"},
+    {"item": "minecraft:iron_nugget"},
+    {"item": "minecraft:redstone"},
+    {"tag": "minecraft:dyes"}
+  ],
+  "result": {"item": "billtech:stripe_applicator"}
+}

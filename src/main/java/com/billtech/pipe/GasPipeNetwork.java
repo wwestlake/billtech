@@ -9,6 +9,7 @@ import com.billtech.block.ValveBlock;
 import com.billtech.block.entity.FlowMeterBlockEntity;
 import com.billtech.block.entity.MethaneTankBlockEntity;
 import com.billtech.fluid.ModFluids;
+import com.billtech.stripe.StripeUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -289,6 +290,9 @@ public final class GasPipeNetwork {
         if (!isPipeLike(fromState) || !isPipeLike(toState)) {
             return false;
         }
+        if (!StripeUtil.canConnect(level, from, to)) {
+            return false;
+        }
         if (fromState.getBlock() instanceof CheckValveBlock) {
             Direction facing = fromState.getValue(CheckValveBlock.FACING);
             Direction output = facing.getClockWise();
@@ -355,7 +359,7 @@ public final class GasPipeNetwork {
                     continue;
                 }
                 BlockState nextState = level.getBlockState(next);
-                if (isPipeLike(nextState)) {
+                if (isPipeLike(nextState) && StripeUtil.canConnect(level, pos, next)) {
                     pipes.add(next);
                     queue.add(next);
                 }
