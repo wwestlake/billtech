@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "billtech:item/item_pipe"
-  }
+  "parent": "billtech:block/item_pipe_item"
 }

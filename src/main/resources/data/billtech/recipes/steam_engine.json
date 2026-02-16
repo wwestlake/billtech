@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SPS",
+    "STS",
+    "SCS"
+  ],
+  "key": {
+    "S": { "item": "billtech:steel_ingot" },
+    "P": { "item": "billtech:fluid_pipe" },
+    "T": { "item": "billtech:tank_block" },
+    "C": { "item": "billtech:insulated_copper_cable" }
+  },
+  "result": {
+    "id": "billtech:steam_engine"
+  }
+}

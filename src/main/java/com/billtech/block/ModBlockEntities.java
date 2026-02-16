@@ -10,6 +10,9 @@ import com.billtech.block.entity.ItemPipeBlockEntity;
 import com.billtech.block.entity.MethaneCollectorBlockEntity;
 import com.billtech.block.entity.MethaneGeneratorBlockEntity;
 import com.billtech.block.entity.MethaneTankBlockEntity;
+import com.billtech.block.entity.SteamBoilerBlockEntity;
+import com.billtech.block.entity.SteamEngineBlockEntity;
+import com.billtech.block.entity.SteamGeneratorBlockEntity;
 import com.billtech.block.entity.ItemControllerBlockEntity;
 import com.billtech.block.entity.AutoCrafterBlockEntity;
 import com.billtech.block.entity.RecipeEncoderBlockEntity;
@@ -39,8 +42,7 @@ public final class ModBlockEntities {
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "fluid_pipe"),
             FabricBlockEntityTypeBuilder.create(
                     FluidPipeBlockEntity::new,
-                    ModBlocks.FLUID_PIPE,
-                    ModBlocks.COPPER_WATER_PIPE
+                    ModBlocks.FLUID_PIPE
             ).build()
     );
     public static final BlockEntityType<GasPipeBlockEntity> GAS_PIPE = Registry.register(
@@ -212,6 +214,30 @@ public final class ModBlockEntities {
                     ModBlocks.METHANE_TANK
             ).build()
     );
+    public static final BlockEntityType<SteamBoilerBlockEntity> STEAM_BOILER = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "steam_boiler"),
+            FabricBlockEntityTypeBuilder.create(
+                    SteamBoilerBlockEntity::new,
+                    ModBlocks.STEAM_BOILER
+            ).build()
+    );
+    public static final BlockEntityType<SteamEngineBlockEntity> STEAM_ENGINE = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "steam_engine"),
+            FabricBlockEntityTypeBuilder.create(
+                    SteamEngineBlockEntity::new,
+                    ModBlocks.STEAM_ENGINE
+            ).build()
+    );
+    public static final BlockEntityType<SteamGeneratorBlockEntity> STEAM_GENERATOR = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "steam_generator"),
+            FabricBlockEntityTypeBuilder.create(
+                    SteamGeneratorBlockEntity::new,
+                    ModBlocks.STEAM_GENERATOR
+            ).build()
+    );
     public static final BlockEntityType<ItemControllerBlockEntity> ITEM_CONTROLLER = Registry.register(
             BuiltInRegistries.BLOCK_ENTITY_TYPE,
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "item_controller"),
@@ -257,6 +283,9 @@ public final class ModBlockEntities {
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), METHANE_COLLECTOR);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), METHANE_GENERATOR);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getStorage(), METHANE_TANK);
+        FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), STEAM_BOILER);
+        FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), STEAM_ENGINE);
+        FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), STEAM_GENERATOR);
         team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
                 (be, direction) -> be.getEnergyStorage(direction),
                 BASIC_COMBUSTION_GENERATOR
@@ -296,6 +325,18 @@ public final class ModBlockEntities {
         team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
                 (be, direction) -> be.getEnergyStorage(direction),
                 METHANE_GENERATOR
+        );
+        team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
+                (be, direction) -> be.getEnergyStorage(direction),
+                STEAM_BOILER
+        );
+        team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
+                (be, direction) -> be.getEnergyStorage(direction),
+                STEAM_ENGINE
+        );
+        team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
+                (be, direction) -> be.getEnergyStorage(direction),
+                STEAM_GENERATOR
         );
     }
 }

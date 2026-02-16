@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "billtech:block/steam_boiler" },
+    "facing=south": { "model": "billtech:block/steam_boiler", "y": 180 },
+    "facing=west": { "model": "billtech:block/steam_boiler", "y": 270 },
+    "facing=east": { "model": "billtech:block/steam_boiler", "y": 90 }
+  }
+}

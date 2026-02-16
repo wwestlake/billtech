@@ -85,6 +85,21 @@ public final class ModMenus {
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "methane_tank"),
             new MenuType<>(MethaneTankMenu::new, FeatureFlags.VANILLA_SET)
     );
+    public static final MenuType<SteamBoilerMenu> STEAM_BOILER = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "steam_boiler"),
+            new MenuType<>(SteamBoilerMenu::new, FeatureFlags.VANILLA_SET)
+    );
+    public static final MenuType<SteamEngineMenu> STEAM_ENGINE = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "steam_engine"),
+            new MenuType<>(SteamEngineMenu::new, FeatureFlags.VANILLA_SET)
+    );
+    public static final MenuType<SteamGeneratorMenu> STEAM_GENERATOR = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "steam_generator"),
+            new MenuType<>(SteamGeneratorMenu::new, FeatureFlags.VANILLA_SET)
+    );
     public static final MenuType<ItemControllerMenu> ITEM_CONTROLLER = Registry.register(
             BuiltInRegistries.MENU,
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "item_controller"),

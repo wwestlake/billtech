@@ -1,0 +1,133 @@
+{
+  "parent": "billtech:root",
+  "display": {
+    "icon": {
+      "id": "billtech:basic_combustion_generator",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancement.billtech.tier1_complete.title"
+    },
+    "description": {
+      "translate": "advancement.billtech.tier1_complete.description"
+    },
+    "x": 6.0,
+    "y": 0.0,
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "place_generator": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:basic_combustion_generator"
+      }
+    },
+    "place_furnace": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:electric_furnace"
+      }
+    },
+    "place_pump": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:pump"
+      }
+    },
+    "place_valve": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:valve"
+      }
+    },
+    "place_flow_meter": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:flow_meter"
+      }
+    },
+    "place_regulator": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:regulator"
+      }
+    },
+    "place_tank_controller": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:tank_controller"
+      }
+    },
+    "place_tank_block": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:tank_block"
+      }
+    },
+    "place_fluid_pipe": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:fluid_pipe"
+      }
+    },
+    "place_item_pipe": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:item_pipe"
+      }
+    },
+    "place_grinder": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:grinder"
+      }
+    },
+    "place_separator": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:separator"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place_generator"
+    ],
+    [
+      "place_furnace"
+    ],
+    [
+      "place_pump"
+    ],
+    [
+      "place_valve"
+    ],
+    [
+      "place_flow_meter"
+    ],
+    [
+      "place_regulator"
+    ],
+    [
+      "place_tank_controller"
+    ],
+    [
+      "place_tank_block"
+    ],
+    [
+      "place_fluid_pipe"
+    ],
+    [
+      "place_item_pipe"
+    ],
+    [
+      "place_grinder"
+    ],
+    [
+      "place_separator"
+    ]
+  ]
+}

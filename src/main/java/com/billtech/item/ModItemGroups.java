@@ -21,7 +21,6 @@ public final class ModItemGroups {
                     .icon(() -> new ItemStack(ModBlocks.PUMP))
                     .displayItems((ctx, entries) -> {
                         entries.accept(ModBlocks.FLUID_PIPE);
-                        entries.accept(ModBlocks.COPPER_WATER_PIPE);
                         entries.accept(ModBlocks.GAS_PIPE);
                         entries.accept(ModBlocks.ITEM_PIPE);
                         entries.accept(ModBlocks.PUMP);
@@ -46,6 +45,9 @@ public final class ModItemGroups {
                         entries.accept(ModBlocks.METHANE_COLLECTOR);
                         entries.accept(ModBlocks.METHANE_TANK);
                         entries.accept(ModBlocks.METHANE_GENERATOR);
+                        entries.accept(ModBlocks.STEAM_BOILER);
+                        entries.accept(ModBlocks.STEAM_ENGINE);
+                        entries.accept(ModBlocks.STEAM_GENERATOR);
                         entries.accept(ModBlocks.ITEM_CONTROLLER);
                         entries.accept(ModBlocks.RECIPE_ENCODER);
                         entries.accept(ModBlocks.AUTO_CRAFTER);
@@ -68,6 +70,7 @@ public final class ModItemGroups {
                         entries.accept(ModFluids.MEDIUM_FRACTION_BUCKET);
                         entries.accept(ModFluids.HEAVY_FRACTION_BUCKET);
                         entries.accept(ModFluids.RESIDUE_BUCKET);
+                        entries.accept(ModFluids.STEAM_BUCKET);
                         entries.accept(ModItems.SILICA_POWDER);
                         entries.accept(ModItems.LIME_POWDER);
                         entries.accept(ModItems.QUICKLIME);

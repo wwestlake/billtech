@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "particle": "minecraft:block/iron_block",
-    "pipe": "minecraft:block/iron_block"
+    "particle": "billtech:block/fluid_pipe",
+    "pipe": "billtech:block/fluid_pipe"
   },
   "elements": [
     {

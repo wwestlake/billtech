@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "level=0": { "model": "billtech:block/steam" },
+    "level=1": { "model": "billtech:block/steam" },
+    "level=2": { "model": "billtech:block/steam" },
+    "level=3": { "model": "billtech:block/steam" },
+    "level=4": { "model": "billtech:block/steam" },
+    "level=5": { "model": "billtech:block/steam" },
+    "level=6": { "model": "billtech:block/steam" },
+    "level=7": { "model": "billtech:block/steam" },
+    "level=8": { "model": "billtech:block/steam" },
+    "level=9": { "model": "billtech:block/steam" },
+    "level=10": { "model": "billtech:block/steam" },
+    "level=11": { "model": "billtech:block/steam" },
+    "level=12": { "model": "billtech:block/steam" },
+    "level=13": { "model": "billtech:block/steam" },
+    "level=14": { "model": "billtech:block/steam" },
+    "level=15": { "model": "billtech:block/steam" }
+  }
+}

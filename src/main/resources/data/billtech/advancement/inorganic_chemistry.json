@@ -1,0 +1,46 @@
+﻿{
+  "parent": "billtech:tier1_processing",
+  "display": {
+    "icon": {
+      "id": "billtech:silica_powder",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancement.billtech.inorganic_chemistry.title"
+    },
+    "description": {
+      "translate": "advancement.billtech.inorganic_chemistry.description"
+    },
+    "x": 8.0,
+    "y": -3.0,
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_powder": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "billtech:silica_powder",
+              "billtech:lime_powder",
+              "billtech:alumina_powder",
+              "billtech:iron_oxide_powder",
+              "billtech:sodium_salt",
+              "billtech:sulfur_powder",
+              "billtech:slag"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_powder"
+    ]
+  ]
+}

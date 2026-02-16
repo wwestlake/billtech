@@ -1,0 +1,43 @@
+{
+  "parent": "billtech:tier1_flow_control",
+  "display": {
+    "icon": {
+      "id": "billtech:pump",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancement.billtech.tier1_power_flow.title"
+    },
+    "description": {
+      "translate": "advancement.billtech.tier1_power_flow.description"
+    },
+    "x": 4.0,
+    "y": 3.0,
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "place_pump": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:pump"
+      }
+    },
+    "place_flow_meter": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:flow_meter"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place_pump"
+    ],
+    [
+      "place_flow_meter"
+    ]
+  ]
+}

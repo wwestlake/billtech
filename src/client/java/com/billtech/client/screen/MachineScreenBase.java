@@ -276,6 +276,10 @@ public abstract class MachineScreenBase<T extends MachineMenuBase> extends Abstr
         return true;
     }
 
+    protected boolean isStatusTabActive() {
+        return currentTab == Tab.STATUS;
+    }
+
     private void renderStatusLines(GuiGraphics graphics) {
         if (!menu.hasStatus()) {
             return;

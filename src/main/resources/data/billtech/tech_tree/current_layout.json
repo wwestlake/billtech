@@ -1,12 +1,16 @@
 {
   "version": 1,
-  "snapshot_date": "2026-02-13",
+  "snapshot_date": "2026-02-14",
   "tiers": [
     {"id": "t0", "name": "Tier 0 Foundations"},
     {"id": "t1", "name": "Tier 1 Core Industry"},
     {"id": "t1_5", "name": "Tier 1.5 Methane Branch"},
     {"id": "t2", "name": "Tier 2 Chemistry and Fractionation"},
-    {"id": "t2_plus", "name": "Tier 2+ Logistics and UX"}
+    {"id": "t2_plus", "name": "Tier 2+ Logistics and UX"},
+    {"id": "t3_power", "name": "Tier 3 Power Expansion"},
+    {"id": "t3_practical", "name": "Tier 3 Practical Gear"},
+    {"id": "t3_tunnel", "name": "Tier 3 Tunnel Boring"},
+    {"id": "t3_mad", "name": "Tier 3 Mad Scientist"}
   ],
   "nodes": [
     {"id": "steel_ingot", "title": "Steel Ingot", "type": "item", "tier": "t0", "icon": "billtech:steel_ingot"},
@@ -46,7 +50,32 @@
     {"id": "auto_crafter", "title": "Auto Crafter", "type": "block", "tier": "t2_plus", "icon": "billtech:auto_crafter"},
     {"id": "pipe_cover", "title": "Pipe Cover", "type": "item", "tier": "t2_plus", "icon": "billtech:pipe_cover", "wiki": "Pipe-Covers"},
     {"id": "stripe_bench", "title": "Stripe Bench", "type": "block", "tier": "t2_plus", "icon": "billtech:stripe_bench", "wiki": "Pipe-Striping"},
-    {"id": "stripe_applicator", "title": "Stripe Applicator", "type": "item", "tier": "t2_plus", "icon": "billtech:stripe_applicator", "wiki": "Pipe-Striping"}
+    {"id": "stripe_applicator", "title": "Stripe Applicator", "type": "item", "tier": "t2_plus", "icon": "billtech:stripe_applicator", "wiki": "Pipe-Striping"},
+
+    {"id": "diesel_generator_s", "title": "Diesel Generator S", "type": "block", "tier": "t3_power", "icon": "billtech:diesel_generator_s", "wiki": "Tier-3-Power-Expansion"},
+    {"id": "diesel_generator_m", "title": "Diesel Generator M", "type": "block", "tier": "t3_power", "icon": "billtech:diesel_generator_m", "wiki": "Tier-3-Power-Expansion"},
+    {"id": "diesel_generator_l", "title": "Diesel Generator L", "type": "block", "tier": "t3_power", "icon": "billtech:diesel_generator_l", "wiki": "Tier-3-Power-Expansion"},
+    {"id": "boiler_s", "title": "Boiler S", "type": "block", "tier": "t3_power", "icon": "billtech:boiler_s", "wiki": "Tier-3-Power-Expansion"},
+    {"id": "steam_turbine_s", "title": "Steam Turbine S", "type": "block", "tier": "t3_power", "icon": "billtech:steam_turbine_s", "wiki": "Tier-3-Power-Expansion"},
+    {"id": "battery_bank_s", "title": "Battery Bank S", "type": "block", "tier": "t3_power", "icon": "billtech:battery_bank_s", "wiki": "Tier-3-Power-Storage"},
+    {"id": "capacitor_bank_s", "title": "Capacitor Bank S", "type": "block", "tier": "t3_power", "icon": "billtech:capacitor_bank_s", "wiki": "Tier-3-Power-Storage"},
+
+    {"id": "modular_armor_frame", "title": "Modular Armor Frame", "type": "item", "tier": "t3_practical", "icon": "billtech:modular_armor_frame", "wiki": "Practical-Tier-3-Gear"},
+    {"id": "armor_addon_station", "title": "Armor Addon Station", "type": "block", "tier": "t3_practical", "icon": "billtech:armor_addon_station", "wiki": "Practical-Tier-3-Gear"},
+    {"id": "prospector_module", "title": "Prospector Module", "type": "item", "tier": "t3_practical", "icon": "billtech:prospector_module", "wiki": "Practical-Tier-3-Gear"},
+    {"id": "mining_module", "title": "Mining Module", "type": "item", "tier": "t3_practical", "icon": "billtech:mining_module", "wiki": "Practical-Tier-3-Gear"},
+    {"id": "farming_module", "title": "Farming Module", "type": "item", "tier": "t3_practical", "icon": "billtech:farming_module", "wiki": "Practical-Tier-3-Gear"},
+
+    {"id": "tunnel_bore_mite", "title": "The Mite (1x1 Bore)", "type": "block", "tier": "t3_tunnel", "icon": "billtech:tunnel_bore_mite", "wiki": "Tier-3-Tunnel-Boring"},
+    {"id": "tunnel_bore_2x2", "title": "Tunnel Bore 2x2", "type": "block", "tier": "t3_tunnel", "icon": "billtech:tunnel_bore_2x2", "wiki": "Tier-3-Tunnel-Boring"},
+    {"id": "tunnel_bore_3x3", "title": "Tunnel Bore 3x3", "type": "block", "tier": "t3_tunnel", "icon": "billtech:tunnel_bore_3x3", "wiki": "Tier-3-Tunnel-Boring"},
+    {"id": "tunnel_bore_4x4", "title": "Tunnel Bore 4x4", "type": "block", "tier": "t3_tunnel", "icon": "billtech:tunnel_bore_4x4", "wiki": "Tier-3-Tunnel-Boring"},
+    {"id": "tunnel_bore_5x5", "title": "Tunnel Bore 5x5", "type": "block", "tier": "t3_tunnel", "icon": "billtech:tunnel_bore_5x5", "wiki": "Tier-3-Tunnel-Boring"},
+
+    {"id": "essence_extractor", "title": "Essence Extractor", "type": "block", "tier": "t3_mad", "icon": "billtech:essence_extractor", "wiki": "Tier-3"},
+    {"id": "infusion_brewer", "title": "Infusion Brewer", "type": "block", "tier": "t3_mad", "icon": "billtech:infusion_brewer", "wiki": "Tier-3"},
+    {"id": "mob_essence", "title": "Mob Essence", "type": "fluid", "tier": "t3_mad", "icon": "billtech:mob_essence", "wiki": "Tier-3"},
+    {"id": "splash_potion_subjugation", "title": "Splash Potion of Subjugation", "type": "item", "tier": "t3_mad", "icon": "billtech:splash_potion_subjugation", "wiki": "Tier-3"}
   ],
   "edges": [
     {"from": "plastic_sheet", "to": "insulated_copper_cable"},
@@ -103,7 +132,45 @@
     {"from": "insulated_copper_cable", "to": "auto_crafter"},
     {"from": "steel_ingot", "to": "auto_crafter"},
     {"from": "plastic_sheet", "to": "pipe_cover"},
-    {"from": "plastic_sheet", "to": "stripe_bench"}
+    {"from": "plastic_sheet", "to": "stripe_bench"},
+
+    {"from": "distiller", "to": "diesel_generator_s"},
+    {"from": "cracking_tower_controller", "to": "diesel_generator_s"},
+    {"from": "diesel_generator_s", "to": "diesel_generator_m"},
+    {"from": "diesel_generator_m", "to": "diesel_generator_l"},
+    {"from": "distiller", "to": "boiler_s"},
+    {"from": "reactor", "to": "boiler_s"},
+    {"from": "boiler_s", "to": "steam_turbine_s"},
+    {"from": "diesel_generator_s", "to": "battery_bank_s"},
+    {"from": "steam_turbine_s", "to": "battery_bank_s"},
+    {"from": "diesel_generator_s", "to": "capacitor_bank_s"},
+    {"from": "steam_turbine_s", "to": "capacitor_bank_s"},
+
+    {"from": "reactor", "to": "modular_armor_frame"},
+    {"from": "separator", "to": "modular_armor_frame"},
+    {"from": "auto_crafter", "to": "armor_addon_station"},
+    {"from": "modular_armor_frame", "to": "armor_addon_station"},
+    {"from": "armor_addon_station", "to": "prospector_module"},
+    {"from": "armor_addon_station", "to": "mining_module"},
+    {"from": "armor_addon_station", "to": "farming_module"},
+    {"from": "reactor", "to": "prospector_module"},
+    {"from": "separator", "to": "mining_module"},
+    {"from": "paper_press", "to": "farming_module"},
+
+    {"from": "diesel_generator_s", "to": "tunnel_bore_mite"},
+    {"from": "battery_bank_s", "to": "tunnel_bore_mite"},
+    {"from": "prospector_module", "to": "tunnel_bore_mite"},
+    {"from": "tunnel_bore_mite", "to": "tunnel_bore_2x2"},
+    {"from": "tunnel_bore_2x2", "to": "tunnel_bore_3x3"},
+    {"from": "tunnel_bore_3x3", "to": "tunnel_bore_4x4"},
+    {"from": "tunnel_bore_4x4", "to": "tunnel_bore_5x5"},
+
+    {"from": "reactor", "to": "essence_extractor"},
+    {"from": "separator", "to": "essence_extractor"},
+    {"from": "essence_extractor", "to": "infusion_brewer"},
+    {"from": "reactor", "to": "infusion_brewer"},
+    {"from": "mob_essence", "to": "infusion_brewer"},
+    {"from": "infusion_brewer", "to": "splash_potion_subjugation"}
   ],
   "process_unlocks": [
     {"from": "coal_pyrolyzer", "unlocks": ["crude_oil"]},
@@ -112,6 +179,8 @@
     {"from": "methane_collector", "unlocks": ["methane"]},
     {"from": "separator", "unlocks": ["silica_powder", "lime_powder", "alumina_powder", "iron_oxide_powder", "sodium_salt", "soda_ash", "sulfur_powder", "phosphorus_powder", "slag"]},
     {"from": "reactor", "unlocks": ["sulfuric_acid", "hydrochloric_acid", "phosphoric_acid", "sodium_hydroxide", "limewater"]},
-    {"from": "cracking_tower_controller", "unlocks": ["light_fraction", "medium_fraction", "heavy_fraction", "residue"]}
+    {"from": "cracking_tower_controller", "unlocks": ["light_fraction", "medium_fraction", "heavy_fraction", "residue"]},
+    {"from": "essence_extractor", "unlocks": ["mob_essence"]},
+    {"from": "infusion_brewer", "unlocks": ["splash_potion_subjugation"]}
   ]
 }

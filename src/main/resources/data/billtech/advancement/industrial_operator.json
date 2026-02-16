@@ -1,0 +1,52 @@
+{
+  "parent": "billtech:tier2_complete",
+  "display": {
+    "icon": {
+      "id": "billtech:steam_generator",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancement.billtech.industrial_operator.title"
+    },
+    "description": {
+      "translate": "advancement.billtech.industrial_operator.description"
+    },
+    "x": 16.0,
+    "y": 0.0,
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "place_steam_boiler": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:steam_boiler"
+      }
+    },
+    "place_steam_engine": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:steam_engine"
+      }
+    },
+    "place_steam_generator": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:steam_generator"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place_steam_boiler"
+    ],
+    [
+      "place_steam_engine"
+    ],
+    [
+      "place_steam_generator"
+    ]
+  ]
+}

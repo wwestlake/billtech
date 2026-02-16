@@ -53,6 +53,10 @@ public class TankBlockEntity extends BlockEntity {
             if (level == null) {
                 return true;
             }
+            NetworkScan scan = scanNetwork(level, worldPosition);
+            if (scan != null && scan.fluidConflict) {
+                return false;
+            }
             FluidVariant networkFluid = findNetworkFluid(level, worldPosition);
             return networkFluid.isBlank() || networkFluid.equals(variant);
         }

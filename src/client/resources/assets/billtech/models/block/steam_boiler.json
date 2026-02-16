@@ -1,0 +1,58 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "shell": "billtech:block/flow_meter_pipe",
+    "band": "billtech:block/metal_panel",
+    "particle": "billtech:block/flow_meter_pipe"
+  },
+  "elements": [
+    {
+      "from": [4, 2, 4],
+      "to": [12, 30, 12],
+      "faces": {
+        "north": { "texture": "#shell", "uv": [0, 0, 16, 16] },
+        "south": { "texture": "#shell", "uv": [0, 0, 16, 16] },
+        "east": { "texture": "#shell", "uv": [0, 0, 16, 16] },
+        "west": { "texture": "#shell", "uv": [0, 0, 16, 16] },
+        "up": { "texture": "#shell", "uv": [0, 0, 16, 16] },
+        "down": { "texture": "#shell", "uv": [0, 0, 16, 16] }
+      }
+    },
+    {
+      "from": [3, 0, 3],
+      "to": [13, 2, 13],
+      "faces": {
+        "north": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "south": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "east": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "west": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "up": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "down": { "texture": "#band", "uv": [0, 0, 16, 16] }
+      }
+    },
+    {
+      "from": [3, 30, 3],
+      "to": [13, 32, 13],
+      "faces": {
+        "north": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "south": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "east": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "west": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "up": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "down": { "texture": "#band", "uv": [0, 0, 16, 16] }
+      }
+    },
+    {
+      "from": [6, 31, 6],
+      "to": [10, 32, 10],
+      "faces": {
+        "north": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "south": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "east": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "west": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "up": { "texture": "#band", "uv": [0, 0, 16, 16] },
+        "down": { "texture": "#band", "uv": [0, 0, 16, 16] }
+      }
+    }
+  ]
+}

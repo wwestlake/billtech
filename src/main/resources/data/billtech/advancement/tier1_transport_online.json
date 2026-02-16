@@ -1,0 +1,48 @@
+{
+  "parent": "billtech:root",
+  "display": {
+    "icon": {
+      "id": "billtech:fluid_pipe",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancement.billtech.tier1_transport_online.title"
+    },
+    "description": {
+      "translate": "advancement.billtech.tier1_transport_online.description"
+    },
+    "x": 2.0,
+    "y": -1.0,
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "place_fluid_pipe": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:fluid_pipe"
+      }
+    },
+    "place_item_pipe": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:item_pipe"
+      }
+    },
+    "place_gas_pipe": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:gas_pipe"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place_fluid_pipe",
+      "place_item_pipe",
+      "place_gas_pipe"
+    ]
+  ]
+}

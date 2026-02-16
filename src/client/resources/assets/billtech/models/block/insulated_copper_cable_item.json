@@ -1,0 +1,7 @@
+{
+  "parent": "billtech:block/fluid_pipe_item",
+  "textures": {
+    "particle": "billtech:block/insulated_copper_cable",
+    "pipe": "billtech:block/insulated_copper_cable"
+  }
+}
