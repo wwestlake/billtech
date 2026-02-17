@@ -135,6 +135,30 @@ public final class ModBlocks {
             "steam_generator",
             props -> new SteamGeneratorBlock(props.strength(2.0f).noOcclusion().noCollission())
     );
+    public static final Block ESSENCE_EXTRACTOR = registerBlock(
+            "essence_extractor",
+            props -> new EssenceExtractorBlock(props.strength(3.0f).noOcclusion())
+    );
+    public static final Block TESLA_COIL = registerBlock(
+            "tesla_coil",
+            props -> new TeslaCoilBlock(props.strength(3.5f).noOcclusion())
+    );
+    public static final Block CONTROL_CONDUCTOR_PAD = registerBlock(
+            "control_conductor_pad",
+            props -> new ControlConductorPadBlock(props.strength(2.5f).noOcclusion())
+    );
+    public static final Block SENTRY_CONTROLLER = registerBlock(
+            "sentry_controller",
+            props -> new SentryControllerBlock(props.strength(3.5f))
+    );
+    public static final Block SENTRY_CONTAINER = registerBlock(
+            "sentry_container",
+            props -> new SentryContainerBlock(props.strength(3.0f).noOcclusion())
+    );
+    public static final Block SENTRY_COVER = registerBlock(
+            "sentry_cover",
+            props -> new SentryCoverBlock(props.strength(3.0f).noOcclusion())
+    );
     public static final Block ITEM_CONTROLLER = registerBlock(
             "item_controller",
             props -> new ItemControllerBlock(props.strength(2.0f))

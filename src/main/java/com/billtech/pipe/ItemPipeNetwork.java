@@ -4,7 +4,9 @@ import com.billtech.block.AutoCrafterBlock;
 import com.billtech.block.ItemControllerBlock;
 import com.billtech.block.ItemPipeBlock;
 import com.billtech.block.entity.AutoCrafterBlockEntity;
+import com.billtech.block.entity.SideConfigAccess;
 import com.billtech.stripe.StripeUtil;
+import com.billtech.transport.TransportType;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -211,15 +213,12 @@ public final class ItemPipeNetwork {
             return cached;
         }
         BlockState originState = level.getBlockState(origin);
-        if (!isPipeLike(originState) && !isNetworkController(originState)) {
-            return null;
-        }
         Set<BlockPos> pipes = new HashSet<>();
         Queue<BlockPos> queue = new ArrayDeque<>();
         if (originState.getBlock() instanceof ItemPipeBlock) {
             queue.add(origin);
             pipes.add(origin);
-        } else {
+        } else if (isNetworkController(originState)) {
             for (Direction dir : Direction.values()) {
                 BlockPos next = origin.relative(dir);
                 BlockState nextState = level.getBlockState(next);
@@ -227,6 +226,26 @@ public final class ItemPipeNetwork {
                     pipes.add(next);
                     queue.add(next);
                 }
+            }
+        } else {
+            SideConfigAccess originAccess = level.getBlockEntity(origin) instanceof SideConfigAccess access ? access : null;
+            for (Direction dir : Direction.values()) {
+                if (originAccess != null) {
+                    boolean allows = originAccess.getSideConfig().allowsInsert(TransportType.ITEM, dir)
+                            || originAccess.getSideConfig().allowsExtract(TransportType.ITEM, dir);
+                    if (!allows) {
+                        continue;
+                    }
+                }
+                BlockPos next = origin.relative(dir);
+                BlockState nextState = level.getBlockState(next);
+                if (isPipeLike(nextState)) {
+                    pipes.add(next);
+                    queue.add(next);
+                }
+            }
+            if (pipes.isEmpty()) {
+                return null;
             }
         }
         while (!queue.isEmpty()) {

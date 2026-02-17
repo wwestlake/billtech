@@ -2,12 +2,14 @@ package com.billtech.block;
 
 import com.billtech.BillTech;
 import com.billtech.block.entity.ItemPipeBlockEntity;
+import com.billtech.block.entity.SideConfigAccess;
 import com.billtech.block.AutoCrafterBlock;
 import com.billtech.cover.CoverInteraction;
 import com.billtech.cover.CoverProvider;
 import com.billtech.stripe.StripeCarrier;
 import com.billtech.stripe.StripeItemData;
 import com.billtech.stripe.StripeUtil;
+import com.billtech.transport.TransportType;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -218,6 +220,14 @@ public class ItemPipeBlock extends Block implements EntityBlock {
         }
         if (level instanceof Level world) {
             BlockEntity be = world.getBlockEntity(neighborPos);
+            if (be instanceof SideConfigAccess access) {
+                Direction sideOnNeighbor = dir.getOpposite();
+                boolean allows = access.getSideConfig().allowsInsert(TransportType.ITEM, sideOnNeighbor)
+                        || access.getSideConfig().allowsExtract(TransportType.ITEM, sideOnNeighbor);
+                if (!allows) {
+                    return ConnectionType.NONE;
+                }
+            }
             if (be instanceof Container) {
                 logConnection(world, pos, dir, neighborPos, be, "container");
                 return ConnectionType.ENDPOINT;

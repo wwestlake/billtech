@@ -100,6 +100,21 @@ public final class ModMenus {
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "steam_generator"),
             new MenuType<>(SteamGeneratorMenu::new, FeatureFlags.VANILLA_SET)
     );
+    public static final MenuType<EssenceExtractorMenu> ESSENCE_EXTRACTOR = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "essence_extractor"),
+            new MenuType<>(EssenceExtractorMenu::new, FeatureFlags.VANILLA_SET)
+    );
+    public static final MenuType<TeslaCoilMenu> TESLA_COIL = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "tesla_coil"),
+            new MenuType<>(TeslaCoilMenu::new, FeatureFlags.VANILLA_SET)
+    );
+    public static final MenuType<ControlConductorPadMenu> CONTROL_CONDUCTOR_PAD = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "control_conductor_pad"),
+            new MenuType<>(ControlConductorPadMenu::new, FeatureFlags.VANILLA_SET)
+    );
     public static final MenuType<ItemControllerMenu> ITEM_CONTROLLER = Registry.register(
             BuiltInRegistries.MENU,
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "item_controller"),

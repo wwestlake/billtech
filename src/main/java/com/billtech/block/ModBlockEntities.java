@@ -29,7 +29,14 @@ import com.billtech.block.entity.RegulatorBlockEntity;
 import com.billtech.block.entity.StripeBenchBlockEntity;
 import com.billtech.block.entity.TankBlockEntity;
 import com.billtech.block.entity.TankControllerBlockEntity;
+import com.billtech.block.entity.EssenceExtractorBlockEntity;
+import com.billtech.block.entity.TeslaCoilBlockEntity;
+import com.billtech.block.entity.ControlConductorPadBlockEntity;
+import com.billtech.block.entity.SentryControllerBlockEntity;
+import com.billtech.block.entity.SentryContainerBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -238,6 +245,46 @@ public final class ModBlockEntities {
                     ModBlocks.STEAM_GENERATOR
             ).build()
     );
+    public static final BlockEntityType<EssenceExtractorBlockEntity> ESSENCE_EXTRACTOR = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "essence_extractor"),
+            FabricBlockEntityTypeBuilder.create(
+                    EssenceExtractorBlockEntity::new,
+                    ModBlocks.ESSENCE_EXTRACTOR
+            ).build()
+    );
+    public static final BlockEntityType<TeslaCoilBlockEntity> TESLA_COIL = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "tesla_coil"),
+            FabricBlockEntityTypeBuilder.create(
+                    TeslaCoilBlockEntity::new,
+                    ModBlocks.TESLA_COIL
+            ).build()
+    );
+    public static final BlockEntityType<ControlConductorPadBlockEntity> CONTROL_CONDUCTOR_PAD = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "control_conductor_pad"),
+            FabricBlockEntityTypeBuilder.create(
+                    ControlConductorPadBlockEntity::new,
+                    ModBlocks.CONTROL_CONDUCTOR_PAD
+            ).build()
+    );
+    public static final BlockEntityType<SentryControllerBlockEntity> SENTRY_CONTROLLER = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "sentry_controller"),
+            FabricBlockEntityTypeBuilder.create(
+                    SentryControllerBlockEntity::new,
+                    ModBlocks.SENTRY_CONTROLLER
+            ).build()
+    );
+    public static final BlockEntityType<SentryContainerBlockEntity> SENTRY_CONTAINER = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "sentry_container"),
+            FabricBlockEntityTypeBuilder.create(
+                    SentryContainerBlockEntity::new,
+                    ModBlocks.SENTRY_CONTAINER
+            ).build()
+    );
     public static final BlockEntityType<ItemControllerBlockEntity> ITEM_CONTROLLER = Registry.register(
             BuiltInRegistries.BLOCK_ENTITY_TYPE,
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "item_controller"),
@@ -274,6 +321,10 @@ public final class ModBlockEntities {
                 (be, direction) -> be.getStorage(direction),
                 ITEM_PIPE
         );
+        ItemStorage.SIDED.registerForBlockEntity(
+                (be, direction) -> InventoryStorage.of(be, direction),
+                ESSENCE_EXTRACTOR
+        );
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getStorage(direction), PUMP);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), COAL_PYROLYZER);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), OIL_EXTRACTOR);
@@ -286,6 +337,8 @@ public final class ModBlockEntities {
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), STEAM_BOILER);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), STEAM_ENGINE);
         FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), STEAM_GENERATOR);
+        FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), ESSENCE_EXTRACTOR);
+        FluidStorage.SIDED.registerForBlockEntity((be, direction) -> be.getFluidStorage(direction), SENTRY_CONTROLLER);
         team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
                 (be, direction) -> be.getEnergyStorage(direction),
                 BASIC_COMBUSTION_GENERATOR
@@ -337,6 +390,18 @@ public final class ModBlockEntities {
         team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
                 (be, direction) -> be.getEnergyStorage(direction),
                 STEAM_GENERATOR
+        );
+        team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
+                (be, direction) -> be.getEnergyStorage(direction),
+                ESSENCE_EXTRACTOR
+        );
+        team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
+                (be, direction) -> be.getEnergyStorage(direction),
+                TESLA_COIL
+        );
+        team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntity(
+                (be, direction) -> be.getEnergyStorage(direction),
+                SENTRY_CONTROLLER
         );
     }
 }

@@ -32,6 +32,8 @@ public class ModItems {
     public static final Item POWER_UPGRADE = registerItem("power_upgrade", UpgradeType.POWER);
     public static final Item ENERGY_UPGRADE = registerItem("energy_upgrade", UpgradeType.ENERGY);
     public static final Item STORAGE_UPGRADE = registerItem("storage_upgrade", UpgradeType.STORAGE);
+    public static final Item MULTI_KILL_UPGRADE = registerItem("multi_kill_upgrade", UpgradeType.MULTI_KILL);
+    public static final Item YIELD_UPGRADE = registerItem("yield_upgrade", UpgradeType.YIELD);
 
     public static void registerModItems() {
         BillTech.LOGGER.info("Registering Mod Items for " + BillTech.MOD_ID);

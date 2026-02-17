@@ -1,10 +1,14 @@
 package com.billtech.menu;
 
+import com.billtech.block.EnergyCableBlock;
+import com.billtech.block.FluidPipeBlock;
+import com.billtech.block.ItemPipeBlock;
 import com.billtech.block.entity.PortMode;
 import com.billtech.block.entity.MachineStatusAccess;
 import com.billtech.block.entity.SideConfigAccess;
 import com.billtech.transport.TransportType;
 import com.billtech.upgrade.UpgradeItem;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -13,6 +17,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.EnumSet;
 
@@ -123,6 +129,7 @@ public abstract class MachineMenuBase extends AbstractContainerMenu {
         sideConfigAccess.getSideConfig().cycle(type, dir);
         if (sideConfigAccess instanceof net.minecraft.world.level.block.entity.BlockEntity be) {
             be.setChanged();
+            refreshNeighborConnections(be);
         }
         return true;
     }
@@ -140,6 +147,31 @@ public abstract class MachineMenuBase extends AbstractContainerMenu {
         @Override
         public boolean mayPlace(ItemStack stack) {
             return stack.getItem() instanceof UpgradeItem;
+        }
+    }
+
+    private static void refreshNeighborConnections(net.minecraft.world.level.block.entity.BlockEntity be) {
+        Level level = be.getLevel();
+        if (level == null || level.isClientSide) {
+            return;
+        }
+        BlockPos pos = be.getBlockPos();
+        BlockState selfState = be.getBlockState();
+        level.sendBlockUpdated(pos, selfState, selfState, 3);
+        for (Direction direction : Direction.values()) {
+            BlockPos neighborPos = pos.relative(direction);
+            BlockState neighborState = level.getBlockState(neighborPos);
+            BlockState updatedState = neighborState;
+            if (neighborState.getBlock() instanceof ItemPipeBlock itemPipe) {
+                updatedState = itemPipe.updateConnections(level, neighborPos, neighborState);
+            } else if (neighborState.getBlock() instanceof FluidPipeBlock fluidPipe) {
+                updatedState = fluidPipe.updateConnections(level, neighborPos, neighborState);
+            } else if (neighborState.getBlock() instanceof EnergyCableBlock cable) {
+                updatedState = cable.updateConnections(level, neighborPos, neighborState);
+            }
+            if (!updatedState.equals(neighborState)) {
+                level.setBlock(neighborPos, updatedState, 3);
+            }
         }
     }
 }

@@ -11,17 +11,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 
-import java.util.EnumSet;
-
 public abstract class MachineScreenBase<T extends MachineMenuBase> extends AbstractContainerScreen<T> {
     private static final int SLOT_BORDER = 0xFF141414;
     private static final int SLOT_OUTER = 0xFF3A3A3A;
     private static final int SLOT_INNER = 0xFF1E1E1E;
     private static final int SIDE_BORDER = 0xFF101010;
     private static final int SIDE_NONE = 0xFF3A3A3A;
-    private static final int SIDE_INPUT = 0xFF2E6FD1;
+    private static final int SIDE_INPUT = 0xFF3BD166;
     private static final int SIDE_OUTPUT = 0xFFD13B3B;
-    private static final int SIDE_BOTH = 0xFF3BD166;
+    private static final int SIDE_BOTH = 0xFF2E6FD1;
 
     private TransportType currentType;
     private Button tabMainButton;
@@ -210,8 +208,8 @@ public abstract class MachineScreenBase<T extends MachineMenuBase> extends Abstr
     }
 
     private boolean handleSideClick(double mouseX, double mouseY) {
-        int baseX = leftPos + imageWidth - 70;
-        int baseY = topPos + 42;
+        int baseX = imageWidth - 70;
+        int baseY = 42;
         int size = 14;
         int step = 18;
         Direction facing = menu.getFacing();
@@ -238,7 +236,7 @@ public abstract class MachineScreenBase<T extends MachineMenuBase> extends Abstr
     }
 
     private boolean trySideButton(double mouseX, double mouseY, int x, int y, int size, Direction dir) {
-        if (!isHovering(x, y, size, size, mouseX, mouseY)) {
+        if (!inBounds(x, y, size, size, mouseX, mouseY)) {
             return false;
         }
         int buttonId = menu.getSideButtonId(currentType, dir);
@@ -302,10 +300,25 @@ public abstract class MachineScreenBase<T extends MachineMenuBase> extends Abstr
 
     private boolean isHoveringAnySlot(double mouseX, double mouseY) {
         for (Slot slot : menu.slots) {
-            if (isHovering(slot.x, slot.y, 16, 16, mouseX, mouseY)) {
+            if (inBounds(slot.x, slot.y, 16, 16, mouseX, mouseY)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean inBounds(int x, int y, int width, int height, double mouseX, double mouseY) {
+        return mouseX >= (double) (leftPos + x)
+                && mouseX < (double) (leftPos + x + width)
+                && mouseY >= (double) (topPos + y)
+                && mouseY < (double) (topPos + y + height);
+    }
+
+    @Override
+    protected boolean isHovering(int x, int y, int width, int height, double mouseX, double mouseY) {
+        if (currentTab != Tab.MAIN) {
+            return false;
+        }
+        return super.isHovering(x, y, width, height, mouseX, mouseY);
     }
 }

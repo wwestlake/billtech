@@ -27,6 +27,9 @@ import com.billtech.client.screen.SeparatorScreen;
 import com.billtech.client.screen.SteamBoilerScreen;
 import com.billtech.client.screen.SteamEngineScreen;
 import com.billtech.client.screen.SteamGeneratorScreen;
+import com.billtech.client.screen.EssenceExtractorScreen;
+import com.billtech.client.screen.TeslaCoilScreen;
+import com.billtech.client.screen.ControlConductorPadScreen;
 import com.billtech.client.screen.TankControllerScreen;
 import com.billtech.client.screen.UpgradeScreen;
 import com.billtech.client.screen.ItemControllerScreen;
@@ -48,6 +51,7 @@ public class BillTechClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.INSULATED_COPPER_CABLE, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TANK_BLOCK, RenderType.translucent());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TANK_CONTROLLER, RenderType.cutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SENTRY_CONTAINER, RenderType.cutout());
 		MenuScreens.register(ModMenus.TANK_CONTROLLER, TankControllerScreen::new);
 		MenuScreens.register(ModMenus.UPGRADES, UpgradeScreen::new);
 		MenuScreens.register(ModMenus.REGULATOR, RegulatorScreen::new);
@@ -66,6 +70,9 @@ public class BillTechClient implements ClientModInitializer {
 		MenuScreens.register(ModMenus.STEAM_BOILER, SteamBoilerScreen::new);
 		MenuScreens.register(ModMenus.STEAM_ENGINE, SteamEngineScreen::new);
 		MenuScreens.register(ModMenus.STEAM_GENERATOR, SteamGeneratorScreen::new);
+		MenuScreens.register(ModMenus.ESSENCE_EXTRACTOR, EssenceExtractorScreen::new);
+		MenuScreens.register(ModMenus.TESLA_COIL, TeslaCoilScreen::new);
+		MenuScreens.register(ModMenus.CONTROL_CONDUCTOR_PAD, ControlConductorPadScreen::new);
 		MenuScreens.register(ModMenus.ITEM_CONTROLLER, ItemControllerScreen::new);
 		MenuScreens.register(ModMenus.RECIPE_ENCODER, RecipeEncoderScreen::new);
 		MenuScreens.register(ModMenus.AUTO_CRAFTER, AutoCrafterScreen::new);
@@ -84,6 +91,7 @@ public class BillTechClient implements ClientModInitializer {
 		registerFluid(ModFluids.COAL_OIL, ModFluids.COAL_OIL_FLOWING, "coal_oil", color);
 		registerFluid(ModFluids.CRUDE_OIL, ModFluids.CRUDE_OIL_FLOWING, "crude_oil", color);
 		registerFluid(ModFluids.SLUDGE, ModFluids.SLUDGE_FLOWING, "sludge", color);
+		registerFluid(ModFluids.MOB_ESSENCE, ModFluids.MOB_ESSENCE_FLOWING, "mob_essence", 0xFF39FF66);
 		registerFluid(ModFluids.LIGHT_FUEL, ModFluids.LIGHT_FUEL_FLOWING, "light_fuel", color);
 		registerFluid(ModFluids.HEAVY_FUEL, ModFluids.HEAVY_FUEL_FLOWING, "heavy_fuel", color);
 		registerFluid(ModFluids.METHANE, ModFluids.METHANE_FLOWING, "methane", color);

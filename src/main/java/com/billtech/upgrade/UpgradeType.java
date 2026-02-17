@@ -4,5 +4,7 @@ public enum UpgradeType {
     SPEED,
     POWER,
     ENERGY,
-    STORAGE
+    STORAGE,
+    MULTI_KILL,
+    YIELD
 }

@@ -48,6 +48,12 @@ public final class ModItemGroups {
                         entries.accept(ModBlocks.STEAM_BOILER);
                         entries.accept(ModBlocks.STEAM_ENGINE);
                         entries.accept(ModBlocks.STEAM_GENERATOR);
+                        entries.accept(ModBlocks.ESSENCE_EXTRACTOR);
+                        entries.accept(ModBlocks.TESLA_COIL);
+                        entries.accept(ModBlocks.CONTROL_CONDUCTOR_PAD);
+                        entries.accept(ModBlocks.SENTRY_CONTROLLER);
+                        entries.accept(ModBlocks.SENTRY_CONTAINER);
+                        entries.accept(ModBlocks.SENTRY_COVER);
                         entries.accept(ModBlocks.ITEM_CONTROLLER);
                         entries.accept(ModBlocks.RECIPE_ENCODER);
                         entries.accept(ModBlocks.AUTO_CRAFTER);
@@ -57,6 +63,7 @@ public final class ModItemGroups {
                         entries.accept(ModItems.PLASTIC_SHEET);
                         entries.accept(ModItems.RECIPE_CARD);
                         entries.accept(ModFluids.SLUDGE_BUCKET);
+                        entries.accept(ModFluids.MOB_ESSENCE_BUCKET);
                         entries.accept(ModFluids.CRUDE_OIL_BUCKET);
                         entries.accept(ModFluids.LIGHT_FUEL_BUCKET);
                         entries.accept(ModFluids.HEAVY_FUEL_BUCKET);
@@ -87,6 +94,8 @@ public final class ModItemGroups {
                         entries.accept(ModItems.POWER_UPGRADE);
                         entries.accept(ModItems.ENERGY_UPGRADE);
                         entries.accept(ModItems.STORAGE_UPGRADE);
+                        entries.accept(ModItems.MULTI_KILL_UPGRADE);
+                        entries.accept(ModItems.YIELD_UPGRADE);
                     })
                     .build()
     );
