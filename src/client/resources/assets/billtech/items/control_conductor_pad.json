@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "billtech:item/control_conductor_pad"
+  }
+}

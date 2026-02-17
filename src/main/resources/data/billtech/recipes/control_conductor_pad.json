@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OOO",
+    "CDC",
+    "SRS"
+  ],
+  "key": {
+    "O": { "item": "minecraft:crying_obsidian" },
+    "C": { "item": "billtech:insulated_copper_cable" },
+    "D": { "item": "minecraft:magma_block" },
+    "S": { "item": "billtech:steel_ingot" },
+    "R": { "item": "minecraft:redstone" }
+  },
+  "result": {
+    "id": "billtech:control_conductor_pad"
+  }
+}

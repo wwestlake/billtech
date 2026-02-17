@@ -1,0 +1,96 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "base": "minecraft:block/chiseled_polished_blackstone",
+    "coil": "minecraft:block/copper_block",
+    "rod": "minecraft:block/iron_block",
+    "arc": "minecraft:block/redstone_block",
+    "particle": "minecraft:block/chiseled_polished_blackstone"
+  },
+  "elements": [
+    {
+      "from": [3, 0, 3],
+      "to": [13, 4, 13],
+      "faces": {
+        "north": { "texture": "#base" },
+        "south": { "texture": "#base" },
+        "east": { "texture": "#base" },
+        "west": { "texture": "#base" },
+        "up": { "texture": "#coil" },
+        "down": { "texture": "#base" }
+      }
+    },
+    {
+      "from": [6, 4, 6],
+      "to": [10, 14, 10],
+      "faces": {
+        "north": { "texture": "#coil" },
+        "south": { "texture": "#coil" },
+        "east": { "texture": "#coil" },
+        "west": { "texture": "#coil" },
+        "up": { "texture": "#rod" },
+        "down": { "texture": "#rod" }
+      }
+    },
+    {
+      "from": [2, 14, 2],
+      "to": [14, 16, 14],
+      "faces": {
+        "north": { "texture": "#rod" },
+        "south": { "texture": "#rod" },
+        "east": { "texture": "#rod" },
+        "west": { "texture": "#rod" },
+        "up": { "texture": "#arc" },
+        "down": { "texture": "#rod" }
+      }
+    },
+    {
+      "from": [0, 15, 7],
+      "to": [2, 16, 9],
+      "faces": {
+        "north": { "texture": "#arc" },
+        "south": { "texture": "#arc" },
+        "east": { "texture": "#arc" },
+        "west": { "texture": "#arc" },
+        "up": { "texture": "#arc" },
+        "down": { "texture": "#arc" }
+      }
+    },
+    {
+      "from": [14, 15, 7],
+      "to": [16, 16, 9],
+      "faces": {
+        "north": { "texture": "#arc" },
+        "south": { "texture": "#arc" },
+        "east": { "texture": "#arc" },
+        "west": { "texture": "#arc" },
+        "up": { "texture": "#arc" },
+        "down": { "texture": "#arc" }
+      }
+    },
+    {
+      "from": [7, 15, 0],
+      "to": [9, 16, 2],
+      "faces": {
+        "north": { "texture": "#arc" },
+        "south": { "texture": "#arc" },
+        "east": { "texture": "#arc" },
+        "west": { "texture": "#arc" },
+        "up": { "texture": "#arc" },
+        "down": { "texture": "#arc" }
+      }
+    },
+    {
+      "from": [7, 15, 14],
+      "to": [9, 16, 16],
+      "faces": {
+        "north": { "texture": "#arc" },
+        "south": { "texture": "#arc" },
+        "east": { "texture": "#arc" },
+        "west": { "texture": "#arc" },
+        "up": { "texture": "#arc" },
+        "down": { "texture": "#arc" }
+      }
+    }
+  ]
+}

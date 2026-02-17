@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "billtech:block/sentry_controller" },
+    "facing=south": { "model": "billtech:block/sentry_controller", "y": 180 },
+    "facing=west": { "model": "billtech:block/sentry_controller", "y": 270 },
+    "facing=east": { "model": "billtech:block/sentry_controller", "y": 90 }
+  }
+}

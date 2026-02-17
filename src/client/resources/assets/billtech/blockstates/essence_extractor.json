@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "billtech:block/essence_extractor" },
+    "facing=south": { "model": "billtech:block/essence_extractor", "y": 180 },
+    "facing=west": { "model": "billtech:block/essence_extractor", "y": 270 },
+    "facing=east": { "model": "billtech:block/essence_extractor", "y": 90 }
+  }
+}

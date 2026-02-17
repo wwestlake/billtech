@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SMS",
+    "G G",
+    "SMS"
+  ],
+  "key": {
+    "S": { "item": "billtech:steel_ingot" },
+    "M": { "item": "minecraft:magma_block" },
+    "G": { "item": "minecraft:tinted_glass" }
+  },
+  "result": {
+    "id": "billtech:sentry_container"
+  }
+}
