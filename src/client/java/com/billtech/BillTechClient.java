@@ -49,6 +49,8 @@ public class BillTechClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GAS_PIPE, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ITEM_PIPE, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.INSULATED_COPPER_CABLE, RenderType.cutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.CLOTH_INSULATED_COPPER_CABLE, RenderType.cutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.HV_SHIELDED_CABLE, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TANK_BLOCK, RenderType.translucent());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TANK_CONTROLLER, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SENTRY_CONTAINER, RenderType.cutout());

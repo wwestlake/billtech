@@ -114,7 +114,8 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(
                     EnergyCableBlockEntity::new,
                     ModBlocks.INSULATED_COPPER_CABLE,
-                    ModBlocks.CLOTH_INSULATED_COPPER_CABLE
+                    ModBlocks.CLOTH_INSULATED_COPPER_CABLE,
+                    ModBlocks.HV_SHIELDED_CABLE
             ).build()
     );
     public static final BlockEntityType<BasicCombustionGeneratorBlockEntity> BASIC_COMBUSTION_GENERATOR = Registry.register(

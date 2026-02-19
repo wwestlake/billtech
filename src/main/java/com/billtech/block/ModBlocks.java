@@ -63,6 +63,10 @@ public final class ModBlocks {
             "cloth_insulated_copper_cable",
             props -> new EnergyCableBlock(props.strength(1.0f).noOcclusion())
     );
+    public static final Block HV_SHIELDED_CABLE = registerBlock(
+            "hv_shielded_cable",
+            props -> new EnergyCableBlock(props.strength(1.2f).noOcclusion())
+    );
     public static final Block COVER_PANEL = registerBlock(
             "cover_panel",
             props -> new Block(props.strength(1.0f))

@@ -30,6 +30,7 @@ public final class ModItemGroups {
                         entries.accept(ModBlocks.REGULATOR);
                         entries.accept(ModBlocks.INSULATED_COPPER_CABLE);
                         entries.accept(ModBlocks.CLOTH_INSULATED_COPPER_CABLE);
+                        entries.accept(ModBlocks.HV_SHIELDED_CABLE);
                         entries.accept(ModBlocks.BASIC_COMBUSTION_GENERATOR);
                         entries.accept(ModBlocks.ELECTRIC_FURNACE);
                         entries.accept(ModBlocks.COAL_PYROLYZER);

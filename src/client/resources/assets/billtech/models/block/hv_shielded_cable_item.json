@@ -1,0 +1,7 @@
+{
+  "parent": "billtech:block/fluid_pipe_item",
+  "textures": {
+    "particle": "billtech:block/hv_shielded_cable",
+    "pipe": "billtech:block/hv_shielded_cable"
+  }
+}

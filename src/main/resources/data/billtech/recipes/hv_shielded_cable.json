@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "YIY",
+    "PSP",
+    "YIY"
+  ],
+  "key": {
+    "Y": {
+      "item": "minecraft:yellow_dye"
+    },
+    "I": {
+      "item": "billtech:insulated_copper_cable"
+    },
+    "P": {
+      "item": "billtech:plastic_sheet"
+    },
+    "S": {
+      "item": "billtech:steel_ingot"
+    }
+  },
+  "result": {
+    "id": "billtech:hv_shielded_cable",
+    "count": 4
+  }
+}
