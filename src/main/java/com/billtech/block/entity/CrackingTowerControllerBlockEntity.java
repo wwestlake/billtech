@@ -29,7 +29,7 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.List;
 
-public class CrackingTowerControllerBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess, MachineStatusAccess {
+public class CrackingTowerControllerBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess, MachineStatusAccess, RemoteControllable {
     private final long energyCapacity;
     private final long energyPerTick;
     private final int ticksPerBatch;
@@ -43,6 +43,7 @@ public class CrackingTowerControllerBlockEntity extends BlockEntity implements M
 
     private final SideConfig sideConfig = new SideConfig(PortMode.NONE);
     private int cookTime;
+    private boolean remoteEnabled = true;
 
     private final EnergyStorageImpl energy;
     private final EnergyStorage energyInputView;
@@ -287,6 +288,10 @@ public class CrackingTowerControllerBlockEntity extends BlockEntity implements M
     private void tickServer(Level level) {
         clampEnergyToEffectiveCapacity();
         tryPushOutputs(level);
+        if (!remoteEnabled) {
+            cookTime = 0;
+            return;
+        }
         if (!canProcess()) {
             cookTime = 0;
             return;
@@ -408,6 +413,7 @@ public class CrackingTowerControllerBlockEntity extends BlockEntity implements M
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
         tag.putInt("CookTime", cookTime);
+        tag.putBoolean("RemoteEnabled", remoteEnabled);
         tag.putLong("Energy", energy.getAmount());
         CompoundTag inputTag = new CompoundTag();
         SingleVariantStorage.writeNbt(inputStorage, FluidVariant.CODEC, inputTag, provider);
@@ -431,6 +437,7 @@ public class CrackingTowerControllerBlockEntity extends BlockEntity implements M
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
         cookTime = tag.getInt("CookTime").orElse(0);
+        remoteEnabled = tag.getBoolean("RemoteEnabled").orElse(true);
         long stored = tag.getLong("Energy").orElse(0L);
         energy.setAmount(stored);
         CompoundTag inputTag = tag.getCompound("Input").orElse(null);
@@ -521,5 +528,49 @@ public class CrackingTowerControllerBlockEntity extends BlockEntity implements M
     @Override
     public int getFluidOutCapacity() {
         return clampLong(outputBuffer);
+    }
+
+    @Override
+    public MachineRuntimeState getRuntimeState() {
+        if (!remoteEnabled) {
+            return MachineRuntimeState.DISABLED;
+        }
+        if (cookTime > 0) {
+            return MachineRuntimeState.RUNNING;
+        }
+        if (energy.getAmount() < energyPerTick) {
+            return MachineRuntimeState.NO_POWER;
+        }
+        if (getFluidOutStored() >= getFluidOutCapacity()) {
+            return MachineRuntimeState.OUTPUT_FULL;
+        }
+        return inputStorage.getAmount() < inputPerBatch ? MachineRuntimeState.NO_WORK : MachineRuntimeState.IDLE;
+    }
+
+    @Override
+    public int getProcessProgress() {
+        return cookTime;
+    }
+
+    @Override
+    public int getProcessMax() {
+        return ticksPerBatch;
+    }
+
+    @Override
+    public boolean isRemoteEnabled() {
+        return remoteEnabled;
+    }
+
+    @Override
+    public void setRemoteEnabled(boolean enabled) {
+        if (remoteEnabled == enabled) {
+            return;
+        }
+        remoteEnabled = enabled;
+        if (!enabled) {
+            cookTime = 0;
+        }
+        setChanged();
     }
 }

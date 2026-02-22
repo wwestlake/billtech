@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-public class PaperPressBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider, SideConfigAccess, MachineStatusAccess {
+public class PaperPressBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider, SideConfigAccess, MachineStatusAccess, RemoteControllable {
     private static final int SLOT_INPUT = 0;
     private static final int SLOT_OUTPUT = 1;
     private static final int[] SLOTS_INPUT = new int[]{SLOT_INPUT};
@@ -39,6 +39,7 @@ public class PaperPressBlockEntity extends BlockEntity implements WorldlyContain
     private final SideConfig sideConfig = new SideConfig(PortMode.NONE);
     private final NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
     private int cookTime;
+    private boolean remoteEnabled = true;
 
     private final EnergyStorageImpl energy;
     private final EnergyStorage energyInputView;
@@ -139,6 +140,10 @@ public class PaperPressBlockEntity extends BlockEntity implements WorldlyContain
 
     private void tickServer(Level level) {
         clampEnergyToEffectiveCapacity();
+        if (!remoteEnabled) {
+            cookTime = 0;
+            return;
+        }
         ItemStack input = items.get(SLOT_INPUT);
         if (input.isEmpty() || !isValidInput(input)) {
             cookTime = 0;
@@ -230,6 +235,7 @@ public class PaperPressBlockEntity extends BlockEntity implements WorldlyContain
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
         tag.putInt("CookTime", cookTime);
+        tag.putBoolean("RemoteEnabled", remoteEnabled);
         tag.putLong("Energy", energy.getAmount());
         ContainerHelper.saveAllItems(tag, items, provider);
         sideConfig.save(tag, provider);
@@ -239,6 +245,7 @@ public class PaperPressBlockEntity extends BlockEntity implements WorldlyContain
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
         cookTime = tag.getInt("CookTime").orElse(0);
+        remoteEnabled = tag.getBoolean("RemoteEnabled").orElse(true);
         long stored = tag.getLong("Energy").orElse(0L);
         energy.setAmount(stored);
         ContainerHelper.loadAllItems(tag, items, provider);
@@ -382,5 +389,46 @@ public class PaperPressBlockEntity extends BlockEntity implements WorldlyContain
     @Override
     public int getFluidOutCapacity() {
         return 0;
+    }
+
+    @Override
+    public MachineRuntimeState getRuntimeState() {
+        if (!remoteEnabled) {
+            return MachineRuntimeState.DISABLED;
+        }
+        if (cookTime > 0) {
+            return MachineRuntimeState.RUNNING;
+        }
+        if (energy.getAmount() < energyPerTick) {
+            return MachineRuntimeState.NO_POWER;
+        }
+        return items.get(SLOT_INPUT).isEmpty() ? MachineRuntimeState.NO_WORK : MachineRuntimeState.IDLE;
+    }
+
+    @Override
+    public int getProcessProgress() {
+        return cookTime;
+    }
+
+    @Override
+    public int getProcessMax() {
+        return ticksPerItem;
+    }
+
+    @Override
+    public boolean isRemoteEnabled() {
+        return remoteEnabled;
+    }
+
+    @Override
+    public void setRemoteEnabled(boolean enabled) {
+        if (remoteEnabled == enabled) {
+            return;
+        }
+        remoteEnabled = enabled;
+        if (!enabled) {
+            cookTime = 0;
+        }
+        setChanged();
     }
 }

@@ -33,7 +33,7 @@ import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 
-public class ElectricFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, UpgradeInventoryProvider, MenuProvider, SideConfigAccess, MachineStatusAccess {
+public class ElectricFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, UpgradeInventoryProvider, MenuProvider, SideConfigAccess, MachineStatusAccess, RemoteControllable {
     private static final int SLOT_INPUT = 0;
     private static final int SLOT_OUTPUT = 1;
     private static final int[] SLOTS_INPUT = new int[]{SLOT_INPUT};
@@ -47,6 +47,7 @@ public class ElectricFurnaceBlockEntity extends BlockEntity implements WorldlyCo
     private final NonNullList<ItemStack> upgrades = NonNullList.withSize(4, ItemStack.EMPTY);
     private int cookTime;
     private int cookTimeTotal = 200;
+    private boolean remoteEnabled = true;
 
     private final EnergyStorageImpl energy;
     private final EnergyStorage energyInputView;
@@ -147,6 +148,10 @@ public class ElectricFurnaceBlockEntity extends BlockEntity implements WorldlyCo
 
     private void tickServer(Level level) {
         clampEnergyToEffectiveCapacity();
+        if (!remoteEnabled) {
+            cookTime = 0;
+            return;
+        }
         ItemStack input = items.get(SLOT_INPUT);
         if (input.isEmpty()) {
             if (DEBUG_STATUS && cookTime != 0) {
@@ -297,6 +302,7 @@ public class ElectricFurnaceBlockEntity extends BlockEntity implements WorldlyCo
         super.saveAdditional(tag, provider);
         tag.putInt("CookTime", cookTime);
         tag.putInt("CookTimeTotal", cookTimeTotal);
+        tag.putBoolean("RemoteEnabled", remoteEnabled);
         tag.putLong("Energy", energy.getAmount());
         ContainerHelper.saveAllItems(tag, items, provider);
         CompoundTag upgradesTag = new CompoundTag();
@@ -310,6 +316,7 @@ public class ElectricFurnaceBlockEntity extends BlockEntity implements WorldlyCo
         super.loadAdditional(tag, provider);
         cookTime = tag.getInt("CookTime").orElse(0);
         cookTimeTotal = tag.getInt("CookTimeTotal").orElse(200);
+        remoteEnabled = tag.getBoolean("RemoteEnabled").orElse(true);
         long stored = tag.getLong("Energy").orElse(0L);
         energy.setAmount(stored);
         ContainerHelper.loadAllItems(tag, items, provider);
@@ -525,5 +532,52 @@ public class ElectricFurnaceBlockEntity extends BlockEntity implements WorldlyCo
     @Override
     public int getFluidOutCapacity() {
         return 0;
+    }
+
+    @Override
+    public MachineRuntimeState getRuntimeState() {
+        if (!remoteEnabled) {
+            return MachineRuntimeState.DISABLED;
+        }
+        if (cookTime > 0) {
+            return MachineRuntimeState.RUNNING;
+        }
+        if (energy.getAmount() < getEffectiveEnergyPerTick()) {
+            return MachineRuntimeState.NO_POWER;
+        }
+        if (items.get(SLOT_INPUT).isEmpty()) {
+            return MachineRuntimeState.NO_WORK;
+        }
+        if (!canAcceptOutput(ItemStack.EMPTY)) {
+            return MachineRuntimeState.OUTPUT_FULL;
+        }
+        return MachineRuntimeState.IDLE;
+    }
+
+    @Override
+    public int getProcessProgress() {
+        return cookTime;
+    }
+
+    @Override
+    public int getProcessMax() {
+        return cookTimeTotal;
+    }
+
+    @Override
+    public boolean isRemoteEnabled() {
+        return remoteEnabled;
+    }
+
+    @Override
+    public void setRemoteEnabled(boolean enabled) {
+        if (remoteEnabled == enabled) {
+            return;
+        }
+        remoteEnabled = enabled;
+        if (!enabled) {
+            cookTime = 0;
+        }
+        setChanged();
     }
 }

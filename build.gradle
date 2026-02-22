@@ -74,7 +74,6 @@ dependencies {
 	modLocalRuntime "maven.modrinth:minihud:eD7jb7pB"
 	modLocalRuntime "maven.modrinth:malilib:YrRUsIk9"
 	modLocalRuntime "maven.modrinth:tweakeroo:fOZoIok9"
-	modLocalRuntime "maven.modrinth:journeymap:rV52D5m0"
 	modLocalRuntime "maven.modrinth:worldedit:242z5LFa"
 	modLocalRuntime "maven.modrinth:worldedit-cui:HurcveSL"
 	modLocalRuntime "org.enginehub.worldeditcui-protocol:worldeditcui-protocol-fabric-mc1.21.5:4.0.1"

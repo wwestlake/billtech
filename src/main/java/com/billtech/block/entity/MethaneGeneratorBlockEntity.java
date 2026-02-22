@@ -24,11 +24,12 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-public class MethaneGeneratorBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess, MachineStatusAccess {
+public class MethaneGeneratorBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess, MachineStatusAccess, RemoteControllable {
     private final long energyCapacity;
     private final long energyPerTick;
     private final long methanePerTick;
     private final long inputBuffer;
+    private boolean remoteEnabled = true;
     private final SideConfig sideConfig = new SideConfig(PortMode.NONE);
 
     private final InputStorage inputStorage = new InputStorage();
@@ -181,6 +182,9 @@ public class MethaneGeneratorBlockEntity extends BlockEntity implements MenuProv
 
     private void tickServer(Level level) {
         clampEnergyToEffectiveCapacity();
+        if (!remoteEnabled) {
+            return;
+        }
         if (energy.getAmount() >= energy.getCapacity()) {
             return;
         }
@@ -270,6 +274,7 @@ public class MethaneGeneratorBlockEntity extends BlockEntity implements MenuProv
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
         tag.putLong("Energy", energy.getAmount());
+        tag.putBoolean("RemoteEnabled", remoteEnabled);
         CompoundTag fluidTag = new CompoundTag();
         SingleVariantStorage.writeNbt(inputStorage, FluidVariant.CODEC, fluidTag, provider);
         tag.put("Input", fluidTag);
@@ -281,6 +286,7 @@ public class MethaneGeneratorBlockEntity extends BlockEntity implements MenuProv
         super.loadAdditional(tag, provider);
         long stored = tag.getLong("Energy").orElse(0L);
         energy.setAmount(stored);
+        remoteEnabled = tag.getBoolean("RemoteEnabled").orElse(true);
         CompoundTag fluidTag = tag.getCompound("Input").orElse(null);
         if (fluidTag != null) {
             SingleVariantStorage.readNbt(inputStorage, FluidVariant.CODEC, FluidVariant::blank, fluidTag, provider);
@@ -336,5 +342,33 @@ public class MethaneGeneratorBlockEntity extends BlockEntity implements MenuProv
     @Override
     public int getFluidOutCapacity() {
         return 0;
+    }
+
+    @Override
+    public MachineRuntimeState getRuntimeState() {
+        if (!remoteEnabled) {
+            return MachineRuntimeState.DISABLED;
+        }
+        if (energy.getAmount() >= energy.getCapacity()) {
+            return MachineRuntimeState.OUTPUT_FULL;
+        }
+        if (inputStorage.getAmount() < methanePerTick) {
+            return MachineRuntimeState.NO_WORK;
+        }
+        return MachineRuntimeState.RUNNING;
+    }
+
+    @Override
+    public boolean isRemoteEnabled() {
+        return remoteEnabled;
+    }
+
+    @Override
+    public void setRemoteEnabled(boolean enabled) {
+        if (remoteEnabled == enabled) {
+            return;
+        }
+        remoteEnabled = enabled;
+        setChanged();
     }
 }

@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-public class TeslaCoilBlockEntity extends BlockEntity implements SideConfigAccess, MenuProvider, MachineStatusAccess {
+public class TeslaCoilBlockEntity extends BlockEntity implements SideConfigAccess, MenuProvider, MachineStatusAccess, RemoteControllable {
     private static final long ENERGY_CAPACITY = 200_000;
     private static final long ENERGY_RECEIVE = 4_000;
     private static final long ENERGY_PER_ZAP = 3_000;
@@ -29,6 +29,7 @@ public class TeslaCoilBlockEntity extends BlockEntity implements SideConfigAcces
     private static final int SYNTHETIC_CHARGE_TICKS = 100;
 
     private int cooldown;
+    private boolean remoteEnabled = true;
     private final SideConfig sideConfig = new SideConfig(PortMode.NONE);
     private final EnergyStorageImpl energy = new EnergyStorageImpl();
 
@@ -69,6 +70,9 @@ public class TeslaCoilBlockEntity extends BlockEntity implements SideConfigAcces
 
     private void tickServer(Level level) {
         pullEnergy(level);
+        if (!remoteEnabled) {
+            return;
+        }
         if (cooldown > 0) {
             cooldown--;
             return;
@@ -200,6 +204,7 @@ public class TeslaCoilBlockEntity extends BlockEntity implements SideConfigAcces
         super.saveAdditional(tag, provider);
         tag.putLong("Energy", energy.getAmount());
         tag.putInt("Cooldown", cooldown);
+        tag.putBoolean("RemoteEnabled", remoteEnabled);
         sideConfig.save(tag, provider);
     }
 
@@ -208,6 +213,38 @@ public class TeslaCoilBlockEntity extends BlockEntity implements SideConfigAcces
         super.loadAdditional(tag, provider);
         energy.setStored(tag.getLong("Energy").orElse(0L));
         cooldown = tag.getInt("Cooldown").orElse(0);
+        remoteEnabled = tag.getBoolean("RemoteEnabled").orElse(true);
         sideConfig.load(tag, provider);
+    }
+
+    @Override
+    public MachineRuntimeState getRuntimeState() {
+        if (!remoteEnabled) {
+            return MachineRuntimeState.DISABLED;
+        }
+        if (cooldown > 0) {
+            return MachineRuntimeState.RUNNING;
+        }
+        if (energy.getAmount() < ENERGY_PER_ZAP) {
+            return MachineRuntimeState.NO_POWER;
+        }
+        if (level == null || findNearestPad(level) == null) {
+            return MachineRuntimeState.NO_WORK;
+        }
+        return MachineRuntimeState.RUNNING;
+    }
+
+    @Override
+    public boolean isRemoteEnabled() {
+        return remoteEnabled;
+    }
+
+    @Override
+    public void setRemoteEnabled(boolean enabled) {
+        if (remoteEnabled == enabled) {
+            return;
+        }
+        remoteEnabled = enabled;
+        setChanged();
     }
 }

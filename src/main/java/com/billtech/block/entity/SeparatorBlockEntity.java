@@ -32,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-public class SeparatorBlockEntity extends BlockEntity implements WorldlyContainer, UpgradeInventoryProvider, MenuProvider, SideConfigAccess, MachineStatusAccess {
+public class SeparatorBlockEntity extends BlockEntity implements WorldlyContainer, UpgradeInventoryProvider, MenuProvider, SideConfigAccess, MachineStatusAccess, RemoteControllable {
     private static final int SLOT_INPUT = 0;
     private static final int SLOT_OUTPUT = 1;
     private static final int SLOT_BYPRODUCT = 2;
@@ -50,6 +50,7 @@ public class SeparatorBlockEntity extends BlockEntity implements WorldlyContaine
     private final NonNullList<ItemStack> upgrades = NonNullList.withSize(4, ItemStack.EMPTY);
     private int cookTime;
     private int cookTimeTotal;
+    private boolean remoteEnabled = true;
 
     private final EnergyStorageImpl energy;
     private final EnergyStorage energyInputView;
@@ -164,6 +165,10 @@ public class SeparatorBlockEntity extends BlockEntity implements WorldlyContaine
 
     private void tickServer(Level level) {
         clampEnergyToEffectiveCapacity();
+        if (!remoteEnabled) {
+            cookTime = 0;
+            return;
+        }
         if (!isAssembled(level)) {
             cookTime = 0;
             return;
@@ -357,6 +362,7 @@ public class SeparatorBlockEntity extends BlockEntity implements WorldlyContaine
         super.saveAdditional(tag, provider);
         tag.putInt("CookTime", cookTime);
         tag.putInt("CookTimeTotal", cookTimeTotal);
+        tag.putBoolean("RemoteEnabled", remoteEnabled);
         tag.putLong("Energy", energy.getAmount());
         ContainerHelper.saveAllItems(tag, items, provider);
         CompoundTag upgradesTag = new CompoundTag();
@@ -370,6 +376,7 @@ public class SeparatorBlockEntity extends BlockEntity implements WorldlyContaine
         super.loadAdditional(tag, provider);
         cookTime = tag.getInt("CookTime").orElse(0);
         cookTimeTotal = tag.getInt("CookTimeTotal").orElse(ticksPerItem);
+        remoteEnabled = tag.getBoolean("RemoteEnabled").orElse(true);
         long stored = tag.getLong("Energy").orElse(0L);
         energy.setAmount(stored);
         ContainerHelper.loadAllItems(tag, items, provider);
@@ -574,5 +581,46 @@ public class SeparatorBlockEntity extends BlockEntity implements WorldlyContaine
     @Override
     public int getFluidOutCapacity() {
         return 0;
+    }
+
+    @Override
+    public MachineRuntimeState getRuntimeState() {
+        if (!remoteEnabled) {
+            return MachineRuntimeState.DISABLED;
+        }
+        if (cookTime > 0) {
+            return MachineRuntimeState.RUNNING;
+        }
+        if (energy.getAmount() < getEffectiveEnergyPerTick()) {
+            return MachineRuntimeState.NO_POWER;
+        }
+        return items.get(SLOT_INPUT).isEmpty() ? MachineRuntimeState.NO_WORK : MachineRuntimeState.IDLE;
+    }
+
+    @Override
+    public int getProcessProgress() {
+        return cookTime;
+    }
+
+    @Override
+    public int getProcessMax() {
+        return cookTimeTotal;
+    }
+
+    @Override
+    public boolean isRemoteEnabled() {
+        return remoteEnabled;
+    }
+
+    @Override
+    public void setRemoteEnabled(boolean enabled) {
+        if (remoteEnabled == enabled) {
+            return;
+        }
+        remoteEnabled = enabled;
+        if (!enabled) {
+            cookTime = 0;
+        }
+        setChanged();
     }
 }

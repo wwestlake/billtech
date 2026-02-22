@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-public class CoalPyrolyzerBlockEntity extends BlockEntity implements net.minecraft.world.WorldlyContainer, MenuProvider, SideConfigAccess, MachineStatusAccess {
+public class CoalPyrolyzerBlockEntity extends BlockEntity implements net.minecraft.world.WorldlyContainer, MenuProvider, SideConfigAccess, MachineStatusAccess, RemoteControllable {
     private static final int SLOT_INPUT = 0;
     private static final int[] SLOTS_INPUT = new int[]{SLOT_INPUT};
 
@@ -44,6 +44,7 @@ public class CoalPyrolyzerBlockEntity extends BlockEntity implements net.minecra
     private final NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
 
     private int cookTime;
+    private boolean remoteEnabled = true;
 
     private final EnergyStorageImpl energy;
     private final EnergyStorage energyInputView;
@@ -201,6 +202,10 @@ public class CoalPyrolyzerBlockEntity extends BlockEntity implements net.minecra
     private void tickServer(Level level) {
         clampEnergyToEffectiveCapacity();
         tryPushOutput(level);
+        if (!remoteEnabled) {
+            cookTime = 0;
+            return;
+        }
         ItemStack input = items.get(SLOT_INPUT);
         if (input.isEmpty() || !isValidInput(input)) {
             cookTime = 0;
@@ -383,6 +388,7 @@ public class CoalPyrolyzerBlockEntity extends BlockEntity implements net.minecra
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
         tag.putInt("CookTime", cookTime);
+        tag.putBoolean("RemoteEnabled", remoteEnabled);
         tag.putLong("Energy", energy.getAmount());
         ContainerHelper.saveAllItems(tag, items, provider);
         CompoundTag fluidTag = new CompoundTag();
@@ -395,6 +401,7 @@ public class CoalPyrolyzerBlockEntity extends BlockEntity implements net.minecra
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
         cookTime = tag.getInt("CookTime").orElse(0);
+        remoteEnabled = tag.getBoolean("RemoteEnabled").orElse(true);
         long stored = tag.getLong("Energy").orElse(0L);
         energy.setAmount(stored);
         ContainerHelper.loadAllItems(tag, items, provider);
@@ -468,5 +475,49 @@ public class CoalPyrolyzerBlockEntity extends BlockEntity implements net.minecra
     @Override
     public int getFluidOutCapacity() {
         return clampLong(outputBuffer);
+    }
+
+    @Override
+    public MachineRuntimeState getRuntimeState() {
+        if (!remoteEnabled) {
+            return MachineRuntimeState.DISABLED;
+        }
+        if (cookTime > 0) {
+            return MachineRuntimeState.RUNNING;
+        }
+        if (energy.getAmount() < energyPerTick) {
+            return MachineRuntimeState.NO_POWER;
+        }
+        if (outputStorage.getAmount() >= outputBuffer) {
+            return MachineRuntimeState.OUTPUT_FULL;
+        }
+        return items.get(SLOT_INPUT).isEmpty() ? MachineRuntimeState.NO_WORK : MachineRuntimeState.IDLE;
+    }
+
+    @Override
+    public int getProcessProgress() {
+        return cookTime;
+    }
+
+    @Override
+    public int getProcessMax() {
+        return ticksPerItem;
+    }
+
+    @Override
+    public boolean isRemoteEnabled() {
+        return remoteEnabled;
+    }
+
+    @Override
+    public void setRemoteEnabled(boolean enabled) {
+        if (remoteEnabled == enabled) {
+            return;
+        }
+        remoteEnabled = enabled;
+        if (!enabled) {
+            cookTime = 0;
+        }
+        setChanged();
     }
 }

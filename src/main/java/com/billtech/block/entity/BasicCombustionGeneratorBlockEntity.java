@@ -30,7 +30,7 @@ import team.reborn.energy.api.EnergyStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 
-public class BasicCombustionGeneratorBlockEntity extends BlockEntity implements WorldlyContainer, UpgradeInventoryProvider, MenuProvider, SideConfigAccess, MachineStatusAccess {
+public class BasicCombustionGeneratorBlockEntity extends BlockEntity implements WorldlyContainer, UpgradeInventoryProvider, MenuProvider, SideConfigAccess, MachineStatusAccess, RemoteControllable {
     private static final int SLOT_FUEL = 0;
     private static final int[] SLOTS = new int[]{SLOT_FUEL};
 
@@ -41,6 +41,7 @@ public class BasicCombustionGeneratorBlockEntity extends BlockEntity implements 
     private final NonNullList<ItemStack> upgrades = NonNullList.withSize(4, ItemStack.EMPTY);
     private int burnTime;
     private int burnTimeTotal;
+    private boolean remoteEnabled = true;
 
     private final EnergyStorageImpl energy;
     private final EnergyStorage energyInputView;
@@ -141,6 +142,10 @@ public class BasicCombustionGeneratorBlockEntity extends BlockEntity implements 
 
     private void tickServer(Level level) {
         clampEnergyToEffectiveCapacity();
+        if (!remoteEnabled) {
+            burnTime = 0;
+            return;
+        }
         if (burnTime > 0) {
             burnTime--;
             long inserted;
@@ -233,6 +238,7 @@ public class BasicCombustionGeneratorBlockEntity extends BlockEntity implements 
         super.saveAdditional(tag, provider);
         tag.putInt("BurnTime", burnTime);
         tag.putInt("BurnTimeTotal", burnTimeTotal);
+        tag.putBoolean("RemoteEnabled", remoteEnabled);
         tag.putLong("Energy", energy.getAmount());
         ContainerHelper.saveAllItems(tag, items, provider);
         CompoundTag upgradesTag = new CompoundTag();
@@ -246,6 +252,7 @@ public class BasicCombustionGeneratorBlockEntity extends BlockEntity implements 
         super.loadAdditional(tag, provider);
         burnTime = tag.getInt("BurnTime").orElse(0);
         burnTimeTotal = tag.getInt("BurnTimeTotal").orElse(0);
+        remoteEnabled = tag.getBoolean("RemoteEnabled").orElse(true);
         long stored = tag.getLong("Energy").orElse(0L);
         energy.setAmount(stored);
         ContainerHelper.loadAllItems(tag, items, provider);
@@ -453,5 +460,49 @@ public class BasicCombustionGeneratorBlockEntity extends BlockEntity implements 
     @Override
     public int getFluidOutCapacity() {
         return 0;
+    }
+
+    @Override
+    public MachineRuntimeState getRuntimeState() {
+        if (!remoteEnabled) {
+            return MachineRuntimeState.DISABLED;
+        }
+        if (burnTime > 0) {
+            return MachineRuntimeState.RUNNING;
+        }
+        if (energy.getAmount() >= getEffectiveEnergyCapacity()) {
+            return MachineRuntimeState.OUTPUT_FULL;
+        }
+        return items.get(SLOT_FUEL).isEmpty() ? MachineRuntimeState.NO_WORK : MachineRuntimeState.IDLE;
+    }
+
+    @Override
+    public int getProcessProgress() {
+        if (burnTimeTotal <= 0) {
+            return 0;
+        }
+        return Math.max(0, burnTimeTotal - burnTime);
+    }
+
+    @Override
+    public int getProcessMax() {
+        return Math.max(0, burnTimeTotal);
+    }
+
+    @Override
+    public boolean isRemoteEnabled() {
+        return remoteEnabled;
+    }
+
+    @Override
+    public void setRemoteEnabled(boolean enabled) {
+        if (remoteEnabled == enabled) {
+            return;
+        }
+        remoteEnabled = enabled;
+        if (!enabled) {
+            burnTime = 0;
+        }
+        setChanged();
     }
 }

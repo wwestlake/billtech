@@ -44,7 +44,7 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.List;
 
-public class EssenceExtractorBlockEntity extends BlockEntity implements WorldlyContainer, SideConfigAccess, MenuProvider, MachineStatusAccess {
+public class EssenceExtractorBlockEntity extends BlockEntity implements WorldlyContainer, SideConfigAccess, MenuProvider, MachineStatusAccess, RemoteControllable {
     private static final long ENERGY_CAPACITY = 120_000;
     private static final long ENERGY_RECEIVE = 2_000;
     private static final long ENERGY_PER_TICK = 120;
@@ -63,6 +63,7 @@ public class EssenceExtractorBlockEntity extends BlockEntity implements WorldlyC
     private static final int[] OUTPUT_SLOTS = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
 
     private int process;
+    private boolean remoteEnabled = true;
     private final SideConfig sideConfig = new SideConfig(PortMode.NONE);
     private final NonNullList<net.minecraft.world.item.ItemStack> outputItems = NonNullList.withSize(9, net.minecraft.world.item.ItemStack.EMPTY);
     private final NonNullList<net.minecraft.world.item.ItemStack> upgrades = NonNullList.withSize(3, net.minecraft.world.item.ItemStack.EMPTY);
@@ -184,6 +185,10 @@ public class EssenceExtractorBlockEntity extends BlockEntity implements WorldlyC
     private void tickServer(Level level) {
         pullEnergy(level);
         pushEssence(level);
+        if (!remoteEnabled) {
+            process = 0;
+            return;
+        }
         if (ModFluids.MOB_ESSENCE == null) {
             process = 0;
             return;
@@ -453,6 +458,7 @@ public class EssenceExtractorBlockEntity extends BlockEntity implements WorldlyC
         super.saveAdditional(tag, provider);
         tag.putLong("Energy", energy.stored());
         tag.putInt("Process", process);
+        tag.putBoolean("RemoteEnabled", remoteEnabled);
         CompoundTag fluidTag = new CompoundTag();
         SingleVariantStorage.writeNbt(essenceStorage, FluidVariant.CODEC, fluidTag, provider);
         tag.put("Essence", fluidTag);
@@ -468,6 +474,7 @@ public class EssenceExtractorBlockEntity extends BlockEntity implements WorldlyC
         super.loadAdditional(tag, provider);
         energy.setStored(tag.getLong("Energy").orElse(0L));
         process = tag.getInt("Process").orElse(0);
+        remoteEnabled = tag.getBoolean("RemoteEnabled").orElse(true);
         CompoundTag fluidTag = tag.getCompound("Essence").orElse(null);
         if (fluidTag != null) {
             SingleVariantStorage.readNbt(essenceStorage, FluidVariant.CODEC, FluidVariant::blank, fluidTag, provider);
@@ -650,5 +657,56 @@ public class EssenceExtractorBlockEntity extends BlockEntity implements WorldlyC
     @Override
     public int getFluidOutCapacity() {
         return clampLong(ESSENCE_BUFFER);
+    }
+
+    @Override
+    public MachineRuntimeState getRuntimeState() {
+        Level currentLevel = level;
+        if (currentLevel == null) {
+            return MachineRuntimeState.IDLE;
+        }
+        if (!remoteEnabled) {
+            return MachineRuntimeState.DISABLED;
+        }
+        if (ModFluids.MOB_ESSENCE == null) {
+            return MachineRuntimeState.ERROR;
+        }
+        if (essenceStorage.getAmount() >= ESSENCE_BUFFER) {
+            return MachineRuntimeState.OUTPUT_FULL;
+        }
+        if (findTargets(currentLevel).isEmpty()) {
+            return MachineRuntimeState.NO_WORK;
+        }
+        if (energy.stored() < getEffectiveEnergyPerTick()) {
+            return MachineRuntimeState.NO_POWER;
+        }
+        return process > 0 ? MachineRuntimeState.RUNNING : MachineRuntimeState.IDLE;
+    }
+
+    @Override
+    public int getProcessProgress() {
+        return process;
+    }
+
+    @Override
+    public int getProcessMax() {
+        return getEffectiveProcessTicks();
+    }
+
+    @Override
+    public boolean isRemoteEnabled() {
+        return remoteEnabled;
+    }
+
+    @Override
+    public void setRemoteEnabled(boolean enabled) {
+        if (remoteEnabled == enabled) {
+            return;
+        }
+        remoteEnabled = enabled;
+        if (!enabled) {
+            process = 0;
+        }
+        setChanged();
     }
 }

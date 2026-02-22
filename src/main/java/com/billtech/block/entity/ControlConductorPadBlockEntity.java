@@ -24,11 +24,12 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.UUID;
 
-public class ControlConductorPadBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess, MachineStatusAccess {
+public class ControlConductorPadBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess, MachineStatusAccess, RemoteControllable {
     private static final int PROCESS_TICKS = 120;
     private UUID capturedMob;
     private int chargedTicks;
     private int processTicks;
+    private boolean remoteEnabled = true;
     private final SideConfig sideConfig = new SideConfig(PortMode.NONE);
 
     public ControlConductorPadBlockEntity(BlockPos pos, BlockState state) {
@@ -45,6 +46,10 @@ public class ControlConductorPadBlockEntity extends BlockEntity implements MenuP
     }
 
     private void tickServer(ServerLevel level) {
+        if (!remoteEnabled) {
+            processTicks = 0;
+            return;
+        }
         if (chargedTicks > 0) {
             chargedTicks--;
         }
@@ -205,6 +210,7 @@ public class ControlConductorPadBlockEntity extends BlockEntity implements MenuP
         }
         tag.putInt("ChargedTicks", chargedTicks);
         tag.putInt("ProcessTicks", processTicks);
+        tag.putBoolean("RemoteEnabled", remoteEnabled);
     }
 
     @Override
@@ -214,5 +220,47 @@ public class ControlConductorPadBlockEntity extends BlockEntity implements MenuP
         capturedMob = uuid.isEmpty() ? null : UUID.fromString(uuid);
         chargedTicks = tag.getInt("ChargedTicks").orElse(0);
         processTicks = tag.getInt("ProcessTicks").orElse(0);
+        remoteEnabled = tag.getBoolean("RemoteEnabled").orElse(true);
+    }
+
+    @Override
+    public MachineRuntimeState getRuntimeState() {
+        if (!remoteEnabled) {
+            return MachineRuntimeState.DISABLED;
+        }
+        if (!hasCapturedMob()) {
+            return MachineRuntimeState.NO_WORK;
+        }
+        if (processTicks > 0) {
+            return MachineRuntimeState.RUNNING;
+        }
+        return isCharged() ? MachineRuntimeState.IDLE : MachineRuntimeState.NO_POWER;
+    }
+
+    @Override
+    public int getProcessProgress() {
+        return processTicks;
+    }
+
+    @Override
+    public int getProcessMax() {
+        return PROCESS_TICKS;
+    }
+
+    @Override
+    public boolean isRemoteEnabled() {
+        return remoteEnabled;
+    }
+
+    @Override
+    public void setRemoteEnabled(boolean enabled) {
+        if (remoteEnabled == enabled) {
+            return;
+        }
+        remoteEnabled = enabled;
+        if (!enabled) {
+            processTicks = 0;
+        }
+        setChanged();
     }
 }

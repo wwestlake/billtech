@@ -38,7 +38,7 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.List;
 
-public class SteamBoilerBlockEntity extends BlockEntity implements MenuProvider, WorldlyContainer, SideConfigAccess, MachineStatusAccess {
+public class SteamBoilerBlockEntity extends BlockEntity implements MenuProvider, WorldlyContainer, SideConfigAccess, MachineStatusAccess, RemoteControllable {
     private static final int SLOT_FUEL = 0;
     private static final int[] SLOTS = new int[]{SLOT_FUEL};
 
@@ -64,6 +64,7 @@ public class SteamBoilerBlockEntity extends BlockEntity implements MenuProvider,
     private int burnTimeTotal;
     private boolean multiblockComplete;
     private boolean turbineFeedEnabled;
+    private boolean remoteEnabled = true;
 
     private final WaterStorage waterStorage = new WaterStorage();
     private final FuelStorage fuelStorage = new FuelStorage();
@@ -188,6 +189,9 @@ public class SteamBoilerBlockEntity extends BlockEntity implements MenuProvider,
 
     private void tickServer(Level level) {
         clampEnergyToEffectiveCapacity();
+        if (!remoteEnabled) {
+            return;
+        }
         multiblockComplete = hasValidLine();
         tryPullInputs(level);
 
@@ -600,6 +604,7 @@ public class SteamBoilerBlockEntity extends BlockEntity implements MenuProvider,
         tag.putInt("BurnTime", burnTime);
         tag.putInt("BurnTimeTotal", burnTimeTotal);
         tag.putLong("Energy", energy.getAmount());
+        tag.putBoolean("RemoteEnabled", remoteEnabled);
         ContainerHelper.saveAllItems(tag, items, provider);
 
         CompoundTag waterTag = new CompoundTag();
@@ -624,6 +629,7 @@ public class SteamBoilerBlockEntity extends BlockEntity implements MenuProvider,
         burnTimeTotal = tag.getInt("BurnTimeTotal").orElse(0);
         long storedEnergy = tag.getLong("Energy").orElse(0L);
         energy.setAmount(storedEnergy);
+        remoteEnabled = tag.getBoolean("RemoteEnabled").orElse(true);
         ContainerHelper.loadAllItems(tag, items, provider);
 
         CompoundTag waterTag = tag.getCompound("Water").orElse(null);
@@ -763,6 +769,60 @@ public class SteamBoilerBlockEntity extends BlockEntity implements MenuProvider,
     @Override
     public int getFluidOutCapacity() {
         return clampLong(steamBuffer);
+    }
+
+    @Override
+    public MachineRuntimeState getRuntimeState() {
+        if (!remoteEnabled) {
+            return MachineRuntimeState.DISABLED;
+        }
+        if (steamStorage.getAmount() + steamPerTick > steamBuffer) {
+            return MachineRuntimeState.OUTPUT_FULL;
+        }
+        if (waterStorage.getAmount() < waterPerTick) {
+            return MachineRuntimeState.NO_WORK;
+        }
+        if (burnTime > 0) {
+            return MachineRuntimeState.RUNNING;
+        }
+        if (hasFuelAvailable()) {
+            return MachineRuntimeState.IDLE;
+        }
+        return MachineRuntimeState.NO_WORK;
+    }
+
+    @Override
+    public int getProcessProgress() {
+        if (burnTimeTotal <= 0) {
+            return 0;
+        }
+        return Math.max(0, burnTimeTotal - burnTime);
+    }
+
+    @Override
+    public int getProcessMax() {
+        return Math.max(0, burnTimeTotal);
+    }
+
+    @Override
+    public boolean isRemoteEnabled() {
+        return remoteEnabled;
+    }
+
+    @Override
+    public void setRemoteEnabled(boolean enabled) {
+        if (remoteEnabled == enabled) {
+            return;
+        }
+        remoteEnabled = enabled;
+        setChanged();
+    }
+
+    private boolean hasFuelAvailable() {
+        if (fuelStorage.getAmount() >= heavyFuelPerCycle || fuelStorage.getAmount() >= lightFuelPerCycle) {
+            return true;
+        }
+        return getFuelTime(items.get(SLOT_FUEL)) > 0;
     }
 
     private long getEffectiveEnergyCapacity() {

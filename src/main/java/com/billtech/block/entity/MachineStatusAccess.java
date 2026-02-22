@@ -22,4 +22,47 @@ public interface MachineStatusAccess {
     int getFluidOutStored();
 
     int getFluidOutCapacity();
+
+    default MachineRuntimeState getRuntimeState() {
+        return MachineRuntimeState.IDLE;
+    }
+
+    default int getRuntimeStateId() {
+        return getRuntimeState().id();
+    }
+
+    default int getProcessProgress() {
+        return 0;
+    }
+
+    default int getProcessMax() {
+        return 0;
+    }
+
+    default int getInputBufferUsed() {
+        return getFluidInStored();
+    }
+
+    default int getInputBufferCapacity() {
+        return getFluidInCapacity();
+    }
+
+    default int getOutputBufferUsed() {
+        return getFluidOutStored();
+    }
+
+    default int getOutputBufferCapacity() {
+        return getFluidOutCapacity();
+    }
+
+    default boolean supportsRemoteControl() {
+        return this instanceof RemoteControllable;
+    }
+
+    default boolean isRemoteEnabled() {
+        if (this instanceof RemoteControllable controllable) {
+            return controllable.isRemoteEnabled();
+        }
+        return true;
+    }
 }

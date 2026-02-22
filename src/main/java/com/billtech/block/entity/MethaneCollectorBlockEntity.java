@@ -25,9 +25,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class MethaneCollectorBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess, MachineStatusAccess {
+public class MethaneCollectorBlockEntity extends BlockEntity implements MenuProvider, SideConfigAccess, MachineStatusAccess, RemoteControllable {
     private final long outputPerTick;
     private final long outputBuffer;
+    private boolean remoteEnabled = true;
     private final SideConfig sideConfig = new SideConfig(PortMode.NONE);
 
     private final OutputStorage outputStorage = new OutputStorage();
@@ -101,6 +102,9 @@ public class MethaneCollectorBlockEntity extends BlockEntity implements MenuProv
             return;
         }
         tryPushOutput(level);
+        if (!remoteEnabled) {
+            return;
+        }
         if (outputStorage.getAmount() >= outputBuffer) {
             return;
         }
@@ -173,6 +177,7 @@ public class MethaneCollectorBlockEntity extends BlockEntity implements MenuProv
         CompoundTag fluidTag = new CompoundTag();
         SingleVariantStorage.writeNbt(outputStorage, FluidVariant.CODEC, fluidTag, provider);
         tag.put("Output", fluidTag);
+        tag.putBoolean("RemoteEnabled", remoteEnabled);
         sideConfig.save(tag, provider);
     }
 
@@ -183,6 +188,7 @@ public class MethaneCollectorBlockEntity extends BlockEntity implements MenuProv
         if (fluidTag != null) {
             SingleVariantStorage.readNbt(outputStorage, FluidVariant.CODEC, FluidVariant::blank, fluidTag, provider);
         }
+        remoteEnabled = tag.getBoolean("RemoteEnabled").orElse(true);
         sideConfig.load(tag, provider);
     }
 
@@ -234,5 +240,37 @@ public class MethaneCollectorBlockEntity extends BlockEntity implements MenuProv
     @Override
     public int getFluidOutCapacity() {
         return clampLong(outputBuffer);
+    }
+
+    @Override
+    public MachineRuntimeState getRuntimeState() {
+        Level currentLevel = level;
+        if (currentLevel == null) {
+            return MachineRuntimeState.IDLE;
+        }
+        if (!remoteEnabled) {
+            return MachineRuntimeState.DISABLED;
+        }
+        if (!isValidBiome(currentLevel)) {
+            return MachineRuntimeState.BLOCKED;
+        }
+        if (outputStorage.getAmount() >= outputBuffer) {
+            return MachineRuntimeState.OUTPUT_FULL;
+        }
+        return MachineRuntimeState.RUNNING;
+    }
+
+    @Override
+    public boolean isRemoteEnabled() {
+        return remoteEnabled;
+    }
+
+    @Override
+    public void setRemoteEnabled(boolean enabled) {
+        if (remoteEnabled == enabled) {
+            return;
+        }
+        remoteEnabled = enabled;
+        setChanged();
     }
 }

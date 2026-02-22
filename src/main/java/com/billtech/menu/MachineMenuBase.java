@@ -5,6 +5,7 @@ import com.billtech.block.FluidPipeBlock;
 import com.billtech.block.ItemPipeBlock;
 import com.billtech.block.entity.PortMode;
 import com.billtech.block.entity.MachineStatusAccess;
+import com.billtech.block.entity.MachineRuntimeState;
 import com.billtech.block.entity.SideConfigAccess;
 import com.billtech.transport.TransportType;
 import com.billtech.upgrade.UpgradeItem;
@@ -114,6 +115,27 @@ public abstract class MachineMenuBase extends AbstractContainerMenu {
 
     public int getStatusFluidOutCapacity() {
         return statusData == null ? 0 : statusData.get(MachineStatusData.FLUID_OUT_CAPACITY);
+    }
+
+    public int getStatusProcessProgress() {
+        return statusData == null ? 0 : statusData.get(MachineStatusData.PROCESS_PROGRESS);
+    }
+
+    public int getStatusProcessMax() {
+        return statusData == null ? 0 : statusData.get(MachineStatusData.PROCESS_MAX);
+    }
+
+    public MachineRuntimeState getStatusRuntimeState() {
+        int id = statusData == null ? 0 : statusData.get(MachineStatusData.RUNTIME_STATE);
+        return MachineRuntimeState.fromId(id);
+    }
+
+    public boolean isStatusRemoteEnabled() {
+        return statusData != null && statusData.get(MachineStatusData.REMOTE_ENABLED) == 1;
+    }
+
+    public boolean supportsStatusRemoteControl() {
+        return statusData != null && statusData.get(MachineStatusData.REMOTE_SUPPORTED) == 1;
     }
 
     @Override
