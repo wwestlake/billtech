@@ -56,3 +56,10 @@ Note: This is a standard Fabric Loom setup; tasks above should exist unless the 
 - If touching tank storage balancing, watch for server/client desync and oscillation.
 - If a block is added, ensure it ships with a recipe in the same change.
 - Each block must have its own model definitions; do not point one block's blockstate to another block's models. Keep block models self-contained per block.
+
+## Safety protocol
+- Before changing code, do at least one back-and-forth verification step with the user to confirm scope.
+- Never run destructive recursive delete operations (`Remove-Item -Recurse`, `rd /s`, `robocopy /MIR`) unless the user explicitly asks in that turn.
+- Before any delete/cleanup command, show a dry-run list of targets and get explicit user confirmation in chat.
+- Treat junctions/symlinks/reparse points as unsafe by default; do not recurse through them during cleanup.
+- Prefer non-destructive moves to a temp/quarantine folder over direct deletion.
