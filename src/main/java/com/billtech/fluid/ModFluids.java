@@ -25,6 +25,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 public final class ModFluids {
     public static FlowingFluid SLUDGE;
     public static FlowingFluid SLUDGE_FLOWING;
+    public static FlowingFluid MOB_ESSENCE;
+    public static FlowingFluid MOB_ESSENCE_FLOWING;
 
     public static FlowingFluid COAL_OIL;
     public static FlowingFluid COAL_OIL_FLOWING;
@@ -57,8 +59,11 @@ public final class ModFluids {
     public static FlowingFluid HEAVY_FRACTION_FLOWING;
     public static FlowingFluid RESIDUE;
     public static FlowingFluid RESIDUE_FLOWING;
+    public static FlowingFluid STEAM;
+    public static FlowingFluid STEAM_FLOWING;
 
     public static Block SLUDGE_BLOCK;
+    public static Block MOB_ESSENCE_BLOCK;
     public static Block COAL_OIL_BLOCK;
     public static Block CRUDE_OIL_BLOCK;
     public static Block LIGHT_FUEL_BLOCK;
@@ -73,8 +78,10 @@ public final class ModFluids {
     public static Block MEDIUM_FRACTION_BLOCK;
     public static Block HEAVY_FRACTION_BLOCK;
     public static Block RESIDUE_BLOCK;
+    public static Block STEAM_BLOCK;
 
     public static Item SLUDGE_BUCKET;
+    public static Item MOB_ESSENCE_BUCKET;
     public static Item COAL_OIL_BUCKET;
     public static Item CRUDE_OIL_BUCKET;
     public static Item LIGHT_FUEL_BUCKET;
@@ -89,6 +96,7 @@ public final class ModFluids {
     public static Item MEDIUM_FRACTION_BUCKET;
     public static Item HEAVY_FRACTION_BUCKET;
     public static Item RESIDUE_BUCKET;
+    public static Item STEAM_BUCKET;
 
     private ModFluids() {
     }
@@ -107,6 +115,16 @@ public final class ModFluids {
                 BuiltInRegistries.FLUID,
                 ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "sludge_flowing"),
                 new SludgeFluid.Flowing()
+        );
+        MOB_ESSENCE = Registry.register(
+                BuiltInRegistries.FLUID,
+                ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "mob_essence"),
+                new BasicFluid.Still(() -> MOB_ESSENCE, () -> MOB_ESSENCE_FLOWING, () -> MOB_ESSENCE_BLOCK, () -> MOB_ESSENCE_BUCKET)
+        );
+        MOB_ESSENCE_FLOWING = Registry.register(
+                BuiltInRegistries.FLUID,
+                ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "mob_essence_flowing"),
+                new BasicFluid.Flowing(() -> MOB_ESSENCE, () -> MOB_ESSENCE_FLOWING, () -> MOB_ESSENCE_BLOCK, () -> MOB_ESSENCE_BUCKET)
         );
 
         COAL_OIL = Registry.register(
@@ -261,6 +279,17 @@ public final class ModFluids {
                 BuiltInRegistries.FLUID,
                 ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "residue_flowing"),
                 new BasicFluid.Flowing(() -> RESIDUE, () -> RESIDUE_FLOWING, () -> RESIDUE_BLOCK, () -> RESIDUE_BUCKET)
+        );
+
+        STEAM = Registry.register(
+                BuiltInRegistries.FLUID,
+                ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "steam"),
+                new BasicFluid.Still(() -> STEAM, () -> STEAM_FLOWING, () -> STEAM_BLOCK, () -> STEAM_BUCKET)
+        );
+        STEAM_FLOWING = Registry.register(
+                BuiltInRegistries.FLUID,
+                ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "steam_flowing"),
+                new BasicFluid.Flowing(() -> STEAM, () -> STEAM_FLOWING, () -> STEAM_BLOCK, () -> STEAM_BUCKET)
         );
 
         ResourceLocation sludgeId = ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "sludge");
@@ -472,8 +501,37 @@ public final class ModFluids {
                                 .setId(ResourceKey.create(Registries.BLOCK, residueId))
                 )
         );
+        ResourceLocation mobEssenceId = ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "mob_essence");
+        MOB_ESSENCE_BLOCK = Registry.register(
+                BuiltInRegistries.BLOCK,
+                mobEssenceId,
+                new net.minecraft.world.level.block.LiquidBlock(
+                        MOB_ESSENCE,
+                        BlockBehaviour.Properties.of()
+                                .noCollission()
+                                .lightLevel(state -> 10)
+                                .strength(100.0F)
+                                .noLootTable()
+                                .setId(ResourceKey.create(Registries.BLOCK, mobEssenceId))
+                )
+        );
+
+        ResourceLocation steamId = ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "steam");
+        STEAM_BLOCK = Registry.register(
+                BuiltInRegistries.BLOCK,
+                steamId,
+                new net.minecraft.world.level.block.LiquidBlock(
+                        STEAM,
+                        BlockBehaviour.Properties.of()
+                                .noCollission()
+                                .strength(100.0F)
+                                .noLootTable()
+                                .setId(ResourceKey.create(Registries.BLOCK, steamId))
+                )
+        );
 
         SLUDGE_BUCKET = registerBucket("sludge_bucket", SLUDGE);
+        MOB_ESSENCE_BUCKET = registerBucket("mob_essence_bucket", MOB_ESSENCE);
         COAL_OIL_BUCKET = registerBucket("coal_oil_bucket", COAL_OIL);
         CRUDE_OIL_BUCKET = registerBucket("crude_oil_bucket", CRUDE_OIL);
         LIGHT_FUEL_BUCKET = registerBucket("light_fuel_bucket", LIGHT_FUEL);
@@ -488,6 +546,7 @@ public final class ModFluids {
         MEDIUM_FRACTION_BUCKET = registerBucket("medium_fraction_bucket", MEDIUM_FRACTION);
         HEAVY_FRACTION_BUCKET = registerBucket("heavy_fraction_bucket", HEAVY_FRACTION);
         RESIDUE_BUCKET = registerBucket("residue_bucket", RESIDUE);
+        STEAM_BUCKET = registerBucket("steam_bucket", STEAM);
     }
 
     private static Item registerBucket(String name, Fluid fluid) {

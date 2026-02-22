@@ -1,0 +1,84 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "frame": "minecraft:block/polished_blackstone_bricks",
+    "panel": "minecraft:block/nether_bricks",
+    "core": "minecraft:block/crying_obsidian",
+    "accent": "minecraft:block/magma",
+    "particle": "minecraft:block/polished_blackstone_bricks"
+  },
+  "elements": [
+    {
+      "from": [1, 0, 1],
+      "to": [15, 4, 15],
+      "faces": {
+        "north": { "texture": "#panel" },
+        "south": { "texture": "#panel" },
+        "east": { "texture": "#panel" },
+        "west": { "texture": "#panel" },
+        "up": { "texture": "#frame" },
+        "down": { "texture": "#frame" }
+      }
+    },
+    {
+      "from": [2, 4, 2],
+      "to": [14, 13, 14],
+      "faces": {
+        "north": { "texture": "#core" },
+        "south": { "texture": "#core" },
+        "east": { "texture": "#core" },
+        "west": { "texture": "#core" },
+        "up": { "texture": "#frame" },
+        "down": { "texture": "#frame" }
+      }
+    },
+    {
+      "from": [0, 2, 0],
+      "to": [2, 15, 2],
+      "faces": {
+        "north": { "texture": "#frame" },
+        "south": { "texture": "#frame" },
+        "east": { "texture": "#frame" },
+        "west": { "texture": "#frame" },
+        "up": { "texture": "#accent" },
+        "down": { "texture": "#frame" }
+      }
+    },
+    {
+      "from": [14, 2, 0],
+      "to": [16, 15, 2],
+      "faces": {
+        "north": { "texture": "#frame" },
+        "south": { "texture": "#frame" },
+        "east": { "texture": "#frame" },
+        "west": { "texture": "#frame" },
+        "up": { "texture": "#accent" },
+        "down": { "texture": "#frame" }
+      }
+    },
+    {
+      "from": [0, 2, 14],
+      "to": [2, 15, 16],
+      "faces": {
+        "north": { "texture": "#frame" },
+        "south": { "texture": "#frame" },
+        "east": { "texture": "#frame" },
+        "west": { "texture": "#frame" },
+        "up": { "texture": "#accent" },
+        "down": { "texture": "#frame" }
+      }
+    },
+    {
+      "from": [14, 2, 14],
+      "to": [16, 15, 16],
+      "faces": {
+        "north": { "texture": "#frame" },
+        "south": { "texture": "#frame" },
+        "east": { "texture": "#frame" },
+        "west": { "texture": "#frame" },
+        "up": { "texture": "#accent" },
+        "down": { "texture": "#frame" }
+      }
+    }
+  ]
+}

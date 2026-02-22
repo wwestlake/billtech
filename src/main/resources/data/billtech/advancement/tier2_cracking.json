@@ -1,0 +1,43 @@
+{
+  "parent": "billtech:tier2_refining",
+  "display": {
+    "icon": {
+      "id": "billtech:cracking_tower_controller",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancement.billtech.tier2_cracking.title"
+    },
+    "description": {
+      "translate": "advancement.billtech.tier2_cracking.description"
+    },
+    "x": 12.0,
+    "y": 0.0,
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "place_tower_controller": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:cracking_tower_controller"
+      }
+    },
+    "place_tower_segment": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:cracking_tower"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place_tower_controller"
+    ],
+    [
+      "place_tower_segment"
+    ]
+  ]
+}

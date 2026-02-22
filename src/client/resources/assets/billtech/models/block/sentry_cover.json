@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "frame": "minecraft:block/polished_blackstone_bricks",
+    "plate": "minecraft:block/nether_bricks",
+    "spire": "minecraft:block/crying_obsidian",
+    "rune": "minecraft:block/magma",
+    "particle": "minecraft:block/polished_blackstone_bricks"
+  },
+  "elements": [
+    {
+      "from": [1, 12, 1],
+      "to": [15, 16, 15],
+      "faces": {
+        "north": { "texture": "#plate" },
+        "south": { "texture": "#plate" },
+        "east": { "texture": "#plate" },
+        "west": { "texture": "#plate" },
+        "up": { "texture": "#frame" },
+        "down": { "texture": "#frame" }
+      }
+    },
+    {
+      "from": [3, 10, 3],
+      "to": [13, 12, 13],
+      "faces": {
+        "north": { "texture": "#rune" },
+        "south": { "texture": "#rune" },
+        "east": { "texture": "#rune" },
+        "west": { "texture": "#rune" },
+        "up": { "texture": "#rune" },
+        "down": { "texture": "#rune" }
+      }
+    },
+    {
+      "from": [6, 4, 6],
+      "to": [10, 12, 10],
+      "faces": {
+        "north": { "texture": "#spire" },
+        "south": { "texture": "#spire" },
+        "east": { "texture": "#spire" },
+        "west": { "texture": "#spire" },
+        "up": { "texture": "#rune" },
+        "down": { "texture": "#spire" }
+      }
+    }
+  ]
+}

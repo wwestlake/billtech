@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "billtech:block/hv_shielded_cable_item"
+  }
+}

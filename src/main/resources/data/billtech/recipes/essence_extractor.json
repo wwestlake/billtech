@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SFS",
+    "CTC",
+    "SBS"
+  ],
+  "key": {
+    "S": { "item": "billtech:steel_ingot" },
+    "F": { "item": "minecraft:crimson_fungus" },
+    "C": { "item": "billtech:insulated_copper_cable" },
+    "T": { "item": "billtech:tank_block" },
+    "B": { "item": "minecraft:blaze_rod" }
+  },
+  "result": {
+    "id": "billtech:essence_extractor"
+  }
+}

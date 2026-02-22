@@ -1,0 +1,34 @@
+{
+  "parent": "billtech:tier2_recipe_encoding",
+  "display": {
+    "icon": {
+      "id": "billtech:auto_crafter",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancement.billtech.tier2_auto_crafting.title"
+    },
+    "description": {
+      "translate": "advancement.billtech.tier2_auto_crafting.description"
+    },
+    "x": 12.0,
+    "y": 2.0,
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "place_auto_crafter": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:auto_crafter"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place_auto_crafter"
+    ]
+  ]
+}

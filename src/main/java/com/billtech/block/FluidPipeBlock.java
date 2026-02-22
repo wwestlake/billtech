@@ -1,11 +1,13 @@
 package com.billtech.block;
 
 import com.billtech.block.entity.FluidPipeBlockEntity;
+import com.billtech.block.entity.SideConfigAccess;
 import com.billtech.cover.CoverInteraction;
 import com.billtech.cover.CoverProvider;
 import com.billtech.stripe.StripeCarrier;
 import com.billtech.stripe.StripeItemData;
 import com.billtech.stripe.StripeUtil;
+import com.billtech.transport.TransportType;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -235,6 +237,15 @@ public class FluidPipeBlock extends Block implements EntityBlock {
             return ConnectionType.NONE;
         }
         if (level instanceof Level world) {
+            BlockEntity be = world.getBlockEntity(neighborPos);
+            if (be instanceof SideConfigAccess access) {
+                Direction sideOnNeighbor = dir.getOpposite();
+                boolean allows = access.getSideConfig().allowsInsert(TransportType.FLUID, sideOnNeighbor)
+                        || access.getSideConfig().allowsExtract(TransportType.FLUID, sideOnNeighbor);
+                if (!allows) {
+                    return ConnectionType.NONE;
+                }
+            }
             Storage<FluidVariant> storage = FluidStorage.SIDED.find(world, neighborPos, dir.getOpposite());
             return storage != null ? ConnectionType.ENDPOINT : ConnectionType.NONE;
         }

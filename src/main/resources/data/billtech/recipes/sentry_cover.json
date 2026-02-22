@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "OCO",
+    "SFS"
+  ],
+  "key": {
+    "S": { "item": "billtech:steel_ingot" },
+    "O": { "item": "minecraft:crying_obsidian" },
+    "C": { "item": "minecraft:copper_block" },
+    "F": { "item": "minecraft:crimson_fungus" }
+  },
+  "result": {
+    "id": "billtech:sentry_cover"
+  }
+}

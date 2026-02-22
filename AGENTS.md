@@ -59,6 +59,7 @@ Note: This is a standard Fabric Loom setup; tasks above should exist unless the 
 
 ## Safety protocol
 - Before changing code, do at least one back-and-forth verification step with the user to confirm scope.
+- Protocol: before making any code changes, perform at least one explicit back-and-forth verification step with the user (confirm understanding/approach and receive confirmation) before editing files.
 - Never run destructive recursive delete operations (`Remove-Item -Recurse`, `rd /s`, `robocopy /MIR`) unless the user explicitly asks in that turn.
 - Before any delete/cleanup command, show a dry-run list of targets and get explicit user confirmation in chat.
 - Treat junctions/symlinks/reparse points as unsafe by default; do not recurse through them during cleanup.

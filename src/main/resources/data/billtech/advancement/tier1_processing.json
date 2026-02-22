@@ -1,0 +1,52 @@
+{
+  "parent": "billtech:tier1_power_online",
+  "display": {
+    "icon": {
+      "id": "billtech:electric_furnace",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancement.billtech.tier1_processing.title"
+    },
+    "description": {
+      "translate": "advancement.billtech.tier1_processing.description"
+    },
+    "x": 4.0,
+    "y": -3.0,
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "place_furnace": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:electric_furnace"
+      }
+    },
+    "place_grinder": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:grinder"
+      }
+    },
+    "place_separator": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:separator"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place_furnace"
+    ],
+    [
+      "place_grinder"
+    ],
+    [
+      "place_separator"
+    ]
+  ]
+}

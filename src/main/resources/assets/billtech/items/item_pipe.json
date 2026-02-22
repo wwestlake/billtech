@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "billtech:item/item_pipe"
+    "model": "billtech:block/item_pipe_item"
   }
 }

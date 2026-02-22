@@ -1,0 +1,52 @@
+{
+  "parent": "billtech:tier1_storage_online",
+  "display": {
+    "icon": {
+      "id": "billtech:tank_block",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancement.billtech.tier1_tank_network.title"
+    },
+    "description": {
+      "translate": "advancement.billtech.tier1_tank_network.description"
+    },
+    "x": 4.0,
+    "y": 1.0,
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "place_tank_block": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:tank_block"
+      }
+    },
+    "place_tank_controller": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:tank_controller"
+      }
+    },
+    "place_valve": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:valve"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place_tank_block"
+    ],
+    [
+      "place_tank_controller"
+    ],
+    [
+      "place_valve"
+    ]
+  ]
+}

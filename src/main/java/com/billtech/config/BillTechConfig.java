@@ -29,6 +29,9 @@ public final class BillTechConfig {
     public MethaneCollector methaneCollector = new MethaneCollector();
     public MethaneGenerator methaneGenerator = new MethaneGenerator();
     public MethaneTank methaneTank = new MethaneTank();
+    public SteamBoiler steamBoiler = new SteamBoiler();
+    public SteamEngine steamEngine = new SteamEngine();
+    public SteamGenerator steamGenerator = new SteamGenerator();
     public Upgrades upgrades = new Upgrades();
 
     public static BillTechConfig get() {
@@ -102,6 +105,15 @@ public final class BillTechConfig {
         }
         if (methaneTank == null) {
             methaneTank = new MethaneTank();
+        }
+        if (steamBoiler == null) {
+            steamBoiler = new SteamBoiler();
+        }
+        if (steamEngine == null) {
+            steamEngine = new SteamEngine();
+        }
+        if (steamGenerator == null) {
+            steamGenerator = new SteamGenerator();
         }
         if (upgrades == null) {
             upgrades = new Upgrades();
@@ -204,6 +216,37 @@ public final class BillTechConfig {
 
     public static final class MethaneTank {
         public long capacity = 10000;
+    }
+
+    public static final class SteamBoiler {
+        public long waterBuffer = 16000;
+        public long fuelBuffer = 8000;
+        public long steamBuffer = 16000;
+        public long waterPerTick = 20;
+        public long steamPerTick = 20;
+        public long energyCapacity = 48000;
+        public long steamForPowerPerTick = 20;
+        public long energyFromPowerPerTick = 120;
+        public int turbineFeedOpenPercent = 75;
+        public int turbineFeedClosePercent = 50;
+        public long turbineFeedPerTick = 40;
+        public int fluidBurnTicks = 200;
+        public long lightFuelPerCycle = 20;
+        public long heavyFuelPerCycle = 20;
+    }
+
+    public static final class SteamEngine {
+        public long energyCapacity = 24000;
+        public long energyPerTick = 80;
+        public long steamPerTick = 20;
+        public long inputBuffer = 16000;
+    }
+
+    public static final class SteamGenerator {
+        public long energyCapacity = 48000;
+        public long energyPerTick = 160;
+        public long steamPerTick = 40;
+        public long inputBuffer = 32000;
     }
 
     public static final class Upgrades {

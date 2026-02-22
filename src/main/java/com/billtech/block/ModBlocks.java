@@ -19,10 +19,6 @@ public final class ModBlocks {
             "fluid_pipe",
             props -> new FluidPipeBlock(props.strength(1.0f).noOcclusion())
     );
-    public static final Block COPPER_WATER_PIPE = registerBlock(
-            "copper_water_pipe",
-            props -> new FluidPipeBlock(props.strength(1.0f).noOcclusion())
-    );
     public static final Block GAS_PIPE = registerBlock(
             "gas_pipe",
             props -> new GasPipeBlock(props.strength(1.0f).noOcclusion())
@@ -66,6 +62,10 @@ public final class ModBlocks {
     public static final Block CLOTH_INSULATED_COPPER_CABLE = registerBlock(
             "cloth_insulated_copper_cable",
             props -> new EnergyCableBlock(props.strength(1.0f).noOcclusion())
+    );
+    public static final Block HV_SHIELDED_CABLE = registerBlock(
+            "hv_shielded_cable",
+            props -> new EnergyCableBlock(props.strength(1.2f).noOcclusion())
     );
     public static final Block COVER_PANEL = registerBlock(
             "cover_panel",
@@ -126,6 +126,42 @@ public final class ModBlocks {
     public static final Block METHANE_GENERATOR = registerBlock(
             "methane_generator",
             props -> new MethaneGeneratorBlock(props.strength(2.0f))
+    );
+    public static final Block STEAM_BOILER = registerBlock(
+            "steam_boiler",
+            props -> new SteamBoilerBlock(props.strength(2.0f).noOcclusion().noCollission())
+    );
+    public static final Block STEAM_ENGINE = registerBlock(
+            "steam_engine",
+            props -> new SteamEngineBlock(props.strength(2.0f).noOcclusion().noCollission())
+    );
+    public static final Block STEAM_GENERATOR = registerBlock(
+            "steam_generator",
+            props -> new SteamGeneratorBlock(props.strength(2.0f).noOcclusion().noCollission())
+    );
+    public static final Block ESSENCE_EXTRACTOR = registerBlock(
+            "essence_extractor",
+            props -> new EssenceExtractorBlock(props.strength(3.0f).noOcclusion())
+    );
+    public static final Block TESLA_COIL = registerBlock(
+            "tesla_coil",
+            props -> new TeslaCoilBlock(props.strength(3.5f).noOcclusion())
+    );
+    public static final Block CONTROL_CONDUCTOR_PAD = registerBlock(
+            "control_conductor_pad",
+            props -> new ControlConductorPadBlock(props.strength(2.5f).noOcclusion())
+    );
+    public static final Block SENTRY_CONTROLLER = registerBlock(
+            "sentry_controller",
+            props -> new SentryControllerBlock(props.strength(3.5f))
+    );
+    public static final Block SENTRY_CONTAINER = registerBlock(
+            "sentry_container",
+            props -> new SentryContainerBlock(props.strength(3.0f).noOcclusion())
+    );
+    public static final Block SENTRY_COVER = registerBlock(
+            "sentry_cover",
+            props -> new SentryCoverBlock(props.strength(3.0f).noOcclusion())
     );
     public static final Block ITEM_CONTROLLER = registerBlock(
             "item_controller",

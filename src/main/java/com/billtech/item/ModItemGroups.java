@@ -21,7 +21,6 @@ public final class ModItemGroups {
                     .icon(() -> new ItemStack(ModBlocks.PUMP))
                     .displayItems((ctx, entries) -> {
                         entries.accept(ModBlocks.FLUID_PIPE);
-                        entries.accept(ModBlocks.COPPER_WATER_PIPE);
                         entries.accept(ModBlocks.GAS_PIPE);
                         entries.accept(ModBlocks.ITEM_PIPE);
                         entries.accept(ModBlocks.PUMP);
@@ -31,6 +30,7 @@ public final class ModItemGroups {
                         entries.accept(ModBlocks.REGULATOR);
                         entries.accept(ModBlocks.INSULATED_COPPER_CABLE);
                         entries.accept(ModBlocks.CLOTH_INSULATED_COPPER_CABLE);
+                        entries.accept(ModBlocks.HV_SHIELDED_CABLE);
                         entries.accept(ModBlocks.BASIC_COMBUSTION_GENERATOR);
                         entries.accept(ModBlocks.ELECTRIC_FURNACE);
                         entries.accept(ModBlocks.COAL_PYROLYZER);
@@ -46,6 +46,15 @@ public final class ModItemGroups {
                         entries.accept(ModBlocks.METHANE_COLLECTOR);
                         entries.accept(ModBlocks.METHANE_TANK);
                         entries.accept(ModBlocks.METHANE_GENERATOR);
+                        entries.accept(ModBlocks.STEAM_BOILER);
+                        entries.accept(ModBlocks.STEAM_ENGINE);
+                        entries.accept(ModBlocks.STEAM_GENERATOR);
+                        entries.accept(ModBlocks.ESSENCE_EXTRACTOR);
+                        entries.accept(ModBlocks.TESLA_COIL);
+                        entries.accept(ModBlocks.CONTROL_CONDUCTOR_PAD);
+                        entries.accept(ModBlocks.SENTRY_CONTROLLER);
+                        entries.accept(ModBlocks.SENTRY_CONTAINER);
+                        entries.accept(ModBlocks.SENTRY_COVER);
                         entries.accept(ModBlocks.ITEM_CONTROLLER);
                         entries.accept(ModBlocks.RECIPE_ENCODER);
                         entries.accept(ModBlocks.AUTO_CRAFTER);
@@ -55,6 +64,7 @@ public final class ModItemGroups {
                         entries.accept(ModItems.PLASTIC_SHEET);
                         entries.accept(ModItems.RECIPE_CARD);
                         entries.accept(ModFluids.SLUDGE_BUCKET);
+                        entries.accept(ModFluids.MOB_ESSENCE_BUCKET);
                         entries.accept(ModFluids.CRUDE_OIL_BUCKET);
                         entries.accept(ModFluids.LIGHT_FUEL_BUCKET);
                         entries.accept(ModFluids.HEAVY_FUEL_BUCKET);
@@ -68,6 +78,7 @@ public final class ModItemGroups {
                         entries.accept(ModFluids.MEDIUM_FRACTION_BUCKET);
                         entries.accept(ModFluids.HEAVY_FRACTION_BUCKET);
                         entries.accept(ModFluids.RESIDUE_BUCKET);
+                        entries.accept(ModFluids.STEAM_BUCKET);
                         entries.accept(ModItems.SILICA_POWDER);
                         entries.accept(ModItems.LIME_POWDER);
                         entries.accept(ModItems.QUICKLIME);
@@ -84,6 +95,8 @@ public final class ModItemGroups {
                         entries.accept(ModItems.POWER_UPGRADE);
                         entries.accept(ModItems.ENERGY_UPGRADE);
                         entries.accept(ModItems.STORAGE_UPGRADE);
+                        entries.accept(ModItems.MULTI_KILL_UPGRADE);
+                        entries.accept(ModItems.YIELD_UPGRADE);
                     })
                     .build()
     );

@@ -1,0 +1,7 @@
+{
+  "parent": "billtech:block/fluid_pipe_item",
+  "textures": {
+    "particle": "billtech:block/gas_pipe",
+    "pipe": "billtech:block/gas_pipe"
+  }
+}

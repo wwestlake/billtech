@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "id": "billtech:tank_controller",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancement.billtech.root.title"
+    },
+    "description": {
+      "translate": "advancement.billtech.root.description"
+    },
+    "background": "billtech:block/metal_panel",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "has_tank_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "billtech:tank_block"
+          }
+        ]
+      }
+    }
+  }
+}

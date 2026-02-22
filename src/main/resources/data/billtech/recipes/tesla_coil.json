@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CSC",
+    "RLR",
+    "CSC"
+  ],
+  "key": {
+    "C": { "item": "minecraft:copper_block" },
+    "S": { "item": "billtech:steel_ingot" },
+    "R": { "item": "minecraft:redstone_block" },
+    "L": { "item": "minecraft:lightning_rod" }
+  },
+  "result": {
+    "id": "billtech:tesla_coil"
+  }
+}

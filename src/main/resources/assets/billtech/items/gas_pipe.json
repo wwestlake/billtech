@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "billtech:item/gas_pipe"
+    "model": "billtech:block/gas_pipe_item"
   }
 }

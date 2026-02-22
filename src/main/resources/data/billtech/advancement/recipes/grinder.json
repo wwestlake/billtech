@@ -6,7 +6,7 @@
       "conditions": {
         "items": [
           {
-            "item": "billtech:steel_ingot"
+            "items": "billtech:steel_ingot"
           }
         ]
       }

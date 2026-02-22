@@ -1,0 +1,106 @@
+{
+  "parent": "billtech:tier1_complete",
+  "display": {
+    "icon": {
+      "id": "billtech:cracking_tower_controller",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancement.billtech.tier2_complete.title"
+    },
+    "description": {
+      "translate": "advancement.billtech.tier2_complete.description"
+    },
+    "x": 14.0,
+    "y": 0.0,
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "place_oil_extractor": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:oil_extractor"
+      }
+    },
+    "place_distiller": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:distiller"
+      }
+    },
+    "place_coal_pyrolyzer": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:coal_pyrolyzer"
+      }
+    },
+    "place_cracking_tower_controller": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:cracking_tower_controller"
+      }
+    },
+    "place_cracking_tower": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:cracking_tower"
+      }
+    },
+    "place_item_controller": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:item_controller"
+      }
+    },
+    "place_recipe_encoder": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:recipe_encoder"
+      }
+    },
+    "place_auto_crafter": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:auto_crafter"
+      }
+    },
+    "place_reactor": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "billtech:reactor"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place_oil_extractor"
+    ],
+    [
+      "place_distiller"
+    ],
+    [
+      "place_coal_pyrolyzer"
+    ],
+    [
+      "place_cracking_tower_controller"
+    ],
+    [
+      "place_cracking_tower"
+    ],
+    [
+      "place_item_controller"
+    ],
+    [
+      "place_recipe_encoder"
+    ],
+    [
+      "place_auto_crafter"
+    ],
+    [
+      "place_reactor"
+    ]
+  ]
+}

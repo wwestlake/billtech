@@ -1,11 +1,13 @@
 package com.billtech.block;
 
 import com.billtech.block.entity.EnergyCableBlockEntity;
+import com.billtech.block.entity.SideConfigAccess;
 import com.billtech.cover.CoverInteraction;
 import com.billtech.cover.CoverProvider;
 import com.billtech.stripe.StripeCarrier;
 import com.billtech.stripe.StripeItemData;
 import com.billtech.stripe.StripeUtil;
+import com.billtech.transport.TransportType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -206,6 +208,15 @@ public class EnergyCableBlock extends Block implements EntityBlock {
             return StripeUtil.canConnect(level, pos, neighborPos) ? ConnectionType.PIPE : ConnectionType.NONE;
         }
         if (level instanceof Level world) {
+            BlockEntity be = world.getBlockEntity(neighborPos);
+            if (be instanceof SideConfigAccess access) {
+                Direction sideOnNeighbor = dir.getOpposite();
+                boolean allows = access.getSideConfig().allowsInsert(TransportType.ENERGY, sideOnNeighbor)
+                        || access.getSideConfig().allowsExtract(TransportType.ENERGY, sideOnNeighbor);
+                if (!allows) {
+                    return ConnectionType.NONE;
+                }
+            }
             team.reborn.energy.api.EnergyStorage storage =
                     team.reborn.energy.api.EnergyStorage.SIDED.find(world, neighborPos, dir.getOpposite());
             return storage != null ? ConnectionType.ENDPOINT : ConnectionType.NONE;
