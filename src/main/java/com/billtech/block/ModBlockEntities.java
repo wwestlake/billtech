@@ -14,6 +14,7 @@ import com.billtech.block.entity.SteamBoilerBlockEntity;
 import com.billtech.block.entity.SteamEngineBlockEntity;
 import com.billtech.block.entity.SteamGeneratorBlockEntity;
 import com.billtech.block.entity.ItemControllerBlockEntity;
+import com.billtech.block.entity.MachineInterfaceBlockEntity;
 import com.billtech.block.entity.AutoCrafterBlockEntity;
 import com.billtech.block.entity.RecipeEncoderBlockEntity;
 import com.billtech.block.entity.PumpBlockEntity;
@@ -115,7 +116,8 @@ public final class ModBlockEntities {
                     EnergyCableBlockEntity::new,
                     ModBlocks.INSULATED_COPPER_CABLE,
                     ModBlocks.CLOTH_INSULATED_COPPER_CABLE,
-                    ModBlocks.HV_SHIELDED_CABLE
+                    ModBlocks.HV_SHIELDED_CABLE,
+                    ModBlocks.HV_SHIELDED_POWER_COMM_CABLE
             ).build()
     );
     public static final BlockEntityType<BasicCombustionGeneratorBlockEntity> BASIC_COMBUSTION_GENERATOR = Registry.register(
@@ -292,6 +294,14 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(
                     ItemControllerBlockEntity::new,
                     ModBlocks.ITEM_CONTROLLER
+            ).build()
+    );
+    public static final BlockEntityType<MachineInterfaceBlockEntity> MACHINE_INTERFACE = Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "machine_interface"),
+            FabricBlockEntityTypeBuilder.create(
+                    MachineInterfaceBlockEntity::new,
+                    ModBlocks.MACHINE_INTERFACE
             ).build()
     );
     public static final BlockEntityType<RecipeEncoderBlockEntity> RECIPE_ENCODER = Registry.register(

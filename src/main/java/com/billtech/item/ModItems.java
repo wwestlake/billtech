@@ -14,6 +14,7 @@ public class ModItems {
     public static final Item BILLTECH_BUCKET = registerBucket("billtech_bucket");
     public static final Item PLASTIC_SHEET = registerSimpleItem("plastic_sheet");
     public static final Item RECIPE_CARD = registerSimpleItem("recipe_card");
+    public static final Item MACHINE_ID_CARD = registerMachineIdCard("machine_id_card");
     public static final Item STRIPE_APPLICATOR = registerStripeApplicator("stripe_applicator");
     public static final Item UPGRADE_BASE = registerSimpleItem("upgrade_base");
     public static final Item STEEL_INGOT = registerSimpleItem("steel_ingot");
@@ -57,6 +58,14 @@ public class ModItems {
                 .setId(ResourceKey.create(Registries.ITEM, id))
                 .stacksTo(1);
         return Registry.register(BuiltInRegistries.ITEM, id, new StripeApplicatorItem(props));
+    }
+
+    private static Item registerMachineIdCard(String name) {
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, name);
+        Item.Properties props = new Item.Properties()
+                .setId(ResourceKey.create(Registries.ITEM, id))
+                .stacksTo(1);
+        return Registry.register(BuiltInRegistries.ITEM, id, new MachineIdCardItem(props));
     }
 
     private static Item registerBucket(String name) {

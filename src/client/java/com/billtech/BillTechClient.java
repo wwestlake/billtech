@@ -33,6 +33,7 @@ import com.billtech.client.screen.ControlConductorPadScreen;
 import com.billtech.client.screen.TankControllerScreen;
 import com.billtech.client.screen.UpgradeScreen;
 import com.billtech.client.screen.ItemControllerScreen;
+import com.billtech.client.screen.MachineInterfaceScreen;
 import com.billtech.client.screen.RecipeEncoderScreen;
 import com.billtech.client.screen.AutoCrafterScreen;
 import com.billtech.client.screen.StripeBenchScreen;
@@ -51,6 +52,7 @@ public class BillTechClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.INSULATED_COPPER_CABLE, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.CLOTH_INSULATED_COPPER_CABLE, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.HV_SHIELDED_CABLE, RenderType.cutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.HV_SHIELDED_POWER_COMM_CABLE, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TANK_BLOCK, RenderType.translucent());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TANK_CONTROLLER, RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SENTRY_CONTAINER, RenderType.cutout());
@@ -76,6 +78,7 @@ public class BillTechClient implements ClientModInitializer {
 		MenuScreens.register(ModMenus.TESLA_COIL, TeslaCoilScreen::new);
 		MenuScreens.register(ModMenus.CONTROL_CONDUCTOR_PAD, ControlConductorPadScreen::new);
 		MenuScreens.register(ModMenus.ITEM_CONTROLLER, ItemControllerScreen::new);
+		MenuScreens.register(ModMenus.MACHINE_INTERFACE, MachineInterfaceScreen::new);
 		MenuScreens.register(ModMenus.RECIPE_ENCODER, RecipeEncoderScreen::new);
 		MenuScreens.register(ModMenus.AUTO_CRAFTER, AutoCrafterScreen::new);
 		MenuScreens.register(ModMenus.STRIPE_BENCH, StripeBenchScreen::new);

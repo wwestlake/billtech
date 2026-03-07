@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=north": { "model": "billtech:block/machine_interface" },
+    "facing=south": { "model": "billtech:block/machine_interface_south" },
+    "facing=west": { "model": "billtech:block/machine_interface_west" },
+    "facing=east": { "model": "billtech:block/machine_interface_east" },
+    "facing=up": { "model": "billtech:block/machine_interface_up" },
+    "facing=down": { "model": "billtech:block/machine_interface_down" }
+  }
+}

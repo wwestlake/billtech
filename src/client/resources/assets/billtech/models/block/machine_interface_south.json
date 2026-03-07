@@ -1,0 +1,30 @@
+{
+  "parent": "billtech:block/machine_interface",
+  "display": {},
+  "elements": [
+    {
+      "from": [0, 0, 8],
+      "to": [16, 16, 16],
+      "faces": {
+        "north": { "texture": "#panel" },
+        "south": { "texture": "#panel" },
+        "west": { "texture": "#panel" },
+        "east": { "texture": "#panel" },
+        "up": { "texture": "#panel" },
+        "down": { "texture": "#panel" }
+      }
+    },
+    {
+      "from": [6, 6, 4],
+      "to": [10, 10, 8],
+      "faces": {
+        "north": { "texture": "#connector" },
+        "south": { "texture": "#connector" },
+        "west": { "texture": "#connector" },
+        "east": { "texture": "#connector" },
+        "up": { "texture": "#connector" },
+        "down": { "texture": "#connector" }
+      }
+    }
+  ]
+}

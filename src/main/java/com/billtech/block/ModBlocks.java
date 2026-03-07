@@ -67,6 +67,10 @@ public final class ModBlocks {
             "hv_shielded_cable",
             props -> new EnergyCableBlock(props.strength(1.2f).noOcclusion())
     );
+    public static final Block HV_SHIELDED_POWER_COMM_CABLE = registerBlock(
+            "hv_shielded_power_comm_cable",
+            props -> new EnergyCableBlock(props.strength(1.2f).noOcclusion())
+    );
     public static final Block COVER_PANEL = registerBlock(
             "cover_panel",
             props -> new Block(props.strength(1.0f))
@@ -166,6 +170,10 @@ public final class ModBlocks {
     public static final Block ITEM_CONTROLLER = registerBlock(
             "item_controller",
             props -> new ItemControllerBlock(props.strength(2.0f))
+    );
+    public static final Block MACHINE_INTERFACE = registerBlock(
+            "machine_interface",
+            props -> new MachineInterfaceBlock(props.strength(2.0f))
     );
     public static final Block RECIPE_ENCODER = registerBlock(
             "recipe_encoder",

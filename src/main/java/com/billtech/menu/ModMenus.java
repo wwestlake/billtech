@@ -120,6 +120,11 @@ public final class ModMenus {
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "item_controller"),
             new MenuType<>(ItemControllerMenu::new, FeatureFlags.VANILLA_SET)
     );
+    public static final MenuType<MachineInterfaceMenu> MACHINE_INTERFACE = Registry.register(
+            BuiltInRegistries.MENU,
+            ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "machine_interface"),
+            new MenuType<>(MachineInterfaceMenu::new, FeatureFlags.VANILLA_SET)
+    );
     public static final MenuType<RecipeEncoderMenu> RECIPE_ENCODER = Registry.register(
             BuiltInRegistries.MENU,
             ResourceLocation.fromNamespaceAndPath(BillTech.MOD_ID, "recipe_encoder"),

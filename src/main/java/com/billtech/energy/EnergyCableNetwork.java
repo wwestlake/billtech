@@ -18,16 +18,35 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.WeakHashMap;
 
 public final class EnergyCableNetwork {
+    private static final Map<Level, Long> lastTickTimes = new WeakHashMap<>();
+    private static final Map<Level, Set<BlockPos>> tickedPipes = new WeakHashMap<>();
+
     private EnergyCableNetwork() {
     }
 
     public static void tick(Level level, BlockPos origin) {
-        NetworkScan scan = scanNetwork(level, origin);
-        if (scan == null || !scan.controller.equals(origin)) {
+        long time = level.getGameTime();
+        Long lastTime = lastTickTimes.get(level);
+        if (lastTime == null || lastTime != time) {
+            lastTickTimes.put(level, time);
+            tickedPipes.computeIfAbsent(level, l -> new HashSet<>()).clear();
+        }
+        Set<BlockPos> levelTickedPipes = tickedPipes.get(level);
+
+        if (levelTickedPipes.contains(origin)) {
             return;
         }
+
+        NetworkScan scan = scanNetwork(level, origin);
+        if (scan == null) {
+            return;
+        }
+
+        levelTickedPipes.addAll(scan.pipes);
+
         if (scan.endpoints.isEmpty()) {
             return;
         }

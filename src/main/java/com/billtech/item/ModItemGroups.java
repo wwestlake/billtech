@@ -31,6 +31,7 @@ public final class ModItemGroups {
                         entries.accept(ModBlocks.INSULATED_COPPER_CABLE);
                         entries.accept(ModBlocks.CLOTH_INSULATED_COPPER_CABLE);
                         entries.accept(ModBlocks.HV_SHIELDED_CABLE);
+                        entries.accept(ModBlocks.HV_SHIELDED_POWER_COMM_CABLE);
                         entries.accept(ModBlocks.BASIC_COMBUSTION_GENERATOR);
                         entries.accept(ModBlocks.ELECTRIC_FURNACE);
                         entries.accept(ModBlocks.COAL_PYROLYZER);
@@ -56,6 +57,7 @@ public final class ModItemGroups {
                         entries.accept(ModBlocks.SENTRY_CONTAINER);
                         entries.accept(ModBlocks.SENTRY_COVER);
                         entries.accept(ModBlocks.ITEM_CONTROLLER);
+                        entries.accept(ModBlocks.MACHINE_INTERFACE);
                         entries.accept(ModBlocks.RECIPE_ENCODER);
                         entries.accept(ModBlocks.AUTO_CRAFTER);
                         entries.accept(ModBlocks.TANK_BLOCK);
@@ -63,6 +65,7 @@ public final class ModItemGroups {
                         entries.accept(ModItems.BILLTECH_BUCKET);
                         entries.accept(ModItems.PLASTIC_SHEET);
                         entries.accept(ModItems.RECIPE_CARD);
+                        entries.accept(ModItems.MACHINE_ID_CARD);
                         entries.accept(ModFluids.SLUDGE_BUCKET);
                         entries.accept(ModFluids.MOB_ESSENCE_BUCKET);
                         entries.accept(ModFluids.CRUDE_OIL_BUCKET);
