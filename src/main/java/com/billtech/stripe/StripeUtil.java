@@ -45,6 +45,8 @@ public final class StripeUtil {
         level.setBlocksDirty(pos, state, state);
         if (!level.isClientSide) {
             ItemPipeNetwork.invalidate(level);
+            com.billtech.pipe.FluidPipeNetwork.invalidate(level);
+            com.billtech.pipe.GasPipeNetwork.invalidate(level);
         }
     }
 

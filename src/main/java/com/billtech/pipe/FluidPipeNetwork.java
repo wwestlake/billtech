@@ -29,9 +29,16 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
+import java.util.WeakHashMap;
 
 public final class FluidPipeNetwork {
+    private static final Map<Level, NetworkCache> CACHES = new WeakHashMap<>();
+
     private FluidPipeNetwork() {
+    }
+
+    public static void invalidate(Level level) {
+        CACHES.remove(level);
     }
 
     public static void tick(Level level, BlockPos origin) {
@@ -483,6 +490,20 @@ public final class FluidPipeNetwork {
     }
 
     private static NetworkScan scanNetwork(Level level, BlockPos origin) {
+        if (level == null) {
+            return null;
+        }
+        NetworkCache cache = CACHES.computeIfAbsent(level, ignored -> new NetworkCache());
+        long tick = level.getGameTime();
+        if (cache.tick != tick) {
+            cache.tick = tick;
+            cache.byPos.clear();
+        }
+        NetworkScan cached = cache.byPos.get(origin);
+        if (cached != null) {
+            return cached;
+        }
+
         BlockState originState = level.getBlockState(origin);
         if (!isPipeLike(originState)) {
             return null;
@@ -556,7 +577,12 @@ public final class FluidPipeNetwork {
                 endpoints.add(new Endpoint(pipePos, neighbor, dir, storage, isTank));
             }
         }
-        return new NetworkScan(level, pipes, endpoints, pumps, meters, controller, minRate, minDistance, waterOnly, allowsMethane);
+        NetworkScan scan = new NetworkScan(level, pipes, endpoints, pumps, meters, controller, minRate, minDistance, waterOnly, allowsMethane);
+        cache.byPos.put(origin, scan);
+        for (BlockPos pipePos : pipes) {
+            cache.byPos.put(pipePos, scan);
+        }
+        return scan;
     }
 
     private record SourceInfo(FluidVariant variant) {
@@ -596,5 +622,10 @@ public final class FluidPipeNetwork {
             return variant.getFluid() == net.minecraft.world.level.material.Fluids.WATER
                     || variant.getFluid() == net.minecraft.world.level.material.Fluids.FLOWING_WATER;
         }
+    }
+
+    private static final class NetworkCache {
+        private long tick = -1;
+        private final Map<BlockPos, NetworkScan> byPos = new HashMap<>();
     }
 }

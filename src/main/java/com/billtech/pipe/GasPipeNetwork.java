@@ -30,14 +30,26 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
+import java.util.WeakHashMap;
 
 public final class GasPipeNetwork {
+    private static final Map<Level, NetworkCache> CACHES = new WeakHashMap<>();
+
     private GasPipeNetwork() {
+    }
+
+    public static void invalidate(Level level) {
+        CACHES.remove(level);
     }
 
     public static void tick(Level level, BlockPos origin) {
         NetworkScan scan = scanNetwork(level, origin);
         if (scan == null || scan.endpoints.isEmpty()) {
+            return;
+        }
+        BlockState originState = level.getBlockState(origin);
+        boolean isPumpOrigin = originState.getBlock() instanceof PumpBlock;
+        if (!scan.controller.equals(origin) && !isPumpOrigin) {
             return;
         }
         if (!scan.pumps.isEmpty()) {
@@ -329,6 +341,20 @@ public final class GasPipeNetwork {
     }
 
     private static NetworkScan scanNetwork(Level level, BlockPos origin) {
+        if (level == null) {
+            return null;
+        }
+        NetworkCache cache = CACHES.computeIfAbsent(level, ignored -> new NetworkCache());
+        long tick = level.getGameTime();
+        if (cache.tick != tick) {
+            cache.tick = tick;
+            cache.byPos.clear();
+        }
+        NetworkScan cached = cache.byPos.get(origin);
+        if (cached != null) {
+            return cached;
+        }
+
         BlockState originState = level.getBlockState(origin);
         if (!isPipeLike(originState)) {
             return null;
@@ -341,9 +367,16 @@ public final class GasPipeNetwork {
         int minDistance = GasPipeTiers.maxDistance(originState);
         List<PumpNode> pumps = new ArrayList<>();
         List<BlockPos> meters = new ArrayList<>();
+        BlockPos controller = origin;
+        long controllerKey = origin.asLong();
         while (!queue.isEmpty()) {
             BlockPos pos = queue.poll();
             BlockState state = level.getBlockState(pos);
+            long key = pos.asLong();
+            if (key < controllerKey) {
+                controllerKey = key;
+                controller = pos;
+            }
             minRate = Math.min(minRate, GasPipeTiers.maxRate(state));
             minDistance = Math.min(minDistance, GasPipeTiers.maxDistance(state));
             if (state.getBlock() instanceof PumpBlock) {
@@ -386,7 +419,12 @@ public final class GasPipeNetwork {
                 endpoints.add(new Endpoint(pipePos, neighbor, dir, storage, isTank));
             }
         }
-        return new NetworkScan(level, pipes, endpoints, pumps, meters, minRate, minDistance);
+        NetworkScan scan = new NetworkScan(level, pipes, endpoints, pumps, meters, controller, minRate, minDistance);
+        cache.byPos.put(origin, scan);
+        for (BlockPos pipePos : pipes) {
+            cache.byPos.put(pipePos, scan);
+        }
+        return scan;
     }
 
     private record SourceInfo(FluidVariant variant) {
@@ -497,11 +535,17 @@ public final class GasPipeNetwork {
             List<Endpoint> endpoints,
             List<PumpNode> pumps,
             List<BlockPos> meters,
+            BlockPos controller,
             long maxRate,
             int maxDistance
     ) {
         boolean allows(FluidVariant variant) {
             return GasPipeTiers.allows(level.getBlockState(pipes.iterator().next()), variant);
         }
+    }
+
+    private static final class NetworkCache {
+        private long tick = -1;
+        private final Map<BlockPos, NetworkScan> byPos = new HashMap<>();
     }
 }
