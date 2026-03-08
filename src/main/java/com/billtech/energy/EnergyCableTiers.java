@@ -8,7 +8,7 @@ public final class EnergyCableTiers {
     }
 
     public static long maxRate(BlockState state) {
-        if (state.is(ModBlocks.HV_SHIELDED_CABLE)) {
+        if (state.is(ModBlocks.HV_SHIELDED_CABLE) || state.is(ModBlocks.HV_SHIELDED_POWER_COMM_CABLE)) {
             return 1200;
         }
         if (state.is(ModBlocks.CLOTH_INSULATED_COPPER_CABLE)) {
@@ -21,7 +21,7 @@ public final class EnergyCableTiers {
     }
 
     public static int maxDistance(BlockState state) {
-        if (state.is(ModBlocks.HV_SHIELDED_CABLE)) {
+        if (state.is(ModBlocks.HV_SHIELDED_CABLE) || state.is(ModBlocks.HV_SHIELDED_POWER_COMM_CABLE)) {
             return 64;
         }
         if (state.is(ModBlocks.CLOTH_INSULATED_COPPER_CABLE)) {
